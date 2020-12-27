@@ -9,7 +9,7 @@ Union Web Application, inside the panel users and admins can track the sales and
 
 # Database EER
 
-![union_eer](/documents/union_logo.png)
+![Database EER](/documents/union_eer.png)
 
 
 
