@@ -35,6 +35,20 @@ def register():
             password = request.form["pass"]
             password_again = request.form["re_pass"]
             print(name, email, tckn, password, password_again)
+
+            if not password == password_again:
+                print("Sifreler uyusmuyor")
+                return render_template("register.html")
+
+            else:
+                '''
+                DATABASE DE VAR MI BU TCKN...
+                EMAIL VAR MI...
+                VARSA STAY
+                YOKSA DB OP
+                '''
+                #todo @hekinci
+
             return render_template("register.html")
         return render_template("register.html")
 
