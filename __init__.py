@@ -8,7 +8,6 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
 
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     if "admin" in session or "super" in session:
@@ -116,14 +115,36 @@ def register():
                 flash("Sifreler uyusmuyor!")
 
             else:
-                '''
-                DATABASE DE VAR MI BU TCKN...
-                EMAIL VAR MI...
-                VARSA STAY
-                YOKSA DB OP
-                '''
-                # todo @hekinci
-
+                con = psycopg2.connect(host="localhost", port="5432", database="UnionDB", user="postgres",
+                                       password="Sarris5599")
+                cur = con.cursor()
+                cur.execute("select * from unionschema.tckno_roles where tckno='{}'".format(tckn))
+                tcnko_roles_control = cur.fetchone()
+                if (tcnko_roles_control == None) or (len(tcnko_roles_control) == 0):
+                    print("hata")
+                    return render_template("register.html")
+                else:
+                    role = tcnko_roles_control[2]
+                    print(role)
+                    cur.execute("select * from unionschema.members where member_mail='{}'".format(email))
+                    mail_control = cur.fetchall()
+                    cur.execute("select * from unionschema.members where member_tc='{}'".format(tckn))
+                    tc_control = cur.fetchall()
+                    if (len(mail_control) or len(tc_control)) == 0:
+                        cur.execute(
+                            "INSERT into unionschema.members ( member_tc, member_mail, member_password, member_name) values(%s, %s, %s, %s) RETURNING member_id",
+                            (tckn, email, password, name))
+                        member_id = cur.fetchone()[0]
+                        cur.execute(
+                            "INSERT into unionschema.member_role ( member_id, member_role) values(%s, %s)",
+                            (member_id, role))
+                        con.commit()
+                        cur.close()
+                        con.close()
+                        return render_template("login.html")
+                    else:
+                        print("hata")
+                        return render_template("register.html")
             return render_template("register.html")
         return render_template("register.html")
 
