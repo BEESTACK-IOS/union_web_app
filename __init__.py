@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, flash
 import psycopg2
 
 """
@@ -8,7 +8,8 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
 
-@app.route("/",methods=["GET","POST"])
+
+@app.route("/", methods=["GET", "POST"])
 def index():
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
@@ -17,11 +18,8 @@ def index():
     else:
         return redirect(url_for("login"))
 
-@app.route("/register",methods=["GET","POST"])
-def register():
-    pass
 
-@app.route("/login",methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
@@ -29,7 +27,8 @@ def login():
         return redirect(url_for("user"))
     else:
         if request.method == "POST":
-            con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",password="facethest0rm")
+            con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                                   password="facethest0rm")
             cur = con.cursor()
 
             tckno = request.form["your_tckno"]
@@ -80,23 +79,58 @@ def login():
 
         return render_template('login.html')
 
+
 @app.route("/logout")
 def logout():
     session.pop("super", None)
-    session.pop("admin",None)
-    session.pop("user",None)
-    session.pop("id",None)
+    session.pop("admin", None)
+    session.pop("user", None)
+    session.pop("id", None)
     return redirect(url_for("login"))
 
-@app.route("/admin",methods=["POST","GET"])
+
+@app.route("/admin", methods=["POST", "GET"])
 def admin():
     pass
 
-@app.route("/user", methods=["POST","GET"])
+
+@app.route("/user", methods=["POST", "GET"])
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if "admin" in session or "super" in session:
+        return redirect(url_for("admin"))
+
+    elif "user" in session:
+        return redirect(url_for("user"))
+
+    else:
+        if request.method == "POST":
+            name = request.form["name"]
+            email = request.form["email"]
+            tckn = request.form["tckn"]
+            password = request.form["pass"]
+            password_again = request.form["re_pass"]
+            print(name, email, tckn, password, password_again)
+
+            if not password == password_again:
+                flash("Sifreler uyusmuyor!")
+
+            else:
+                '''
+                DATABASE DE VAR MI BU TCKN...
+                EMAIL VAR MI...
+                VARSA STAY
+                YOKSA DB OP
+                '''
+                # todo @hekinci
+
+            return render_template("register.html")
+        return render_template("register.html")
+
+
+@app.route("/user", methods=["POST", "GET"])
 def user():
     pass
-
-
 
 
 if __name__ == '__main__':
