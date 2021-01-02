@@ -3,6 +3,14 @@ CREATE SCHEMA unionschema;
 SET
 search_path TO unionschema;
 
+CREATE TABLE tckno_roles
+(
+    tckno_id serial,
+    tckno varchar(11),
+    related_role integer,
+    PRIMARY KEY (tckno_id)
+);
+
 CREATE TABLE firms
 (
     firm_id serial,
@@ -12,6 +20,15 @@ CREATE TABLE firms
 	firm_lnt float,
 	firm_lng float,
     PRIMARY KEY (firm_id)
+);
+
+CREATE TABLE news
+(
+    news_id serial,
+    news_name varchar(50),
+	news_abstract varchar(1000),
+	news_logo varchar(100),
+    PRIMARY KEY (news_id)
 );
 
 CREATE TABLE categories
@@ -25,10 +42,11 @@ CREATE TABLE categories
 CREATE TABLE members
 (
     member_ID serial,
+    member_TC varchar(11),
     member_mail varchar(50),
 	member_password varchar(50),
 	member_name varchar(50),
-    PRIMARY KEY (member_ID)
+    PRIMARY KEY (member_ID),
 );
 
 CREATE TABLE member_role
@@ -36,7 +54,7 @@ CREATE TABLE member_role
     member_ID serial,
     member_role integer,
 	PRIMARY KEY (member_ID),
-    FOREIGN KEY (member_ID) REFERENCES members (member_ID),
+    FOREIGN KEY (member_ID) REFERENCES members (member_ID)
 );
 
 CREATE TABLE serves
@@ -46,6 +64,15 @@ CREATE TABLE serves
     PRIMARY KEY (cat_id, firm_id),
     FOREIGN KEY (cat_id) REFERENCES categories (cat_id),
     FOREIGN KEY (firm_id) REFERENCES firms (firm_id)
+);
+
+CREATE TABLE news_about
+(
+    cat_id integer,
+    news_id integer,
+    PRIMARY KEY (cat_id, news_id),
+    FOREIGN KEY (cat_id) REFERENCES categories (cat_id),
+    FOREIGN KEY (news_id) REFERENCES news (news_id)
 );
 
 CREATE TABLE system_logs
