@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, flash
 import psycopg2
 
 """
@@ -113,8 +113,7 @@ def register():
             print(name, email, tckn, password, password_again)
 
             if not password == password_again:
-                print("Sifreler uyusmuyor")
-                return render_template("register.html")
+                flash("Sifreler uyusmuyor!")
 
             else:
                 '''
