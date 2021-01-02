@@ -97,7 +97,7 @@ def admin():
 @app.route("/user", methods=["POST", "GET"])
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    if "admin" in session:
+    if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
 
     elif "user" in session:
