@@ -8,7 +8,8 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
 
-@app.route("/",methods=["GET","POST"])
+
+@app.route("/", methods=["GET", "POST"])
 def index():
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
@@ -17,11 +18,8 @@ def index():
     else:
         return redirect(url_for("login"))
 
-@app.route("/register",methods=["GET","POST"])
-def register():
-    pass
 
-@app.route("/login",methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
@@ -29,7 +27,8 @@ def login():
         return redirect(url_for("user"))
     else:
         if request.method == "POST":
-            con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",password="facethest0rm")
+            con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                                   password="facethest0rm")
             cur = con.cursor()
 
             tckno = request.form["your_tckno"]
@@ -80,20 +79,22 @@ def login():
 
         return render_template('login.html')
 
+
 @app.route("/logout")
 def logout():
     session.pop("super", None)
-    session.pop("admin",None)
-    session.pop("user",None)
-    session.pop("id",None)
+    session.pop("admin", None)
+    session.pop("user", None)
+    session.pop("id", None)
     return redirect(url_for("login"))
 
-@app.route("/admin",methods=["POST","GET"])
+
+@app.route("/admin", methods=["POST", "GET"])
 def admin():
     pass
 
-@app.route("/user", methods=["POST","GET"])
 
+@app.route("/user", methods=["POST", "GET"])
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if "admin" in session:
@@ -122,29 +123,15 @@ def register():
                 VARSA STAY
                 YOKSA DB OP
                 '''
-                #todo @hekinci
+                # todo @hekinci
 
             return render_template("register.html")
         return render_template("register.html")
 
 
-@app.route("/logout")
-def logout():
-    session.pop("admin", None)
-    session.pop("user", None)
-    session.pop("id", None)
-    return redirect(url_for("login"))
-
-
-@app.route("/admin", methods=["POST", "GET"])
-def admin():
-    pass
-
-
 @app.route("/user", methods=["POST", "GET"])
 def user():
     pass
-
 
 
 if __name__ == '__main__':
