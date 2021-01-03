@@ -44,7 +44,7 @@ CREATE TABLE members
     member_ID serial,
     member_TC varchar(11),
     member_mail varchar(50),
-	member_password varchar(50),
+	member_password varchar(80),
 	member_name varchar(50),
     PRIMARY KEY (member_ID),
 );
