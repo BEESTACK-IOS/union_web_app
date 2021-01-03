@@ -104,7 +104,12 @@ def magazalar():
 
 @app.route("/profil", methods=["POST", "GET"])
 def profil():
-    pass
+    username  ="as"
+    userrole  ="as"
+    usermail  ="aas"
+    usertckno = "asdasd"
+
+    return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
 
 
 @app.route("/register", methods=["GET", "POST"])
