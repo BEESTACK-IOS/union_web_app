@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
+from werkzeug.security import generate_password_hash
 import psycopg2
 
 """
@@ -123,12 +124,11 @@ def register():
             tckn = request.form["tckn"]
             password = request.form["pass"]
             password_again = request.form["re_pass"]
-            print(name, email, tckn, password, password_again)
 
             if not password == password_again:
                 return render_template("register.html",errorType=errorType)
             else:
-                con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
+                con = psycopg2.connect(host="localhost", port="5432", database="UnionDB", user="postgres", password="Sarris5599")
                 cur = con.cursor()
                 cur.execute("select * from unionschema.tckno_roles where tckno='{}'".format(tckn))
                 tcnko_roles_control = cur.fetchone()
@@ -137,12 +137,12 @@ def register():
                     return render_template("register.html",errorType=errorType)
                 else:
                     role = tcnko_roles_control[2]
-                    print(role)
                     cur.execute("select * from unionschema.members where member_mail='{}'".format(email))
                     mail_control = cur.fetchall()
                     cur.execute("select * from unionschema.members where member_tc='{}'".format(tckn))
                     tc_control = cur.fetchall()
                     if (len(mail_control) or len(tc_control)) == 0:
+                        password = generate_password_hash(password, method='sha256')
                         cur.execute(
                             "INSERT into unionschema.members ( member_tc, member_mail, member_password, member_name) values(%s, %s, %s, %s) RETURNING member_id",
                             (tckn, email, password, name))
