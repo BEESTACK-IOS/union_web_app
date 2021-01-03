@@ -96,6 +96,7 @@ def admin():
 @app.route("/user", methods=["POST", "GET"])
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    errorType = -1
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
 
@@ -112,17 +113,15 @@ def register():
             print(name, email, tckn, password, password_again)
 
             if not password == password_again:
-                flash("Sifreler uyusmuyor!")
-
+                return render_template("register.html",errorType=errorType)
             else:
-                con = psycopg2.connect(host="localhost", port="5432", database="UnionDB", user="postgres",
-                                       password="Sarris5599")
+                con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
                 cur = con.cursor()
                 cur.execute("select * from unionschema.tckno_roles where tckno='{}'".format(tckn))
                 tcnko_roles_control = cur.fetchone()
                 if (tcnko_roles_control == None) or (len(tcnko_roles_control) == 0):
-                    print("hata")
-                    return render_template("register.html")
+                    errorType = 0
+                    return render_template("register.html",errorType=errorType)
                 else:
                     role = tcnko_roles_control[2]
                     print(role)
@@ -141,12 +140,13 @@ def register():
                         con.commit()
                         cur.close()
                         con.close()
-                        return render_template("login.html")
+                        return render_template("login.html",errorType=errorType)
                     else:
-                        print("hata")
-                        return render_template("register.html")
-            return render_template("register.html")
-        return render_template("register.html")
+                        errorType = 1
+                        cur.close()
+                        con.close()
+                        return render_template("register.html",errorType=errorType)
+        return render_template("register.html",errorType=-1)
 
 
 @app.route("/user", methods=["POST", "GET"])
