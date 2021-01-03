@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 
 """
@@ -48,8 +48,7 @@ def login():
             if truePassword == None:
                 return redirect(url_for("login"))
             else:
-                if password == truePassword.__str__():
-
+                if check_password_hash(truePassword.__str__(), password):
                     if role == 0:
                         session["super"] = "super"
                         session["id"] = id
@@ -128,7 +127,8 @@ def register():
             if not password == password_again:
                 return render_template("register.html",errorType=errorType)
             else:
-                con = psycopg2.connect(host="localhost", port="5432", database="UnionDB", user="postgres", password="Sarris5599")
+                con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                                       password="facethest0rm")
                 cur = con.cursor()
                 cur.execute("select * from unionschema.tckno_roles where tckno='{}'".format(tckn))
                 tcnko_roles_control = cur.fetchone()
