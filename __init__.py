@@ -94,6 +94,10 @@ def admin():
 
 
 @app.route("/user", methods=["POST", "GET"])
+def user():
+    pass
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     errorType = -1
@@ -148,10 +152,6 @@ def register():
                         return render_template("register.html",errorType=errorType)
         return render_template("register.html",errorType=-1)
 
-
-@app.route("/user", methods=["POST", "GET"])
-def user():
-    pass
 
 
 if __name__ == '__main__':
