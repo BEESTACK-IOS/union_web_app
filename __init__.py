@@ -94,7 +94,16 @@ def admin():
 
 
 @app.route("/user", methods=["POST", "GET"])
-def user():
+@app.route("/haberler", methods=["POST", "GET"])
+def haberler():
+    pass
+
+@app.route("/magazalar", methods=["POST", "GET"])
+def magazalar():
+    pass
+
+@app.route("/profil", methods=["POST", "GET"])
+def profil():
     pass
 
 
