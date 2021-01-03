@@ -127,6 +127,8 @@ def profil():
             print(form_mail + ", " + form_oldPassword + ", " + form_newPassword + ", " + form_reNewPassword)
 
         return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/register", methods=["GET", "POST"])
