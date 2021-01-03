@@ -104,12 +104,29 @@ def magazalar():
 
 @app.route("/profil", methods=["POST", "GET"])
 def profil():
-    username  ="as"
-    userrole  ="as"
-    usermail  ="aas"
-    usertckno = "asdasd"
+    if "admin" in session or "super" in session or "user" in session:
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+        usermail = session["mail"]
+        cur.execute("select member_tc from unionschema.members where member_mail='{}'".format(usermail))
+        usertckno = cur.fetchone()[0]
+        username = session["name"]
+        if "super" in session:
+            userrole = "super"
+        elif "admin" in session:
+            userrole = "yönetici"
+        elif "user" in session:
+            userrole = "üye"
 
-    return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
+        if request.method == "POST":
+            form_mail = request.form["mail"]
+            form_oldPassword = request.form["past_pass"]
+            form_newPassword = request.form["pass"]
+            form_reNewPassword = request.form["re_pass"]
+            print(form_mail + ", " + form_oldPassword + ", " + form_newPassword + ", " + form_reNewPassword)
+
+        return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
 
 
 @app.route("/register", methods=["GET", "POST"])
