@@ -118,14 +118,25 @@ def profil():
             userrole = "yönetici"
         elif "user" in session:
             userrole = "üye"
-
         if request.method == "POST":
             form_mail = request.form["mail"]
             form_oldPassword = request.form["past_pass"]
             form_newPassword = request.form["pass"]
-            form_reNewPassword = request.form["re_pass"]
-            print(form_mail + ", " + form_oldPassword + ", " + form_newPassword + ", " + form_reNewPassword)
-
+            cur.execute("select member_password from unionschema.members where member_tc='{}'".format(usertckno))
+            hashed_password = cur.fetchone()[0]
+            print(hashed_password)
+            if check_password_hash(hashed_password, form_oldPassword):
+                if len(form_mail) > 0:
+                    cur.execute("update unionschema.members set member_mail ='{}' where member_tc='{}'".format(form_mail, usertckno))
+                    con.commit()
+                    usermail = form_mail
+                    session["mail"] = form_mail
+                if len(form_newPassword) > 0:
+                    new_password = generate_password_hash(form_newPassword, method='sha256')
+                    cur.execute("update unionschema.members set member_password ='{}' where member_tc='{}'".format(new_password, usertckno))
+                    con.commit()
+        cur.close()
+        con.close()
         return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
     else:
         return redirect(url_for("login"))
