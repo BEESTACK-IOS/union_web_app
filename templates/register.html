@@ -40,9 +40,17 @@
                             <input type="password" name="pass" id="pass" placeholder="Parolanız"/>
                         </div>
                         <div class="form-group">
-                            <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <label><i class="zmdi zmdi-lock-outline"></i></label>
                             <input type="password" name="re_pass" id="re_pass" placeholder="Parolanızı tekrar giriniz"/>
                         </div>
+                        <span id='message'></span>
+                        {% if errorType == 0 %}
+                            <span id='err_message' style="color: red;"> TCKNO Sistemde Bulunmuyor </span>
+                        {% elif errorType == 1 %}
+                            <span id='err_message' style="color: red;"> Mail veya TCKNO Kullanımda </span>
+                        {% else %}
+                            <span id='err_message' style="color: red;"></span>
+                        {% endif %}
                         <div class="form-group form-button">
                             <input type="submit" name="signup" id="signup" class="form-submit" value="Kayıt Ol"/>
                         </div>
@@ -61,5 +69,6 @@
 <!-- JS -->
 <script src="../static/colorlib-regform-7/vendor/jquery/jquery.min.js"></script>
 <script src="../static/colorlib-regform-7/js/main.js"></script>
+<script src="../static/js/register.js"></script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
