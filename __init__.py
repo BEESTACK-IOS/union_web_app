@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect, url_for, request, session, flash
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
+import pusher
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -8,6 +9,32 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
+
+pusher_client = pusher.Pusher(
+  app_id='1132585',
+  key='ed89289759f2f434f256',
+  secret='4bd8e6fd627fba65f76d',
+  cluster='eu',
+  ssl=True
+)
+
+@app.route('/message', methods=['POST'])
+def message():
+    try:
+        username = request.form.get('username')
+        message = request.form.get('message')
+
+        new_message = pusher.Message(username=username, message=message)
+        """
+        to do add this message to related database
+        """
+
+        pusher_client.trigger('chat-channel', 'new-message', {'username': username, 'message': message})
+
+        return jsonify({'result': 'success'})
+    except:
+        return jsonify({'result': 'failure'})
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -91,6 +118,48 @@ def logout():
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
     pass
+
+@app.route("/talep", methods=["POST", "GET"])
+def ticket():
+
+    data = ""
+
+    if "admin" in session or "super" in session or "user" in session:
+
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        usermail = session["mail"]
+        userid = session["id"]
+        username = session["name"]
+        if "super" in session:
+            userrole = "super"
+
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        elif "admin" in session:
+            userrole = "yönetici"
+
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        elif "user" in session:
+            userrole = "üye"
+
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id AND ( mr.member_role = 0 OR mr.member_role = 1);"
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        print(data)
+        cur.close()
+        con.close()
+        return render_template("ticket.html", data=data, userid=userid, username=username)
+    else:
+        return render_template("login.html")
 
 
 @app.route("/user", methods=["POST", "GET"])

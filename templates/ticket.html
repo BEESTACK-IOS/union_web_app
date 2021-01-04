@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="static/assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="static/assets/css/style.css">
-
+    <link rel="stylesheet" href="static/assets/css/lib/datatable/dataTables.bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
@@ -146,7 +146,7 @@
                     <div class="user-menu dropdown-menu">
                         <a class="nav-link" href="/profil"><i class="fa fa-user"></i>Profilim</a>
 
-                        <a class="nav-link" href="/talep"><i class="fa fa-bell-o"></i>Mesajlarım <span
+                        <a class="nav-link" href="/ticket"><i class="fa fa-bell-o"></i>Mesajlarım <span
                                 class="count">13</span></a>
 
                         <a class="nav-link" href="/logout"><i class="fa fa-power-off"></i>Çıkış Yap</a>
@@ -163,7 +163,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>Profilim</h1>
+                            <h1>Mesajlarım</h1>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                         <div class="page-title">
                             <ol class="breadcrumb text-right">
                                 <li><a href="#">Menu</a></li>
-                                <li class="active">Profil</li>
+                                <li class="active">Mesajlar</li>
                             </ol>
                         </div>
                     </div>
@@ -185,78 +185,118 @@
         <div class="animated fadeIn">
 
 
-            <div class="row">
 
+        	<div class="row">
 
-                <div class="col-lg-8">
-                    <form action="/profil" method="post">
+                    <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"><strong>Profil Bilgilerim</strong></div>
-                            <div class="card-body card-block">
-                                <div class="form-group"><label class=" form-control-label">Mail</label><input
-                                        type="email" name="mail" id="mail" placeholder="{{usermail}}"
-                                        class="form-control"></div>
-                                <div class="row form-group">
-                                    <div class="col-8">
-                                        <div class="form-group"><label class=" form-control-label">Mevcut
-                                            Şifre</label><input type="password" name="past_pass" id="past_pass"
-                                                                class="form-control"></div>
-                                        <span id='past_pass_message'></span>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="form-group"><label class=" form-control-label">Yeni
-                                            şifre</label><input type="password" name="pass" id="pass"
-                                                                class="form-control"></div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="form-group"><label class=" form-control-label">Tekrar Yeni
-                                            şifre</label><input type="password" name="re_pass" id="re_pass"
-                                                                class="form-control"></div>
-                                    </div>
-                                </div>
-                                <span id='pass_message'></span>
-                                <span id='err_message'></span>
+                            <div class="card-header">
+                                <strong class="card-title">Talep İçin Kişiler</strong>
                             </div>
-                            <button type="button" class="btn btn-primary" id="guncelle" style="opacity: 0.5;">Güncelle
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>İsim</th>
+                                            <th>Mail</th>
+                                            <th>Yetki</th>
+                                            <th>Alan</th>
+                                            <th>Mesajları Aç</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for element in data %}
+                                        <tr>
+                                            <td>{{element[1]}}</td>
+                                            <td>{{element[2]}}</td>
+                                            {% if element[3] == 0 %}
+                                                <td>Yönetici</td>
+                                            {% elif element[3] == 1 %}
+                                                <td>Yönetici</td>
+                                            {% else %}
+                                                <td>Üye</td>
+                                            {% endif %}
+                                            <td>Finans</td>
+                                            <td><button type="button" class="popUpButton" name="{{element[1]}}" value="{{element[0]}}"> <i class="fa fa-comment"></i> </button></td>
+                                        </tr>
+                                        {% endfor %}
 
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <strong>Sabit Bilgiler</strong>
-                        </div>
-                        <div class="card-body card-block">
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">İsim</label></div>
-                                <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{username}}</p>
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">Yetki</label></div>
-                                <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{userrole}}</p>
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col col-md-3"><label class=" form-control-label">TCKNO</label></div>
-                                <div class="col-12 col-md-9">
-                                    <p class="form-control-static">{{usertc}}</p>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
 
+        	</div>
+
+
+            <div class="bg-modal">
+
+            <div class="modal-content">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title box-title">Live Chat</h4>
+                                <div class="close">+</div>
+                                <div class="card-content">
+                                    <div class="messenger-box">
+                                        <ul>
+                                            <li>
+                                                <div class="msg-received msg-container">
+                                                    <div class="avatar">
+                                                       <img src="static/images/avatar/64-1.jpg" alt="">
+                                                       <div class="send-time">11.11 am</div>
+                                                    </div>
+                                                    <div class="msg-box">
+                                                        <div class="inner-box">
+                                                            <div class="name">
+                                                                John Doe
+                                                            </div>
+                                                            <div class="meg">
+                                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sunt placeat velit ad reiciendis ipsam
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.msg-received -->
+                                            </li>
+                                            <li>
+                                                <div class="msg-sent msg-container">
+                                                    <div class="avatar">
+                                                       <img src="static/images/avatar/64-2.jpg" alt="">
+                                                       <div class="send-time">11.11 am</div>
+                                                    </div>
+                                                    <div class="msg-box">
+                                                        <div class="inner-box">
+                                                            <div class="name">
+                                                                John Doe
+                                                            </div>
+                                                            <div class="meg">
+                                                                Hay how are you doing?
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.msg-sent -->
+                                            </li>
+                                        </ul>
+                                        <div class="send-mgs">
+                                            <div class="yourmsg">
+                                                <input class="form-control" type="text">
+                                            </div>
+                                            <button class="btn msg-send-btn">
+                                                <i class="pe-7s-paper-plane"></i>
+                                            </button>
+
+                                        </div>
+                                    </div><!-- /.messenger-box -->
+                                </div>
+                            </div> <!-- /.card-body -->
+                        </div><!-- /.card -->
+                    </div>
+                </div>
+                <!-- /To Do and Live Chat -->
+
                 </div>
 
 
-            </div>
 
 
         </div><!-- .animated -->
@@ -277,6 +317,9 @@
         </div>
     </footer>
 
+<input type="text" value="{{userid}}" id="userid" style="display:none">
+<input type="text" value="{{username}}" id="username" style="display:none">
+
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->
@@ -285,10 +328,81 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-<script src="/static/colorlib-regform-7/vendor/jquery/jquery.min.js"></script>
+<script src="static/colorlib-regform-7/vendor/jquery/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 <script src="static/assets/js/main.js"></script>
-<script src="static/js/profil.js"></script>
+
+<script src="static/assets/js/lib/data-table/datatables.min.js"></script>
+<script src="static/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+<script src="static/assets/js/lib/data-table/dataTables.buttons.min.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
+<script src="static/assets/js/lib/data-table/jszip.min.js"></script>
+<script src="static/assets/js/lib/data-table/vfs_fonts.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.html5.min.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.print.min.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.colVis.min.js"></script>
+<script src="static/assets/js/init/datatables-init.js"></script>
+<script src="static/js/ticket.js"></script>
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+      $('#bootstrap-data-table-export').DataTable();
+   } );
+</script>
+
+<!--
+<script>
+
+    $(function() {
+
+      $('#chat_btn').on('click', function() {
+
+        let message = $('#chat_text').val();
+
+        $.post('/message', {'username' : username, 'message' : message}, function() {
+          $('#chat_text').val('');
+        });
+
+      });
+
+          // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = true;
+
+      var pusher = new Pusher('APP_KEY', {
+        cluster: 'us2',
+        encrypted: true
+      });
+
+      var channel = pusher.subscribe('chat-channel');
+
+      channel.bind('new-message', function(data) {
+
+          let name = data.username;
+          let message = data.message;
+
+          let message_template = `<article class="media">
+                                  <div class="media-content">
+                                    <div class="content">
+                                      <p>
+                                        <strong>${name}</strong>
+                                        <br> ${message}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </article>`;
+
+          $('#content').append(message_template);
+
+        });
+
+
+
+    });
+
+ </script>
+-->
 
 </body>
 </html>
