@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect, url_for, request, session, flash
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
+import pusher
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -8,6 +9,54 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
+
+pusher_client = pusher.Pusher(
+    app_id="1132585",
+    key = "ed89289759f2f434f256",
+    secret = "4bd8e6fd627fba65f76d",
+    cluster = "eu",
+    ssl=True
+)
+
+@app.route('/message', methods=['POST'])
+def message():
+    try:
+        username = request.form.get('username')
+        userid = request.form.get('userid')
+        recievername = request.form.get('recievername')
+        recieverid = request.form.get('recieverid')
+        message = request.form.get('message')
+        channelName = request.form.get('channelName')
+        mesDate = request.form.get('date')
+        mesTime = request.form.get('time')
+
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+        cur.execute("INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message) values(%s, %s, %s, %s)",
+                            (channelName, userid, recieverid, message))
+        con.commit()
+        cur.close()
+        con.close()
+        pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message, 'date':mesDate, 'time':mesTime})
+
+        return jsonify({'result': 'success'})
+    except:
+        return jsonify({'result': 'failure'})
+
+@app.route('/messagehist', methods=['POST','GET'])
+def messageHist():
+    try:
+        channelName = request.form.get('channelName')
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+        cur.execute("select * from unionschema.message_log where channel_name='{}'".format(channelName))
+        message_data = cur.fetchall()
+        return jsonify({'result': 'success', 'message_data': message_data})
+    except:
+        return jsonify({'result': 'failure'})
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -92,8 +141,53 @@ def logout():
 def admin():
     pass
 
+@app.route("/talep", methods=["POST", "GET"])
+def ticket():
+
+    data = ""
+
+    #pusher_client.trigger('chat-channel', 'new-message', {'message': "message"})
+
+    if "admin" in session or "super" in session or "user" in session:
+
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        usermail = session["mail"]
+        userid = session["id"]
+        username = session["name"]
+        if "super" in session:
+            userrole = "super"
+
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        elif "admin" in session:
+            userrole = "yönetici"
+
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        elif "user" in session:
+            userrole = "üye"
+
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id AND ( mr.member_role = 0 OR mr.member_role = 1);"
+            cur.execute(sql)
+            data = cur.fetchall()
+
+        cur.close()
+        con.close()
+        return render_template("ticket.html", data=data, userid=userid, username=username)
+    else:
+        return render_template("login.html")
+
 
 @app.route("/user", methods=["POST", "GET"])
+def user():
+    pass
 @app.route("/haberler", methods=["POST", "GET"])
 def haberler():
     pass
@@ -124,17 +218,15 @@ def profil():
             form_newPassword = request.form["pass"]
             cur.execute("select member_password from unionschema.members where member_tc='{}'".format(usertckno))
             hashed_password = cur.fetchone()[0]
-            print(hashed_password)
             if check_password_hash(hashed_password, form_oldPassword):
                 if len(form_mail) > 0:
                     cur.execute("update unionschema.members set member_mail ='{}' where member_tc='{}'".format(form_mail, usertckno))
-                    con.commit()
                     usermail = form_mail
                     session["mail"] = form_mail
                 if len(form_newPassword) > 0:
                     new_password = generate_password_hash(form_newPassword, method='sha256')
                     cur.execute("update unionschema.members set member_password ='{}' where member_tc='{}'".format(new_password, usertckno))
-                    con.commit()
+        con.commit()
         cur.close()
         con.close()
         return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
