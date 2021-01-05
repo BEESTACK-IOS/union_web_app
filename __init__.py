@@ -27,6 +27,8 @@ def message():
         recieverid = request.form.get('recieverid')
         message = request.form.get('message')
         channelName = request.form.get('channelName')
+        mesDate = request.form.get('date')
+        mesTime = request.form.get('time')
 
         print(message)
         print(username)
@@ -34,9 +36,18 @@ def message():
         print(recievername)
         print(recieverid)
 
-        pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message})
+        pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message, 'date':mesDate, 'time':mesTime})
 
         return jsonify({'result': 'success'})
+    except:
+        return jsonify({'result': 'failure'})
+
+@app.route('/messagehist', methods=['POST','GET'])
+def messageHist():
+    try:
+        channelName = request.form.get('channelName')
+
+        return jsonify({'result': 'success', 'channelName': channelName})
     except:
         return jsonify({'result': 'failure'})
 
