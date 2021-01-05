@@ -389,8 +389,18 @@
           });
 
            $.post('/messagehist', {'channelName': channelName}, function(returnData){
-                console.log(returnData['channelName']);
-
+                console.log(returnData['message_data']);
+                var messagelist = returnData['message_data']
+                console.log(messagelist[0])
+                var i;
+                for(i = 0; i < messagelist.length; i++){
+                    if (currentUserId == messagelist[i][3]) {
+                        messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
+                    }else {
+                        messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
+                    }
+                    $("#message_content").append(messageSenderTemplate);
+                }
            });
         });
 
@@ -398,6 +408,7 @@
         function() {
             document.querySelector('.bg-modal').style.display = 'none';
             pusher.unsubscribe(channelName);
+            $('#message_content').empty();
         });
 
         function formatDate(date, format) {

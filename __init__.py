@@ -63,10 +63,9 @@ def messageHist():
                                password="facethest0rm")
         cur = con.cursor()
         cur.execute("select * from unionschema.message_log where channel_name='{}'".format(channelName))
-        cur.commit()
-        message_data = cur.fetchone()
+        message_data = cur.fetchall()
         print(message_data)
-        return jsonify({'result': 'success', 'channelName': channelName})
+        return jsonify({'result': 'success', 'message_data': message_data})
     except:
         return jsonify({'result': 'failure'})
 
