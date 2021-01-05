@@ -30,17 +30,6 @@ def message():
         mesDate = request.form.get('date')
         mesTime = request.form.get('time')
 
-        """print(message)
-        print(username)
-        print(userid)
-        print(recievername)
-        print(recieverid)"""
-
-        print(channelName)
-        print(userid)
-        print(recieverid)
-        print(message)
-
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                password="facethest0rm")
         cur = con.cursor()
@@ -64,7 +53,6 @@ def messageHist():
         cur = con.cursor()
         cur.execute("select * from unionschema.message_log where channel_name='{}'".format(channelName))
         message_data = cur.fetchall()
-        print(message_data)
         return jsonify({'result': 'success', 'message_data': message_data})
     except:
         return jsonify({'result': 'failure'})
@@ -190,7 +178,6 @@ def ticket():
             cur.execute(sql)
             data = cur.fetchall()
 
-        print(data)
         cur.close()
         con.close()
         return render_template("ticket.html", data=data, userid=userid, username=username)
@@ -231,7 +218,6 @@ def profil():
             form_newPassword = request.form["pass"]
             cur.execute("select member_password from unionschema.members where member_tc='{}'".format(usertckno))
             hashed_password = cur.fetchone()[0]
-            print(hashed_password)
             if check_password_hash(hashed_password, form_oldPassword):
                 if len(form_mail) > 0:
                     cur.execute("update unionschema.members set member_mail ='{}' where member_tc='{}'".format(form_mail, usertckno))

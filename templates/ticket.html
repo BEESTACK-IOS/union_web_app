@@ -392,9 +392,7 @@
 
                 $.post('/messagehist', {'channelName': channelName}, function (returnData) {
 
-                        console.log(returnData['message_data']);
                         var messagelist = returnData['message_data']
-                        console.log(messagelist[0])
                         var i;
                         for (i = 0; i < messagelist.length; i++) {
                             if (currentUserId == messagelist[i][3]) {
