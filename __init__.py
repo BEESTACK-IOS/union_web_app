@@ -31,6 +31,8 @@ def message():
         print(message)
         print(username)
         print(userid)
+        print(recievername)
+        print(recieverid)
 
         pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message})
 
@@ -168,6 +170,8 @@ def ticket():
 
 
 @app.route("/user", methods=["POST", "GET"])
+def user():
+    pass
 @app.route("/haberler", methods=["POST", "GET"])
 def haberler():
     pass

@@ -240,42 +240,9 @@
                                 <div class="card-content">
                                     <div class="messenger-box">
                                         <ul id="message_content" style="overflow-y: scroll; height: 30vh;">
-                                            <li>
-                                                <div class="msg-received msg-container">
-                                                    <div class="avatar">
-                                                       <img src="static/images/avatar/64-1.jpg" alt="">
-                                                       <div class="send-time">11.11 am</div>
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box">
-                                                            <div class="name">
-                                                                John Doe
-                                                            </div>
-                                                            <div class="meg">
-                                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis sunt placeat velit ad reiciendis ipsam
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-received -->
-                                            </li>
-                                            <li>
-                                                <div class="msg-sent msg-container">
-                                                    <div class="avatar">
-                                                       <img src="static/images/avatar/64-2.jpg" alt="">
-                                                       <div class="send-time">11.11 am</div>
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box">
-                                                            <div class="name">
-                                                                John Doe
-                                                            </div>
-                                                            <div class="meg">
-                                                                Hay how are you doing?
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-sent -->
-                                            </li>
+
+
+
                                         </ul>
                                         <div class="send-mgs">
                                             <div class="yourmsg">
@@ -410,8 +377,14 @@
                 getedname = data.recievername;
                 getedid = data.recieverid;
 
+                console.log(getedname);
+                console.log(getedname);
+                console.log(getedname);
+
                 if (currentUserId == getedid) {
-                    messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${getedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+                console.log(getedname);
+                console.log(getedname);
+                    messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
                 }else {
                     messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
                 }
