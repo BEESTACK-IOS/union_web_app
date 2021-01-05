@@ -85,3 +85,13 @@ CREATE TABLE system_logs
     FOREIGN KEY (member_id) REFERENCES members (member_id)
 );
 
+CREATE TABLE message_log
+(
+    log_id serial,
+    channel_name varchar(15),
+    sender_id varchar(15),
+    reciever_id varchar(15),
+    message varchar(200),
+    message_time date,
+    PRIMARY KEY (log_id),
+);
