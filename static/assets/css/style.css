@@ -51,8 +51,8 @@ Googel Fonts  */
 .modal-content {
   justify-content: center;
   align-items: center;
-  width: 40vw;
-  height: 40vh;
+  width: 10vw;
+  height: 10vh;
   background-color: white;
   position: fixed;
 }
