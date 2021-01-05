@@ -11,25 +11,26 @@ app = Flask(__name__)
 app.secret_key = "boraadamdir"
 
 pusher_client = pusher.Pusher(
-  app_id='1132585',
-  key='ed89289759f2f434f256',
-  secret='4bd8e6fd627fba65f76d',
-  cluster='eu',
-  ssl=True
+    app_id="1132585",
+    key = "ed89289759f2f434f256",
+    secret = "4bd8e6fd627fba65f76d",
+    cluster = "eu",
+    ssl=True
 )
 
 @app.route('/message', methods=['POST'])
 def message():
     try:
         username = request.form.get('username')
+        userid = request.form.get('userid')
         message = request.form.get('message')
+        channelName = request.form.get('channelName')
 
-        new_message = pusher.Message(username=username, message=message)
-        """
-        to do add this message to related database
-        """
+        print(message)
+        print(username)
+        print(userid)
 
-        pusher_client.trigger('chat-channel', 'new-message', {'username': username, 'message': message})
+        pusher_client.trigger(channelName, 'new-message', {'username': username, 'message': message})
 
         return jsonify({'result': 'success'})
     except:
@@ -123,6 +124,8 @@ def admin():
 def ticket():
 
     data = ""
+
+    #pusher_client.trigger('chat-channel', 'new-message', {'message': "message"})
 
     if "admin" in session or "super" in session or "user" in session:
 

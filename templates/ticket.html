@@ -235,11 +235,11 @@
             <div class="modal-content">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title box-title">Live Chat</h4>
+                                <h4 class="card-title box-title">Canlı Destek</h4>
                                 <div class="close">+</div>
                                 <div class="card-content">
                                     <div class="messenger-box">
-                                        <ul>
+                                        <ul id="message_content" style="overflow-y: scroll; height: 30vh;">
                                             <li>
                                                 <div class="msg-received msg-container">
                                                     <div class="avatar">
@@ -279,9 +279,9 @@
                                         </ul>
                                         <div class="send-mgs">
                                             <div class="yourmsg">
-                                                <input class="form-control" type="text">
+                                                <input class="form-control" id="chat_text" type="text">
                                             </div>
-                                            <button class="btn msg-send-btn">
+                                            <button class="btn msg-send-btn" id="chat_btn">
                                                 <i class="pe-7s-paper-plane"></i>
                                             </button>
 
@@ -352,57 +352,97 @@
    } );
 </script>
 
-<!--
+
 <script>
 
     $(function() {
 
-      $('#chat_btn').on('click', function() {
+        var currentUserId = $("#userid").val();
 
-        let message = $('#chat_text').val();
+        var recieverid = ""
+        var recievername = ""
+        var senderid = ""
+        var sendername = ""
 
-        $.post('/message', {'username' : username, 'message' : message}, function() {
-          $('#chat_text').val('');
-        });
+        var sendedname = "";
+        var sendedid = "";
 
-      });
+        var getedname = "";
+        var getedid = "";
+
+        var sendedmessage = "";
+
+        var pusher;
+        var channelName = "";
+
+        var messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+
+        var messageRecieverTemplate = "";
+
+        $(document).on('click','.popUpButton',
+        function() {
+            document.querySelector('.bg-modal').style.display = 'flex';
+            recievername = $(this).attr("name");
+            recieverid = $(this).val();
+            sendername = $("#username").val();
+            senderid = $("#userid").val();
 
           // Enable pusher logging - don't include this in production
-      Pusher.logToConsole = true;
+          Pusher.logToConsole = true;
 
-      var pusher = new Pusher('APP_KEY', {
-        cluster: 'us2',
-        encrypted: true
-      });
+          pusher = new Pusher('ed89289759f2f434f256', {
+            cluster: 'eu',
+            encrypted: true
+          });
 
-      var channel = pusher.subscribe('chat-channel');
+          if (recieverid > senderid){
+                channelName = "" + senderid + "-" + recieverid;
+          }else {
+                channelName = "" + recieverid + "-" + senderid;
+          }
 
-      channel.bind('new-message', function(data) {
+          var channel = pusher.subscribe(channelName);
 
-          let name = data.username;
-          let message = data.message;
+          channel.bind('new-message', function(data) {
+                sendedname = data.username;
+                sendedid = data.userid;
+                sendedmessage = data.message;
+                getedname = data.recievername;
+                getedid = data.recieverid;
 
-          let message_template = `<article class="media">
-                                  <div class="media-content">
-                                    <div class="content">
-                                      <p>
-                                        <strong>${name}</strong>
-                                        <br> ${message}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </article>`;
+                if (currentUserId == getedid) {
+                    messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${getedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+                }else {
+                    messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+                }
+                $("#message_content").append(messageSenderTemplate);
+                document.querySelector("#message_content").scrollTop = document.querySelector("#message_content").scrollHeight;
+          });
 
-          $('#content').append(message_template);
+
 
         });
 
+        document.querySelector('.close').addEventListener('click',
+        function() {
+            document.querySelector('.bg-modal').style.display = 'none';
+            pusher.unsubscribe(channelName);
+        });
+
+       $("#chat_btn").on('click', function() {
+           sendedmessage = $("#chat_text").val();
+
+           $.post('/message', {'username': sendername, 'userid': senderid, 'recievername': recievername, 'recieverid': recieverid,'message': sendedmessage, 'channelName': channelName}, function(){
+                $('#chat_text').val('');
+           });
+
+       });
 
 
     });
 
  </script>
--->
+
 
 </body>
 </html>

@@ -9,7 +9,7 @@ function() {
     console.log($(this).attr("name"));
     recievername = console.log($(this).attr("name"));
     recieverid = console.log($(this).val());
-    senderame = console.log($("#username").val());
+    sendername = console.log($("#username").val());
     senderid = console.log($("#userid").val());
 });
 
