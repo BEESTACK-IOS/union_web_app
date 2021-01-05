@@ -23,6 +23,8 @@ def message():
     try:
         username = request.form.get('username')
         userid = request.form.get('userid')
+        recievername = request.form.get('recievername')
+        recieverid = request.form.get('recieverid')
         message = request.form.get('message')
         channelName = request.form.get('channelName')
 
@@ -30,7 +32,7 @@ def message():
         print(username)
         print(userid)
 
-        pusher_client.trigger(channelName, 'new-message', {'username': username, 'message': message})
+        pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message})
 
         return jsonify({'result': 'success'})
     except:
