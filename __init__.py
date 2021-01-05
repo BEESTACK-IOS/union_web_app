@@ -30,12 +30,25 @@ def message():
         mesDate = request.form.get('date')
         mesTime = request.form.get('time')
 
-        print(message)
+        """print(message)
         print(username)
         print(userid)
         print(recievername)
-        print(recieverid)
+        print(recieverid)"""
 
+        print(channelName)
+        print(userid)
+        print(recieverid)
+        print(message)
+
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+        cur.execute("INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message) values(%s, %s, %s, %s)",
+                            (channelName, userid, recieverid, message))
+        con.commit()
+        cur.close()
+        con.close()
         pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message, 'date':mesDate, 'time':mesTime})
 
         return jsonify({'result': 'success'})
@@ -46,7 +59,13 @@ def message():
 def messageHist():
     try:
         channelName = request.form.get('channelName')
-
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+        cur.execute("select * from unionschema.message_log where channel_name='{}'".format(channelName))
+        cur.commit()
+        message_data = cur.fetchone()
+        print(message_data)
         return jsonify({'result': 'success', 'channelName': channelName})
     except:
         return jsonify({'result': 'failure'})
@@ -217,13 +236,12 @@ def profil():
             if check_password_hash(hashed_password, form_oldPassword):
                 if len(form_mail) > 0:
                     cur.execute("update unionschema.members set member_mail ='{}' where member_tc='{}'".format(form_mail, usertckno))
-                    con.commit()
                     usermail = form_mail
                     session["mail"] = form_mail
                 if len(form_newPassword) > 0:
                     new_password = generate_password_hash(form_newPassword, method='sha256')
                     cur.execute("update unionschema.members set member_password ='{}' where member_tc='{}'".format(new_password, usertckno))
-                    con.commit()
+        con.commit()
         cur.close()
         con.close()
         return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)

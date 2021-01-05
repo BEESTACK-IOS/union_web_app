@@ -93,5 +93,5 @@ CREATE TABLE message_log
     reciever_id varchar(15),
     message varchar(200),
     message_time date,
-    PRIMARY KEY (log_id),
+    PRIMARY KEY (log_id)
 );
