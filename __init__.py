@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, j
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 import pusher
+import smtplib
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -195,6 +196,30 @@ def haberler():
 @app.route("/magazalar", methods=["POST", "GET"])
 def magazalar():
     pass
+
+@app.route("/sifremi_unuttum", methods=["POST", "GET"])
+def sifremi_unuttum():
+
+    if request.method == "POST":
+        print(request.form["email"])
+        sender = 'from@fromdomain.com'
+        receivers = [request.form["email"]]
+
+        message = """From: From Person <from@fromdomain.com>
+        To: To Person <to@todomain.com>
+        Subject: SMTP e-mail test
+
+        This is a test e-mail message.
+        """
+
+        try:
+            smtpObj = smtplib.SMTP('localhost')
+            smtpObj.sendmail(sender, receivers, message)
+            print("Successfully sent email")
+        except Exception as e:
+            print("Error: unable to send email")
+
+    return render_template("pages-forget.html")
 
 @app.route("/profil", methods=["POST", "GET"])
 def profil():
