@@ -4,7 +4,6 @@ from flask_mail import Mail, Message
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import psycopg2
 import pusher
-import smtplib
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -160,8 +159,6 @@ def admin():
 def ticket():
     data = ""
 
-    # pusher_client.trigger('chat-channel', 'new-message', {'message': "message"})
-
     if "admin" in session or "super" in session or "user" in session:
 
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
@@ -216,9 +213,7 @@ def magazalar():
 
 def send_reset_mail(mail_adress, token):
     msg = Message('Password Reset', sender='unionwebapp@gmail.com', recipients=[mail_adress])
-    msg.body = f'''Sifrenizi sifirlamak icin:
-{url_for('pass_reset', token=token, _external=True)}
-'''
+    msg.body = f'''Sifrenizi sifirlamak icin: {url_for('pass_reset', token=token, _external=True)} '''
     mail.send(msg)
 
 
@@ -246,21 +241,23 @@ def sifremi_unuttum():
         cur.execute("select member_id from unionschema.members where member_mail='{}'".format(mail))
         memberid = cur.fetchone()
         if memberid:
-            token = get_reset_token(memberid, 60)
+            token = get_reset_token(memberid, 900)
             send_reset_mail(mail, token)
         else:
-            print(0)
+            print("error in userid: {} no reletad mail".format(memberid))
 
     return render_template("pages-forget.html")
 
 
 @app.route("/sifremi_unuttum/<token>", methods=["POST", "GET"])
 def pass_reset(token):
-    if "admin" in session or "super" in session or "user" in session:
-        return redirect(url_for('/profil'))
+    if "admin" in session or "super" in session:
+        return redirect(url_for("admin"))
+
+    elif "user" in session:
+        return redirect(url_for("user"))
     else:
         member_id = verify_token(token)
-        print("member id:" + str(member_id))
         if request.method == "POST":
             password = request.form["pass"]
             re_password = request.form["re_pass"]
@@ -271,7 +268,7 @@ def pass_reset(token):
                 password = generate_password_hash(password, method='sha256')
                 cur.execute(
                     "update unionschema.members set member_password ='{}' where member_id='{}'".format(password,
-                                                                                                   member_id))
+                                                                                                       member_id))
                 con.commit()
                 cur.close()
                 con.close()
@@ -377,21 +374,3 @@ def register():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-"""
-        sender = 'from@fromdomain.com'
-        receivers = [request.form["email"]]
-
-        message = From: From Person <from@fromdomain.com>
-        To: To Person <to@todomain.com>
-        Subject: SMTP e-mail test
-
-        This is a test e-mail message.
-
-        try:
-            smtpObj = smtplib.SMTP('localhost')
-            smtpObj.sendmail(sender, receivers, message)
-            print("Successfully sent email")
-        except Exception as e:
-            print("Error: unable to send email")
-            """
