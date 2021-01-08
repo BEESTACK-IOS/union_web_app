@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Mail, Message
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import psycopg2
 import pusher
 import smtplib
@@ -10,14 +12,21 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = "unionwebapp@gmail.com"
+app.config['MAIL_PASSWORD'] = "Union123app"
+mail = Mail(app)
 
 pusher_client = pusher.Pusher(
     app_id="1132585",
-    key = "ed89289759f2f434f256",
-    secret = "4bd8e6fd627fba65f76d",
-    cluster = "eu",
+    key="ed89289759f2f434f256",
+    secret="4bd8e6fd627fba65f76d",
+    cluster="eu",
     ssl=True
 )
+
 
 @app.route('/message', methods=['POST'])
 def message():
@@ -34,18 +43,22 @@ def message():
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                password="facethest0rm")
         cur = con.cursor()
-        cur.execute("INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message) values(%s, %s, %s, %s)",
-                            (channelName, userid, recieverid, message))
+        cur.execute(
+            "INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message) values(%s, %s, %s, %s)",
+            (channelName, userid, recieverid, message))
         con.commit()
         cur.close()
         con.close()
-        pusher_client.trigger(channelName, 'new-message', {'username': username,'recievername':recievername,'recieverid':recieverid, 'message': message, 'date':mesDate, 'time':mesTime})
+        pusher_client.trigger(channelName, 'new-message',
+                              {'username': username, 'recievername': recievername, 'recieverid': recieverid,
+                               'message': message, 'date': mesDate, 'time': mesTime})
 
         return jsonify({'result': 'success'})
     except:
         return jsonify({'result': 'failure'})
 
-@app.route('/messagehist', methods=['POST','GET'])
+
+@app.route('/messagehist', methods=['POST', 'GET'])
 def messageHist():
     try:
         channelName = request.form.get('channelName')
@@ -142,12 +155,12 @@ def logout():
 def admin():
     pass
 
+
 @app.route("/talep", methods=["POST", "GET"])
 def ticket():
-
     data = ""
 
-    #pusher_client.trigger('chat-channel', 'new-message', {'message': "message"})
+    # pusher_client.trigger('chat-channel', 'new-message', {'message': "message"})
 
     if "admin" in session or "super" in session or "user" in session:
 
@@ -189,37 +202,81 @@ def ticket():
 @app.route("/user", methods=["POST", "GET"])
 def user():
     pass
+
+
 @app.route("/haberler", methods=["POST", "GET"])
 def haberler():
     pass
+
 
 @app.route("/magazalar", methods=["POST", "GET"])
 def magazalar():
     pass
 
+
+def send_reset_mail(mail_adress, token):
+    msg = Message('Password Reset', sender='unionwebapp@gmail.com', recipients=[mail_adress])
+    msg.body = f'''Sifrenizi sifirlamak icin:
+{url_for('pass_reset', token=token, _external=True)}
+'''
+    mail.send(msg)
+
+
+def get_reset_token(user_id, expires_sec):
+    ser = Serializer(app.config['SECRET_KEY'], expires_sec)
+    return ser.dumps(user_id).decode('utf-8')
+
+
+def verify_token(token):
+    ser = Serializer(app.config['SECRET_KEY'])
+    try:
+        id = ser.loads(token)[0]
+        return id
+    except:
+        return redirect("login.html")
+
+
 @app.route("/sifremi_unuttum", methods=["POST", "GET"])
 def sifremi_unuttum():
-
     if request.method == "POST":
-        print(request.form["email"])
-        sender = 'from@fromdomain.com'
-        receivers = [request.form["email"]]
-
-        message = """From: From Person <from@fromdomain.com>
-        To: To Person <to@todomain.com>
-        Subject: SMTP e-mail test
-
-        This is a test e-mail message.
-        """
-
-        try:
-            smtpObj = smtplib.SMTP('localhost')
-            smtpObj.sendmail(sender, receivers, message)
-            print("Successfully sent email")
-        except Exception as e:
-            print("Error: unable to send email")
+        mail = request.form["email"]
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+        cur.execute("select member_id from unionschema.members where member_mail='{}'".format(mail))
+        memberid = cur.fetchone()
+        if memberid:
+            token = get_reset_token(memberid, 60)
+            send_reset_mail(mail, token)
+        else:
+            print(0)
 
     return render_template("pages-forget.html")
+
+
+@app.route("/sifremi_unuttum/<token>", methods=["POST", "GET"])
+def pass_reset(token):
+    if "admin" in session or "super" in session or "user" in session:
+        return redirect(url_for('/profil'))
+    else:
+        member_id = verify_token(token)
+        print("member id:" + str(member_id))
+        if request.method == "POST":
+            password = request.form["pass"]
+            re_password = request.form["re_pass"]
+            if (password == re_password) and len(password) > 0:
+                con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                                       password="facethest0rm")
+                cur = con.cursor()
+                password = generate_password_hash(password, method='sha256')
+                cur.execute(
+                    "update unionschema.members set member_password ='{}' where member_id='{}'".format(password,
+                                                                                                   member_id))
+                con.commit()
+                cur.close()
+                con.close()
+        return render_template("reset-password.html")
+
 
 @app.route("/profil", methods=["POST", "GET"])
 def profil():
@@ -245,12 +302,16 @@ def profil():
             hashed_password = cur.fetchone()[0]
             if check_password_hash(hashed_password, form_oldPassword):
                 if len(form_mail) > 0:
-                    cur.execute("update unionschema.members set member_mail ='{}' where member_tc='{}'".format(form_mail, usertckno))
+                    cur.execute(
+                        "update unionschema.members set member_mail ='{}' where member_tc='{}'".format(form_mail,
+                                                                                                       usertckno))
                     usermail = form_mail
                     session["mail"] = form_mail
                 if len(form_newPassword) > 0:
                     new_password = generate_password_hash(form_newPassword, method='sha256')
-                    cur.execute("update unionschema.members set member_password ='{}' where member_tc='{}'".format(new_password, usertckno))
+                    cur.execute(
+                        "update unionschema.members set member_password ='{}' where member_tc='{}'".format(new_password,
+                                                                                                           usertckno))
         con.commit()
         cur.close()
         con.close()
@@ -277,7 +338,7 @@ def register():
             password_again = request.form["re_pass"]
 
             if not password == password_again:
-                return render_template("register.html",errorType=errorType)
+                return render_template("register.html", errorType=errorType)
             else:
                 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                        password="facethest0rm")
@@ -286,7 +347,7 @@ def register():
                 tcnko_roles_control = cur.fetchone()
                 if (tcnko_roles_control == None) or (len(tcnko_roles_control) == 0):
                     errorType = 0
-                    return render_template("register.html",errorType=errorType)
+                    return render_template("register.html", errorType=errorType)
                 else:
                     role = tcnko_roles_control[2]
                     cur.execute("select * from unionschema.members where member_mail='{}'".format(email))
@@ -305,15 +366,32 @@ def register():
                         con.commit()
                         cur.close()
                         con.close()
-                        return render_template("login.html",errorType=errorType)
+                        return render_template("login.html", errorType=errorType)
                     else:
                         errorType = 1
                         cur.close()
                         con.close()
-                        return render_template("register.html",errorType=errorType)
-        return render_template("register.html",errorType=-1)
-
+                        return render_template("register.html", errorType=errorType)
+        return render_template("register.html", errorType=-1)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+"""
+        sender = 'from@fromdomain.com'
+        receivers = [request.form["email"]]
+
+        message = From: From Person <from@fromdomain.com>
+        To: To Person <to@todomain.com>
+        Subject: SMTP e-mail test
+
+        This is a test e-mail message.
+
+        try:
+            smtpObj = smtplib.SMTP('localhost')
+            smtpObj.sendmail(sender, receivers, message)
+            print("Successfully sent email")
+        except Exception as e:
+            print("Error: unable to send email")
+            """
