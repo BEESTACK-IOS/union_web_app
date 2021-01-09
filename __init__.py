@@ -163,6 +163,8 @@ def logout():
     session.pop("admin", None)
     session.pop("user", None)
     session.pop("id", None)
+    session.pop("mail", None)
+    session.pop("name", None)
     return redirect(url_for("login"))
 
 
@@ -335,6 +337,7 @@ def profil():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     errorType = -1
+    print(session)
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
 
