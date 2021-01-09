@@ -81,58 +81,29 @@
         <div class="top-right">
             <div class="header-menu">
                 <div class="header-left">
-                    <button class="search-trigger"><i class="fa fa-search"></i></button>
-                    <div class="form-inline">
-
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                        <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-
-                    </div>
 
                     <div class="dropdown for-message">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="message"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-envelope"></i>
-                            <span class="count bg-primary">4</span>
+                            <span class="count bg-primary">{{notificationData|length}}</span>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="message">
-                            <p class="red">You have 4 Mails</p>
-                            <a class="dropdown-item media" href="#">
+                            <p class="red">Toplam {{notificationData|length}} Talep Görüşmeniz var</p>
+
+                            {% for tl in  notificationData %}
+
+                            <a class="dropdown-item media" href="http://localhost:5000/talep">
                                 <span class="photo media-left"><img alt="avatar"
-                                                                    src="static/images/avatar/1.jpg"></span>
+                                                                    src="static/images/admin.jpg"></span>
                                 <div class="message media-body">
-                                    <span class="name float-left">Jonathan Smith</span>
-                                    <span class="time float-right">Just now</span>
-                                    <p>Hello, this is an example msg</p>
+                                    <span class="name float-left">{{tl[0]}}</span>
+                                    <span class="time float-right">Sonuçlanmamış talep/görüş konuşması</span>
                                 </div>
                             </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar"
-                                                                    src="static/images/avatar/2.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Jack Sanders</span>
-                                    <span class="time float-right">5 minutes ago</span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar"
-                                                                    src="static/images/avatar/3.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Cheryl Wheeler</span>
-                                    <span class="time float-right">10 minutes ago</span>
-                                    <p>Hello, this is an example msg</p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item media" href="#">
-                                <span class="photo media-left"><img alt="avatar"
-                                                                    src="static/images/avatar/4.jpg"></span>
-                                <div class="message media-body">
-                                    <span class="name float-left">Rachel Santos</span>
-                                    <span class="time float-right">15 minutes ago</span>
-                                    <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                </div>
-                            </a>
+
+                            {% endfor %}
+
                         </div>
                     </div>
                 </div>
@@ -147,7 +118,7 @@
                         <a class="nav-link" href="/profil"><i class="fa fa-user"></i>Profilim</a>
 
                         <a class="nav-link" href="/ticket"><i class="fa fa-bell-o"></i>Mesajlarım <span
-                                class="count">13</span></a>
+                                class="count">{{notificationData|length}}</span></a>
 
                         <a class="nav-link" href="/logout"><i class="fa fa-power-off"></i>Çıkış Yap</a>
                     </div>
@@ -253,6 +224,26 @@
                                         <button class="btn msg-send-btn" id="chat_btn">
                                             <i class="pe-7s-paper-plane"></i>
                                         </button>
+                                        {% if (userrole == "super" or userrole == "yönetici") %}
+                                        <div style="text-align: center;margin-top: 20px;">
+                                            <button type="button" class="btn btn-success" id="ticket_success">Talep
+                                                Karşılandı
+                                            </button>
+                                            <button type="button" class="btn btn-danger" id="ticket_denied">Talep
+                                                Karşılanamadı
+                                            </button>
+                                        </div>
+                                        {% else %}
+                                        <div style="text-align: center;margin-top: 20px;">
+                                            <button type="button" class="btn btn-info" id="ticket_start">Talep
+                                                Başlat
+                                            </button>
+                                            <button type="button" class="btn btn-warning" id="ticket_suggest">Görüş
+                                                Öner
+                                            </button>
+                                        </div>
+
+                                        {% endif %}
 
                                     </div>
                                 </div><!-- /.messenger-box -->
@@ -347,7 +338,6 @@
         var messageRecieverTemplate = "";
 
 
-
         $(document).on('click', '.popUpButton',
             function () {
                 document.querySelector('.bg-modal').style.display = 'flex';
@@ -392,16 +382,16 @@
 
                 $.post('/messagehist', {'channelName': channelName}, function (returnData) {
 
-                        var messagelist = returnData['message_data']
-                        var i;
-                        for (i = 0; i < messagelist.length; i++) {
-                            if (currentUserId == messagelist[i][3]) {
-                                messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
-                            } else {
-                                messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
-                            }
-                            $("#message_content").append(messageSenderTemplate);
+                    var messagelist = returnData['message_data']
+                    var i;
+                    for (i = 0; i < messagelist.length; i++) {
+                        if (currentUserId == messagelist[i][3]) {
+                            messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
+                        } else {
+                            messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
                         }
+                        $("#message_content").append(messageSenderTemplate);
+                    }
 
                 });
             });
@@ -421,14 +411,96 @@
                 yyyy: date.getFullYear()
             }
 
-            return format.replace(/sec|min|hour|mm|dd|yy|yyy/gi, matched => map[matched])
+            return format.replace(/sec|min|hour|mm|dd|yy|yyyy/gi, matched => map[matched])
         }
 
         $("#chat_btn").on('click', function () {
             sendedmessage = $("#chat_text").val();
             var currentDate = new Date();
             var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
-            currentDate = formatDate(currentDate, 'dd/mm/yyyy');
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+
+        $("#ticket_success").on('click', function () {
+            sendedmessage = "Talep Karşılandı Sisteme Kaydediliyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+        $("#ticket_denied").on('click', function () {
+            sendedmessage = "Talep Karşılanamadı Sisteme Kaydediliyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+
+        $("#ticket_start").on('click', function () {
+            sendedmessage = "Talep İşlemi Başlatılıyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+        $("#ticket_suggest").on('click', function () {
+            sendedmessage = "Görüş Önerisi Başlatılıyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
             $.post('/message', {
                 'username': sendername,
                 'userid': senderid,

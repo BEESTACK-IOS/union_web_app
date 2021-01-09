@@ -92,6 +92,18 @@ CREATE TABLE message_log
     sender_id varchar(15),
     reciever_id varchar(15),
     message varchar(200),
-    message_time date,
+    mesdate varchar (12),
+    mestime varchar (12),
     PRIMARY KEY (log_id)
+);
+
+CREATE TABLE talep_log
+(
+    channel_name varchar(15),
+    sender_id varchar(15),
+    reciever_id varchar(15),
+    ticket_status integer,
+    mesdate varchar (12),
+    mestime varchar (12),
+    PRIMARY KEY (channel_name)
 );
