@@ -87,6 +87,7 @@ def messageHist():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    print("asd")
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
     elif "user" in session:
