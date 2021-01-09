@@ -44,16 +44,16 @@ def message():
         cur = con.cursor()
 
         if message == "Talep İşlemi Başlatılıyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 0, mesDate, mesTime, 0)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 0, mesDate, mesTime, 0, mesDate, mesTime)
             cur.execute(sql_insert)
         elif message == "Görüş Önerisi Başlatılıyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 1, mesDate, mesTime, 1)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 1, mesDate, mesTime, 1, mesDate, mesTime)
             cur.execute(sql_insert)
         elif message == "Talep Karşılandı Sisteme Kaydediliyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 2, mesDate, mesTime, 2)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 2, mesDate, mesTime, 2, mesDate, mesTime)
             cur.execute(sql_insert)
         elif message == "Talep Karşılanamadı Sisteme Kaydediliyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 3, mesDate, mesTime, 3)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 3, mesDate, mesTime, 3, mesDate, mesTime)
             cur.execute(sql_insert)
 
         cur.execute(
