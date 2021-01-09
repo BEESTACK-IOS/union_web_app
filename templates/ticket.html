@@ -81,13 +81,6 @@
         <div class="top-right">
             <div class="header-menu">
                 <div class="header-left">
-                    <button class="search-trigger"><i class="fa fa-search"></i></button>
-                    <div class="form-inline">
-
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                        <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-
-                    </div>
 
                     <div class="dropdown for-message">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="message"
@@ -440,14 +433,14 @@
                 yyyy: date.getFullYear()
             }
 
-            return format.replace(/sec|min|hour|mm|dd|yy|yyy/gi, matched => map[matched])
+            return format.replace(/sec|min|hour|mm|dd|yy|yyyy/gi, matched => map[matched])
         }
 
         $("#chat_btn").on('click', function () {
             sendedmessage = $("#chat_text").val();
             var currentDate = new Date();
             var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
-            currentDate = formatDate(currentDate, 'dd/mm/yyyy');
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
             $.post('/message', {
                 'username': sendername,
                 'userid': senderid,
@@ -468,7 +461,7 @@
             sendedmessage = "Talep Karşılandı Sisteme Kaydediliyor.."
             var currentDate = new Date();
             var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
-            currentDate = formatDate(currentDate, 'dd/mm/yyyy');
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
             $.post('/message', {
                 'username': sendername,
                 'userid': senderid,
@@ -488,7 +481,7 @@
             sendedmessage = "Talep Karşılanamadı Sisteme Kaydediliyor.."
             var currentDate = new Date();
             var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
-            currentDate = formatDate(currentDate, 'dd/mm/yyyy');
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
             $.post('/message', {
                 'username': sendername,
                 'userid': senderid,
@@ -509,7 +502,7 @@
             sendedmessage = "Talep İşlemi Başlatılıyor.."
             var currentDate = new Date();
             var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
-            currentDate = formatDate(currentDate, 'dd/mm/yyyy');
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
             $.post('/message', {
                 'username': sendername,
                 'userid': senderid,
@@ -529,7 +522,7 @@
             sendedmessage = "Görüş Önerisi Başlatılıyor.."
             var currentDate = new Date();
             var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
-            currentDate = formatDate(currentDate, 'dd/mm/yyyy');
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
             $.post('/message', {
                 'username': sendername,
                 'userid': senderid,

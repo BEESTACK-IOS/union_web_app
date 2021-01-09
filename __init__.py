@@ -186,6 +186,12 @@ def ticket():
         usermail = session["mail"]
         userid = session["id"]
         username = session["name"]
+
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(userid)
+        cur.execute(sql);
+        notificationData = cur.fetchall()
+        print(notificationData)
+
         if "super" in session:
             userrole = "super"
 
