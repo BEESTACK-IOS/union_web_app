@@ -42,9 +42,16 @@ def message():
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                password="facethest0rm")
         cur = con.cursor()
+
+        if message == "Talep İşlemi Başlatılıyor..":
+            print("Talep İşlemi Başlatılıyor..")
+            cur.execute("INSERT INTO unionschema.talep_log ( channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime ) VALUES ('%s', '%s', '%s', 0, '%s', '%s') ON CONFLICT (channel_name)  DO UPDATE SET ticket_status = 0",
+                        (channelName, userid, recieverid, mesDate, mesTime))
+
+
         cur.execute(
-            "INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message) values(%s, %s, %s, %s)",
-            (channelName, userid, recieverid, message))
+            "INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message, mesdate, mestime) values(%s, %s, %s, %s, %s, %s)",
+            (channelName, userid, recieverid, message, mesDate, mesTime))
         con.commit()
         cur.close()
         con.close()
@@ -53,7 +60,7 @@ def message():
                                'message': message, 'date': mesDate, 'time': mesTime})
 
         return jsonify({'result': 'success'})
-    except:
+    except Exception as e:
         return jsonify({'result': 'failure'})
 
 
@@ -98,6 +105,8 @@ def login():
 
             cur.execute("select * from unionschema.members where member_tc='{}'".format(tckno))
             data = cur.fetchone()
+            if data == None:
+                return redirect(url_for("login"))
             id = data[0]
             truePassword = data[3]
             mail = data[2]
@@ -174,7 +183,6 @@ def ticket():
             sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
             cur.execute(sql)
             data = cur.fetchall()
-
         elif "admin" in session:
             userrole = "yönetici"
 
@@ -191,7 +199,7 @@ def ticket():
 
         cur.close()
         con.close()
-        return render_template("ticket.html", data=data, userid=userid, username=username)
+        return render_template("ticket.html", data=data, userid=userid, username=username, userrole=userrole)
     else:
         return render_template("login.html")
 
