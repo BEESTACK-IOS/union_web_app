@@ -176,6 +176,7 @@ def admin():
 @app.route("/talep", methods=["POST", "GET"])
 def ticket():
     data = ""
+    notificationData = ""
 
     if "admin" in session or "super" in session or "user" in session:
 
@@ -190,7 +191,8 @@ def ticket():
         sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(userid)
         cur.execute(sql);
         notificationData = cur.fetchall()
-        print(notificationData)
+        if notificationData == None:
+            notificationData = ["Kimse"]
 
         if "super" in session:
             userrole = "super"
@@ -214,7 +216,7 @@ def ticket():
 
         cur.close()
         con.close()
-        return render_template("ticket.html", data=data, userid=userid, username=username, userrole=userrole)
+        return render_template("ticket.html", data=data, userid=userid, username=username, userrole=userrole, notificationData=notificationData)
     else:
         return render_template("login.html")
 
@@ -300,6 +302,7 @@ def pass_reset(token):
 
 @app.route("/profil", methods=["POST", "GET"])
 def profil():
+    notificationData = ""
     if "admin" in session or "super" in session or "user" in session:
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                password="facethest0rm")
@@ -308,6 +311,13 @@ def profil():
         cur.execute("select member_tc from unionschema.members where member_mail='{}'".format(usermail))
         usertckno = cur.fetchone()[0]
         username = session["name"]
+
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(session["id"])
+        cur.execute(sql);
+        notificationData = cur.fetchall()
+        if notificationData == None:
+            notificationData = ["Kimse"]
+
         if "super" in session:
             userrole = "super"
         elif "admin" in session:
@@ -335,7 +345,7 @@ def profil():
         con.commit()
         cur.close()
         con.close()
-        return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno)
+        return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno, notificationData=notificationData)
     else:
         return redirect(url_for("login"))
 
@@ -343,7 +353,6 @@ def profil():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     errorType = -1
-    print(session)
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
 
