@@ -44,10 +44,17 @@ def message():
         cur = con.cursor()
 
         if message == "Talep İşlemi Başlatılıyor..":
-            print("Talep İşlemi Başlatılıyor..")
-            cur.execute("INSERT INTO unionschema.talep_log ( channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime ) VALUES ('%s', '%s', '%s', 0, '%s', '%s') ON CONFLICT (channel_name)  DO UPDATE SET ticket_status = 0",
-                        (channelName, userid, recieverid, mesDate, mesTime))
-
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 0, mesDate, mesTime, 0)
+            cur.execute(sql_insert)
+        elif message == "Görüş Önerisi Başlatılıyor..":
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 1, mesDate, mesTime, 1)
+            cur.execute(sql_insert)
+        elif message == "Talep Karşılandı Sisteme Kaydediliyor..":
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 2, mesDate, mesTime, 2)
+            cur.execute(sql_insert)
+        elif message == "Talep Karşılanamadı Sisteme Kaydediliyor..":
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}".format(channelName, userid, recieverid, 3, mesDate, mesTime, 3)
+            cur.execute(sql_insert)
 
         cur.execute(
             "INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message, mesdate, mestime) values(%s, %s, %s, %s, %s, %s)",
