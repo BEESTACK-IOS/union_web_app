@@ -375,7 +375,7 @@
                                                                     </label></div>
                                                                     <div class="col-12 col-md-9"><input type="text"
                                                                                                         id="text-input"
-                                                                                                        name="text-input"
+                                                                                                        name="firm_name"
                                                                                                         placeholder="M. Adı"
                                                                                                         class="form-control">
                                                                     </div>
@@ -390,7 +390,7 @@
                                                                     <div class="col-12 col-md-9"><textarea
                                                                             name="textarea-input" id="textarea-input"
                                                                             rows="9" placeholder="İçerik..."
-                                                                            class="form-control"></textarea></div>
+                                                                            class="form-control" name="firm_content"></textarea></div>
                                                                 </div>
                                                                 <div class="row form-group">
                                                                     <div class="col col-md-3"><label for="file-input"
@@ -399,7 +399,7 @@
                                                                     <div class="col-12 col-md-9"><input type="file"
                                                                                                         id="file-input"
                                                                                                         name="file-input"
-                                                                                                        class="form-control-file">
+                                                                                                        class="form-control-file" name="firm_logo">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row form-group">
@@ -407,11 +407,11 @@
                                                                             class=" form-control-label">Konum Verileri</label></div>
                                                                     <div class="col-4"><input type="number" step="0.000001"
                                                                                               placeholder="lat"
-                                                                                              class="form-control">
+                                                                                              class="form-control" name="firm_lat">
                                                                     </div>
                                                                     <div class="col-4"><input type="number" step="0.000001"
                                                                                               placeholder="lng"
-                                                                                              class="form-control">
+                                                                                              class="form-control" name="firm_lng">
                                                                     </div>
                                                                 </div>
                                                                 <div class="row form-group">
@@ -420,7 +420,7 @@
                                                                     <div class="col-12 col-md-9">
                                                                         <button style="width: 100%;opacity: 0.5;"
                                                                                 type="button" class="btn btn-primary"
-                                                                                id="Ekle">
+                                                                                value="firm_add" name="firm_add">
                                                                             Ekle
                                                                         </button>
                                                                     </div>
