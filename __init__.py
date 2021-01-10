@@ -1,9 +1,12 @@
+import os
+
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import psycopg2
 import pusher
+from werkzeug.utils import secure_filename
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -11,6 +14,8 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
+app.config['UPLOAD_FOLDER_FIRM'] = "static/images/firm"
+app.config['UPLOAD_FOLDER_NEWS'] = "static/images/news"
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -224,6 +229,22 @@ def admin():
         elif "admin" in session:
             userrole = "yönetici"
 
+        if request.method == "POST":
+            actName = request.form.get("submits", False)
+
+            if actName == "firm_add":
+                firm_name = request.form['firm_name']
+                firm_abstract = request.form['firm_content']
+                image = request.files['firm_logo']
+                firm_lnt = request.form['firm_lat']
+                firm_lng = request.form['firm_lng']
+                imagename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER_FIRM'], imagename))
+                image_path = app.config['UPLOAD_FOLDER_FIRM'] + "/" + imagename
+                cur.execute(
+                    "INSERT into unionschema.firms ( firm_name, firm_abstract, firm_logo, firm_lnt, firm_lng) values('{}', '{}', '{}', {}, {})".format
+                    (firm_name, firm_abstract, image_path, firm_lnt, firm_lng))
+                con.commit()
         cur.close()
         con.close()
         return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole, talepDataAssigned=talepDataAssigned)
