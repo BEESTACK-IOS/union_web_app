@@ -172,10 +172,17 @@ def logout():
     return redirect(url_for("login"))
 
 
+def convert(tup, di):
+    for a, b in tup:
+        di.setdefault(str(a), []).append(b)
+    return di
+
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
     data = ""
     notificationData = ""
+    talepData = ""
+    talepDataAssigned = []
 
     if "admin" in session or "super" in session:
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
@@ -195,11 +202,31 @@ def admin():
 
         if "super" in session:
             userrole = "super"
+            userDict = {}
+
+            sql = "SELECT channel_name, ticket_status, mesdate FROM unionschema.talep_log"
+            cur.execute(sql)
+            talepData = cur.fetchall()
+
+            sql = "SELECT member_id, member_name FROM unionschema.members"
+            cur.execute(sql)
+            userTuples = cur.fetchall()
+
+            if talepData == None:
+                talepData = ["kimse"]
+            else:
+                convert(userTuples, userDict)
+                for i in range(0,len(talepData)):
+                    idList = talepData[i][0].split("-")
+                    talepDataAssigned.append((userDict[idList[0]][0] + "-" + userDict[idList[1]][0], talepData[i][1], talepData[i][2], talepData[i][0], idList[0], idList[1], userDict[idList[0]][0], userDict[idList[1]][0]))
+
 
         elif "admin" in session:
             userrole = "yönetici"
 
-        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole)
+        cur.close()
+        con.close()
+        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole, talepDataAssigned=talepDataAssigned)
 
     else:
         userrole = "üye"
