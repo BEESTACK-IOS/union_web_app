@@ -238,12 +238,25 @@ def admin():
                 image = request.files['firm_logo']
                 firm_lnt = request.form['firm_lat']
                 firm_lng = request.form['firm_lng']
+
                 imagename = secure_filename(image.filename)
                 image.save(os.path.join(app.config['UPLOAD_FOLDER_FIRM'], imagename))
                 image_path = app.config['UPLOAD_FOLDER_FIRM'] + "/" + imagename
                 cur.execute(
                     "INSERT into unionschema.firms ( firm_name, firm_abstract, firm_logo, firm_lnt, firm_lng) values('{}', '{}', '{}', {}, {})".format
                     (firm_name, firm_abstract, image_path, firm_lnt, firm_lng))
+                con.commit()
+            elif actName == "news_add":
+                news_name = request.form['news_name']
+                news_abstract = request.form['news_content']
+                image = request.files['news_logo']
+
+                imagename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER_NEWS'], imagename))
+                image_path = app.config['UPLOAD_FOLDER_NEWS'] + "/" + imagename
+                cur.execute(
+                    "INSERT into unionschema.news ( news_name, news_abstract, news_logo) values('{}', '{}', '{}')".format
+                    (news_name, news_abstract, image_path))
                 con.commit()
         cur.close()
         con.close()
