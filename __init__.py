@@ -212,9 +212,7 @@ def admin():
         cur.execute(sql)
         metadata = cur.fetchone()
         if metadata == None:
-            metadata = ["kimse"]
-
-        print(metadata)
+            metadata = (None)
 
 
         if "super" in session:
@@ -281,7 +279,7 @@ def admin():
                 con.commit()
         cur.close()
         con.close()
-        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole, talepDataAssigned=talepDataAssigned)
+        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole, talepDataAssigned=talepDataAssigned, metadata=metadata)
 
     else:
         userrole = "üye"

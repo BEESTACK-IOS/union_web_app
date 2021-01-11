@@ -185,8 +185,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text">$<span class="count">23569</span></div>
-                                        <div class="stat-heading">Revenue</div>
+                                        <div class="stat-text"><span class="count">{{metadata[0]|int * 15}}</span>TL</div>
+                                        <div class="stat-heading">Aylık Gelir</div>
                                     </div>
                                 </div>
                             </div>
@@ -203,8 +203,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">3435</span></div>
-                                        <div class="stat-heading">Sales</div>
+                                        <div class="stat-text"><span class="count">{{metadata[1]}}</span></div>
+                                        <div class="stat-heading">Avantajlı Kurum</div>
                                     </div>
                                 </div>
                             </div>
@@ -221,8 +221,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">349</span></div>
-                                        <div class="stat-heading">Templates</div>
+                                        <div class="stat-text"><span class="count">{{metadata[2]}}</span></div>
+                                        <div class="stat-heading">Haberler</div>
                                     </div>
                                 </div>
                             </div>
@@ -239,8 +239,8 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">2986</span></div>
-                                        <div class="stat-heading">Clients</div>
+                                        <div class="stat-text"><span class="count">{{metadata[0]}}</span></div>
+                                        <div class="stat-heading">Aktif Kullanıcı</div>
                                     </div>
                                 </div>
                             </div>
@@ -658,7 +658,7 @@
         var piedata = [
             {label: "Desktop visits", data: [[1, 32]], color: '#5c6bc0'},
             {label: "Tab visits", data: [[1, 33]], color: '#ef5350'},
-            {label: "Mobile visits", data: [[1, 35]], color: '#66bb6a'}
+            {label: "Mobile visits", data: [[1, 40]], color: '#66bb6a'}
         ];
 
         $.plot('#flotPie1', piedata, {
