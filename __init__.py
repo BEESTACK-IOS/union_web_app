@@ -189,6 +189,8 @@ def admin():
     talepData = ""
     talepDataAssigned = []
 
+    metadata = []
+
     if "admin" in session or "super" in session:
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                password="facethest0rm")
@@ -200,10 +202,20 @@ def admin():
 
         sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
             userid)
-        cur.execute(sql);
+        cur.execute(sql)
         notificationData = cur.fetchall()
         if notificationData == None:
             notificationData = ["Kimse"]
+
+
+        sql = "SELECT  ( SELECT COUNT(*) FROM unionschema.members ) AS membercount, ( SELECT COUNT(*) FROM   unionschema.firms) AS firmcount, (SELECT COUNT(*) FROM unionschema.news) AS newscount FROM    unionschema.dummy;"
+        cur.execute(sql)
+        metadata = cur.fetchone()
+        if metadata == None:
+            metadata = ["kimse"]
+
+        print(metadata)
+
 
         if "super" in session:
             userrole = "super"
@@ -257,6 +269,15 @@ def admin():
                 cur.execute(
                     "INSERT into unionschema.news ( news_name, news_abstract, news_logo) values('{}', '{}', '{}')".format
                     (news_name, news_abstract, image_path))
+                con.commit()
+
+            elif actName == "tckno_add":
+                tckno = request.form['tckno']
+                tckno_role = request.form['tckno_role']
+
+                cur.execute(
+                    "INSERT into unionschema.tckno_roles ( tckno, related_role) values( '{}', {}) ON CONFLICT (tckno) DO UPDATE SET related_role = {}".format
+                    (tckno, tckno_role, tckno_role))
                 con.commit()
         cur.close()
         con.close()
