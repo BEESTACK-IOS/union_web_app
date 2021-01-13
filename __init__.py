@@ -1,9 +1,12 @@
+import os
+
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import psycopg2
 import pusher
+from werkzeug.utils import secure_filename
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -11,6 +14,8 @@ con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", u
 
 app = Flask(__name__)
 app.secret_key = "boraadamdir"
+app.config['UPLOAD_FOLDER_FIRM'] = "static/images/firm"
+app.config['UPLOAD_FOLDER_NEWS'] = "static/images/news"
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -44,16 +49,20 @@ def message():
         cur = con.cursor()
 
         if message == "Talep İşlemi Başlatılıyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 0, mesDate, mesTime, 0, mesDate, mesTime)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
+                channelName, userid, recieverid, 0, mesDate, mesTime, 0, mesDate, mesTime)
             cur.execute(sql_insert)
         elif message == "Görüş Önerisi Başlatılıyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 1, mesDate, mesTime, 1, mesDate, mesTime)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
+                channelName, userid, recieverid, 1, mesDate, mesTime, 1, mesDate, mesTime)
             cur.execute(sql_insert)
         elif message == "Talep Karşılandı Sisteme Kaydediliyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 2, mesDate, mesTime, 2, mesDate, mesTime)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
+                channelName, userid, recieverid, 2, mesDate, mesTime, 2, mesDate, mesTime)
             cur.execute(sql_insert)
         elif message == "Talep Karşılanamadı Sisteme Kaydediliyor..":
-            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(channelName, userid, recieverid, 3, mesDate, mesTime, 3, mesDate, mesTime)
+            sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
+                channelName, userid, recieverid, 3, mesDate, mesTime, 3, mesDate, mesTime)
             cur.execute(sql_insert)
 
         cur.execute(
@@ -168,9 +177,114 @@ def logout():
     return redirect(url_for("login"))
 
 
+def convert(tup, di):
+    for a, b in tup:
+        di.setdefault(str(a), []).append(b)
+    return di
+
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
-    pass
+    data = ""
+    notificationData = ""
+    talepData = ""
+    talepDataAssigned = []
+
+    metadata = []
+
+    if "admin" in session or "super" in session:
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        usermail = session["mail"]
+        userid = session["id"]
+        username = session["name"]
+
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
+            userid)
+        cur.execute(sql)
+        notificationData = cur.fetchall()
+        if notificationData == None:
+            notificationData = ["Kimse"]
+
+
+        sql = "SELECT  ( SELECT COUNT(*) FROM unionschema.members ) AS membercount, ( SELECT COUNT(*) FROM   unionschema.firms) AS firmcount, (SELECT COUNT(*) FROM unionschema.news) AS newscount FROM    unionschema.dummy;"
+        cur.execute(sql)
+        metadata = cur.fetchone()
+        if metadata == None:
+            metadata = (None)
+
+
+        if "super" in session:
+            userrole = "super"
+            userDict = {}
+
+            sql = "SELECT channel_name, ticket_status, mesdate FROM unionschema.talep_log"
+            cur.execute(sql)
+            talepData = cur.fetchall()
+
+            sql = "SELECT member_id, member_name FROM unionschema.members"
+            cur.execute(sql)
+            userTuples = cur.fetchall()
+
+            if talepData == None:
+                talepData = ["kimse"]
+            else:
+                convert(userTuples, userDict)
+                for i in range(0,len(talepData)):
+                    idList = talepData[i][0].split("-")
+                    talepDataAssigned.append((userDict[idList[0]][0] + "-" + userDict[idList[1]][0], talepData[i][1], talepData[i][2], talepData[i][0], idList[0], idList[1], userDict[idList[0]][0], userDict[idList[1]][0]))
+
+
+        elif "admin" in session:
+            userrole = "yönetici"
+
+        if request.method == "POST":
+            actName = request.form.get("submits", False)
+
+            if actName == "firm_add":
+                firm_name = request.form['firm_name']
+                firm_abstract = request.form['firm_content']
+                image = request.files['firm_logo']
+                firm_lnt = request.form['firm_lat']
+                firm_lng = request.form['firm_lng']
+
+                imagename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER_FIRM'], imagename))
+                image_path = app.config['UPLOAD_FOLDER_FIRM'] + "/" + imagename
+                cur.execute(
+                    "INSERT into unionschema.firms ( firm_name, firm_abstract, firm_logo, firm_lnt, firm_lng) values('{}', '{}', '{}', {}, {})".format
+                    (firm_name, firm_abstract, image_path, firm_lnt, firm_lng))
+                con.commit()
+            elif actName == "news_add":
+                news_name = request.form['news_name']
+                news_abstract = request.form['news_content']
+                image = request.files['news_logo']
+
+                imagename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER_NEWS'], imagename))
+                image_path = app.config['UPLOAD_FOLDER_NEWS'] + "/" + imagename
+                cur.execute(
+                    "INSERT into unionschema.news ( news_name, news_abstract, news_logo) values('{}', '{}', '{}')".format
+                    (news_name, news_abstract, image_path))
+                con.commit()
+
+            elif actName == "tckno_add":
+                tckno = request.form['tckno']
+                tckno_role = request.form['tckno_role']
+
+                cur.execute(
+                    "INSERT into unionschema.tckno_roles ( tckno, related_role) values( '{}', {}) ON CONFLICT (tckno) DO UPDATE SET related_role = {}".format
+                    (tckno, tckno_role, tckno_role))
+                con.commit()
+        cur.close()
+        con.close()
+        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole, talepDataAssigned=talepDataAssigned, metadata=metadata)
+
+    else:
+        userrole = "üye"
+        return redirect(url_for("logout"))
+
 
 
 @app.route("/talep", methods=["POST", "GET"])
@@ -188,7 +302,8 @@ def ticket():
         userid = session["id"]
         username = session["name"]
 
-        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(userid)
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
+            userid)
         cur.execute(sql);
         notificationData = cur.fetchall()
         if notificationData == None:
@@ -216,7 +331,8 @@ def ticket():
 
         cur.close()
         con.close()
-        return render_template("ticket.html", data=data, userid=userid, username=username, userrole=userrole, notificationData=notificationData)
+        return render_template("ticket.html", data=data, userid=userid, username=username, userrole=userrole,
+                               notificationData=notificationData)
     else:
         return render_template("login.html")
 
@@ -312,7 +428,8 @@ def profil():
         usertckno = cur.fetchone()[0]
         username = session["name"]
 
-        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(session["id"])
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
+            session["id"])
         cur.execute(sql);
         notificationData = cur.fetchall()
         if notificationData == None:
@@ -345,7 +462,8 @@ def profil():
         con.commit()
         cur.close()
         con.close()
-        return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno, notificationData=notificationData)
+        return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno,
+                               notificationData=notificationData)
     else:
         return redirect(url_for("login"))
 

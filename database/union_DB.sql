@@ -107,3 +107,8 @@ CREATE TABLE talep_log
     mestime varchar (12),
     PRIMARY KEY (channel_name)
 );
+
+CREATE TABLE dummy
+(
+    dummycol varchar(15)
+);
