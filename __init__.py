@@ -4,6 +4,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, j
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from datetime import date
 import psycopg2
 import pusher
 from werkzeug.utils import secure_filename
@@ -43,7 +44,7 @@ def message():
         channelName = request.form.get('channelName')
         mesDate = request.form.get('date')
         mesTime = request.form.get('time')
-
+        message_date = date.today()
         con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                                password="facethest0rm")
         cur = con.cursor()
@@ -51,19 +52,31 @@ def message():
         if message == "Talep İşlemi Başlatılıyor..":
             sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
                 channelName, userid, recieverid, 0, mesDate, mesTime, 0, mesDate, mesTime)
+            log_insert = "INSERT into unionschema.system_logs ( member_id, action_id, action_name, action_date) values({}, {}, '{}', TIMESTAMP '{}')".format(
+                userid, 2, 'Talep', message_date)
             cur.execute(sql_insert)
+            cur.execute(log_insert)
         elif message == "Görüş Önerisi Başlatılıyor..":
             sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
                 channelName, userid, recieverid, 1, mesDate, mesTime, 1, mesDate, mesTime)
+            log_insert = "INSERT into unionschema.system_logs ( member_id, action_id, action_name, action_date) values({}, {}, '{}', TIMESTAMP '{}')".format(
+                userid, 3, 'Gorus', message_date)
             cur.execute(sql_insert)
+            cur.execute(log_insert)
         elif message == "Talep Karşılandı Sisteme Kaydediliyor..":
             sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
                 channelName, userid, recieverid, 2, mesDate, mesTime, 2, mesDate, mesTime)
+            log_insert = "INSERT into unionschema.system_logs ( member_id, action_id, action_name, action_date) values({}, {}, '{}', TIMESTAMP '{}')".format(
+                userid, 4, 'Talep Karsilandi', message_date)
             cur.execute(sql_insert)
+            cur.execute(log_insert)
         elif message == "Talep Karşılanamadı Sisteme Kaydediliyor..":
             sql_insert = "INSERT INTO unionschema.talep_log (channel_name, sender_id, reciever_id, ticket_status, mesdate, mestime) VALUES ( '{}', '{}', '{}', {}, '{}', '{}') ON CONFLICT (channel_name) DO UPDATE SET ticket_status = {}, mesdate = '{}', mestime = '{}'".format(
                 channelName, userid, recieverid, 3, mesDate, mesTime, 3, mesDate, mesTime)
+            log_insert = "INSERT into unionschema.system_logs ( member_id, action_id, action_name, action_date) values({}, {}, '{}', TIMESTAMP '{}')".format(
+                userid, 5, 'Talep Karsilanmadi', message_date)
             cur.execute(sql_insert)
+            cur.execute(log_insert)
 
         cur.execute(
             "INSERT into unionschema.message_log ( channel_name, sender_id, reciever_id, message, mesdate, mestime) values(%s, %s, %s, %s, %s, %s)",
@@ -484,6 +497,7 @@ def register():
             tckn = request.form["tckn"]
             password = request.form["pass"]
             password_again = request.form["re_pass"]
+            register_date = date.today()
 
             if not password == password_again:
                 return render_template("register.html", errorType=errorType)
@@ -511,6 +525,9 @@ def register():
                         cur.execute(
                             "INSERT into unionschema.member_role ( member_id, member_role) values(%s, %s)",
                             (member_id, role))
+                        log_insert = "INSERT into unionschema.system_logs ( member_id, action_id, action_name, action_date) values({}, {}, '{}', TIMESTAMP '{}')".format(
+                            member_id, 1, 'Kayit', register_date)
+                        cur.execute(log_insert)
                         con.commit()
                         cur.close()
                         con.close()
