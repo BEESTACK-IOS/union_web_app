@@ -77,10 +77,11 @@ CREATE TABLE news_about
 
 CREATE TABLE system_logs
 (
-    log_id integer,
+    log_id serial,
     member_id integer,
 	action_id integer,
 	action_name varchar(50),
+	action_date date,
     PRIMARY KEY (log_id),
     FOREIGN KEY (member_id) REFERENCES members (member_id)
 );
