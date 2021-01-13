@@ -229,28 +229,33 @@
 
                             <div id="map{{loop.index-1}}" style="height: 400px; width: 100%;"></div>
 
-                        <script>
-                            function initMap() {
-                                // The location of Uluru
-                                const uluru = {lat: {{firm[4]}}, lng: {{firm[5]}} };
-                                // The map, centered at Uluru
-                                const map = new google.maps.Map(document.getElementById("map{{loop.index-1}}"), {
-                                    zoom: 18,
-                                    center: uluru,
-                                });
-                                // The marker, positioned at Uluru
-                                const marker = new google.maps.Marker({
-                                    position: uluru,
-                                    map: map,
-                                });
-                            }
-                        </script>
 
                     </div>
 
                 </div>
             </div>
             {% endfor %}
+
+            <script>
+                            function initMap() {
+
+                                {% for firm in data %}
+                                // The location of Uluru
+                                var uluru = {lat: {{firm[4]}}, lng: {{firm[5]}} };
+                                // The map, centered at Uluru
+                                var map = new google.maps.Map(document.getElementById("map{{loop.index-1}}"), {
+                                    zoom: 18,
+                                    center: uluru,
+                                });
+                                // The marker, positioned at Uluru
+                                var marker = new google.maps.Marker({
+                                    position: uluru,
+                                    map: map,
+                                });
+                                {% endfor %}
+
+                            }
+            </script>
 
 
             <div class="clearfix"></div>
