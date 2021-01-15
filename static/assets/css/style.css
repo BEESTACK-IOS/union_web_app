@@ -2248,7 +2248,8 @@ footer.site-footer {
 @media (max-width: 1024px) {
   .bg-modal {
     width: 90vw;
-    height: 100vh;
+    height: 120vh;
+    position: fixed;
   }
   .open aside.left-panel {
     width: 280px;
@@ -2470,8 +2471,11 @@ footer.site-footer {
             flex: none; } }
 @media (max-width: 768px) {
   .bg-modal {
+    text-align: center;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
+    position: fixed;
   }
   .navbar {
     height: 100vh; }
