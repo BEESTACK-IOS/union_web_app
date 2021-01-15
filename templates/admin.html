@@ -948,7 +948,7 @@
                         var cell1 = row.insertCell(0);
                         var cell0 = row.insertCell(0);
 
-                        cell0.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" id=\"firms" + returnData[i][0] + "\"'>Sil</button>"
+                        cell0.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" name=\"" + returnData[i][3] + "\" id=\"firms" + returnData[i][0] + "\"'>Sil</button>"
                         cell1.innerHTML = `${returnData[i][0]}`;
                         cell2.innerHTML = `${returnData[i][1]}`;
                         cell3.innerHTML = `${returnData[i][2].substring(0, 12) + "..."}`;
@@ -987,7 +987,7 @@
                         var cell1 = row.insertCell(0);
                         var cell0 = row.insertCell(0);
 
-                        cell0.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" id=\"news" + returnData[i][0] + "\"'>Sil</button>"
+                        cell0.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" name=\"" + returnData[i][3] + "\" id=\"news" + returnData[i][0] + "\"'>Sil</button>"
                         cell1.innerHTML = `${returnData[i][0]}`;
                         cell2.innerHTML = `${returnData[i][1]}`;
                         cell3.innerHTML = `${returnData[i][2].substring(0, 12) + "..."}`;
@@ -1041,12 +1041,15 @@
             function () {
                 var listId = $(this).attr("id");
 
+
                 if (listId.includes("firms")) {
                     listId = listId.replace("firms", "");
+                    var image_path = $(this).attr("name");
 
                     $.post('/postAdminTableDelete', {
                         'tablename': "unionschema.firms",
-                        "deleteId": listId
+                        "deleteId": listId,
+                        "image_path": image_path
                     }, function (returnData) {
                         var select = document.querySelector('#tableSelector');
                         select.value = "unionschema.firms";
@@ -1055,10 +1058,11 @@
 
                 } else if (listId.includes("news")) {
                     listId = listId.replace("news", "");
-
+                    var image_path = $(this).attr("name");
                     $.post('/postAdminTableDelete', {
                         'tablename': "unionschema.news",
-                        "deleteId": listId
+                        "deleteId": listId,
+                        "image_path": image_path
                     }, function (returnData) {
                         var select = document.querySelector('#tableSelector');
                         select.value = "unionschema.news";

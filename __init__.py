@@ -146,8 +146,10 @@ def postadmintabledelete():
             cur.execute("DELETE FROM {} WHERE news_id = {}".format(tableName, deleteId))
         elif tableName == "unionschema.members":
             cur.execute("DELETE FROM {} WHERE member_id = {}".format(tableName, deleteId))
-
         con.commit()
+
+        image_path = request.form.get("image_path")
+        os.remove(image_path)
 
         cur.close()
         con.close()
