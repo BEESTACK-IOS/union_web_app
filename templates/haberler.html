@@ -97,7 +97,7 @@
                     <a href="/profil"> <i class="menu-icon fa fa-user"></i>Profilim </a>
                 </li>
                 <li>
-                    <a href="widgets.html"> <i class="menu-icon fa fa-bullhorn"></i>Haberler </a>
+                    <a href="/haberler"> <i class="menu-icon fa fa-bullhorn"></i>Haberler </a>
                 </li>
                 <li>
                     <a href="/magazalar"> <i class="menu-icon fa fa-building-o"></i>Mağazalar </a>
@@ -111,9 +111,12 @@
 </aside>
 <!-- /#left-panel -->
 
+
 <!-- Right Panel -->
 
 <div id="right-panel" class="right-panel">
+
+
 
     <!-- Header-->
     <header id="header" class="header">
@@ -173,6 +176,32 @@
         </div>
     </header><!-- /header -->
     <!-- Header-->
+
+        <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Sendikadan Haberler</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li><a href="#">Menu</a></li>
+                                <li class="active">Haberler</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Content -->
     <div class="content">
         <!-- Animated -->
@@ -180,18 +209,18 @@
 
 
             <div class="row">
-                {% for firm in data %}
+                {% for news in data %}
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-header">
-                            <h4>{{firm[1]}}</h4>
+                            <h4>{{news[1]}}</h4>
                         </div>
                         <div class="card-body" style="text-align: center">
-                            <img src="{{firm[3]}}" alt="firm logo">
+                            <img src="{{news[3]}}" alt="news logo">
                             <textarea style="text-align: center;justify-content: center; margin-top: 5px;"
                                       rows="3"
                                       class="form-control"
-                            >{{firm[2]}}</textarea>
+                            >{{news[2]}}</textarea>
                             <button type="button" value="{{loop.index-1}}" class="btn btn-success"
                                     style="margin-top: 5px;width: 100%;">Detaylar
                             </button>
@@ -204,7 +233,7 @@
 
             </div>
 
-            {% for firm in data %}
+            {% for news in data %}
             <div class="bg-modal" style="height: 100vh;" id="modal_{{loop.index-1}}">
                 <div class="modal-content" style="height: 70vh; width: 60vw;overflow-y: scroll;">
                     <div class="close" name="{{loop.index-1}}">+</div>
@@ -214,21 +243,18 @@
 
                         <div style="margin: 10%;"></div>
 
-                        <img src="{{firm[3]}}" alt="firm logo" style="width: 80%;margin-left: 11.5%;">
+                        <img src="{{news[3]}}" alt="news logo" style="width: 80%;margin-left: 11.5%;">
 
                         <div class="card-header" style="text-align: center">
-                            <h4>{{firm[1]}}</h4>
+                            <h4>{{news[1]}}</h4>
                         </div>
 
                         <div class="card-body">
                     <textarea style="text-align: center;justify-content: center"
                               rows="3"
                               class="form-control"
-                    >{{firm[2]}}</textarea>
+                    >{{news[2]}}</textarea>
                         </div>
-
-                            <div id="map{{loop.index-1}}" style="height: 400px; width: 100%;"></div>
-
 
                     </div>
 
@@ -236,26 +262,6 @@
             </div>
             {% endfor %}
 
-            <script>
-                            function initMap() {
-
-                                {% for firm in data %}
-                                // The location of Uluru
-                                var uluru = {lat: {{firm[4]}}, lng: {{firm[5]}} };
-                                // The map, centered at Uluru
-                                var map = new google.maps.Map(document.getElementById("map{{loop.index-1}}"), {
-                                    zoom: 18,
-                                    center: uluru,
-                                });
-                                // The marker, positioned at Uluru
-                                var marker = new google.maps.Marker({
-                                    position: uluru,
-                                    map: map,
-                                });
-                                {% endfor %}
-
-                            }
-            </script>
 
 
             <div class="clearfix"></div>

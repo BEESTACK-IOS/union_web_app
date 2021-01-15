@@ -358,7 +358,42 @@ def user():
 
 @app.route("/haberler", methods=["POST", "GET"])
 def haberler():
-    pass
+    data = ""
+    notificationData = ""
+
+    if "admin" in session or "super" in session or "user" in session:
+
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        usermail = session["mail"]
+        userid = session["id"]
+        username = session["name"]
+
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
+            userid)
+        cur.execute(sql);
+        notificationData = cur.fetchall()
+        if notificationData == None:
+            notificationData = ["Kimse"]
+
+        if "super" in session:
+            userrole = "super"
+
+        elif "admin" in session:
+            userrole = "yönetici"
+
+        elif "user" in session:
+            userrole = "üye"
+
+        sql = "SELECT * FROM unionschema.news"
+        cur.execute(sql);
+        data = cur.fetchall()
+
+        print(data)
+
+    return render_template("haberler.html", userrole=userrole, data=data)
 
 
 @app.route("/magazalar", methods=["POST", "GET"])

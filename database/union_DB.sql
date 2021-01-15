@@ -26,7 +26,7 @@ CREATE TABLE news
 (
     news_id serial,
     news_name varchar(50),
-	news_abstract varchar(1000),
+	news_abstract varchar(10000),
 	news_logo varchar(100),
     PRIMARY KEY (news_id)
 );
