@@ -108,6 +108,55 @@ def messageHist():
         return jsonify({'result': 'failure'})
 
 
+@app.route('/postAdminTable', methods=['POST', 'GET'])
+def postadmintable():
+    try:
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        tableName = request.form.get("tablename")
+
+        cur.execute("select * from {}".format(tableName))
+
+        tableData = cur.fetchall()
+
+
+        cur.close()
+        con.close()
+
+        return jsonify({'result': tableData})
+    except:
+        return jsonify({'result': "failure"})
+
+
+@app.route('/postAdminTableDelete', methods=['POST', 'GET'])
+def postadmintabledelete():
+    try:
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        tableName = request.form.get("tablename")
+        deleteId = request.form.get("deleteId")
+
+        if tableName == "unionschema.firms":
+            cur.execute("DELETE FROM {} WHERE firm_id = {}".format(tableName, deleteId))
+        elif tableName == "unionschema.news":
+            cur.execute("DELETE FROM {} WHERE news_id = {}".format(tableName, deleteId))
+        elif tableName == "unionschema.members":
+            cur.execute("DELETE FROM {} WHERE member_id = {}".format(tableName, deleteId))
+
+        con.commit()
+
+        cur.close()
+        con.close()
+
+        return jsonify({'result': "success"})
+    except:
+        return jsonify({'result': "failure"})
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     if "admin" in session or "super" in session:
@@ -196,6 +245,7 @@ def convert(tup, di):
         di.setdefault(str(a), []).append(b)
     return di
 
+
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
     data = ""
@@ -221,13 +271,11 @@ def admin():
         if notificationData == None:
             notificationData = ["Kimse"]
 
-
         sql = "SELECT  ( SELECT COUNT(*) FROM unionschema.members ) AS membercount, ( SELECT COUNT(*) FROM   unionschema.firms) AS firmcount, (SELECT COUNT(*) FROM unionschema.news) AS newscount FROM    unionschema.dummy;"
         cur.execute(sql)
         metadata = cur.fetchone()
         if metadata == None:
             metadata = (None)
-
 
         if "super" in session:
             userrole = "super"
@@ -245,9 +293,11 @@ def admin():
                 talepData = ["kimse"]
             else:
                 convert(userTuples, userDict)
-                for i in range(0,len(talepData)):
+                for i in range(0, len(talepData)):
                     idList = talepData[i][0].split("-")
-                    talepDataAssigned.append((userDict[idList[0]][0] + "-" + userDict[idList[1]][0], talepData[i][1], talepData[i][2], talepData[i][0], idList[0], idList[1], userDict[idList[0]][0], userDict[idList[1]][0]))
+                    talepDataAssigned.append((userDict[idList[0]][0] + "-" + userDict[idList[1]][0], talepData[i][1],
+                                              talepData[i][2], talepData[i][0], idList[0], idList[1],
+                                              userDict[idList[0]][0], userDict[idList[1]][0]))
 
 
         elif "admin" in session:
@@ -293,12 +343,12 @@ def admin():
                 con.commit()
         cur.close()
         con.close()
-        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole, talepDataAssigned=talepDataAssigned, metadata=metadata)
+        return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole,
+                               talepDataAssigned=talepDataAssigned, metadata=metadata)
 
     else:
         userrole = "üye"
         return redirect(url_for("logout"))
-
 
 
 @app.route("/talep", methods=["POST", "GET"])
@@ -353,7 +403,41 @@ def ticket():
 
 @app.route("/user", methods=["POST", "GET"])
 def user():
-    pass
+    data = ""
+    notificationData = ""
+
+    if "admin" in session or "super" in session or "user" in session:
+
+        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                               password="facethest0rm")
+        cur = con.cursor()
+
+        usermail = session["mail"]
+        userid = session["id"]
+        username = session["name"]
+
+        sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
+            userid)
+        cur.execute(sql);
+        notificationData = cur.fetchall()
+        if notificationData == None:
+            notificationData = ["Kimse"]
+
+        if "super" in session:
+            userrole = "super"
+
+        elif "admin" in session:
+            userrole = "yönetici"
+
+        elif "user" in session:
+            userrole = "üye"
+
+        sql = "SELECT * FROM unionschema.news"
+        cur.execute(sql);
+        data = cur.fetchall()
+
+
+    return render_template("haberler.html", userrole=userrole, data=data)
 
 
 @app.route("/haberler", methods=["POST", "GET"])
@@ -391,7 +475,6 @@ def haberler():
         cur.execute(sql);
         data = cur.fetchall()
 
-        print(data)
 
     return render_template("haberler.html", userrole=userrole, data=data)
 
@@ -431,7 +514,6 @@ def magazalar():
         cur.execute(sql);
         data = cur.fetchall()
 
-        print(data)
 
     return render_template("magazalar.html", userrole=userrole, data=data)
 
