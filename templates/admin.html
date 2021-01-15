@@ -349,9 +349,65 @@
                                                 <div class="col-md-12">
                                                     <div class="card">
                                                         <div class="card-header">
-                                                            <strong class="card-title">Talep İçin Kişiler</strong>
+                                                            <strong class="card-title">Sistem Geçmişi</strong>
                                                         </div>
-                                                        <div class="card-body">
+                                                        <div class="card-body" style="overflow-y: scroll; height: 45vh; ">
+
+                                                            <table class="table ">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="avatar">#</th>
+                                                                    <th>İsim</th>
+                                                                    <th>Hareket</th>
+                                                                    <th>Tarih</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                {% for sys in systemdata %}
+                                                                <tr>
+                                                                    <td class="avatar">
+                                                                        <div class="round-img">
+                                                                            <a href="#"><img class="rounded-circle"
+                                                                                             src="static/images/avatar/64-2.jpg"
+                                                                                             alt=""
+                                                                                             style="max-height: 15vh;"></a>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><span class="name float-left">{{sys[0]}}</span>
+                                                                    </td>
+
+                                                                    {% if (sys[1] == "Kayit") %}
+                                                                    <td>
+                                                                        <span
+                                                                                class="badge badge-primary">{{sys[1]}}</span>
+                                                                    </td>
+                                                                    {% elif (sys[1] == "Talep") %}
+                                                                    <td>
+                                                                        <span
+                                                                                class="badge badge-info">{{sys[1]}}</span>
+                                                                    </td>
+                                                                    {% elif (sys[1] == "Talep Karsilandi") %}
+                                                                    <td>
+                                                                        <span
+                                                                                class="badge badge-success">{{sys[1]}}</span>
+                                                                    </td>
+                                                                    {% elif (sys[1] == "Talep Karsilanmadi") %}
+                                                                    <td>
+                                                                        <span
+                                                                                class="badge badge-danger">{{sys[1]}}</span>
+                                                                    </td>
+                                                                    {% elif (sys[1] == "Gorus") %}
+                                                                    <td>
+                                                                        <span
+                                                                                class="badge badge-warning">{{sys[1]}}</span>
+                                                                    </td>
+                                                                    {% endif %}
+
+                                                                    <td>{{sys[2]}}</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                                </tbody>
+                                                            </table>
 
                                                         </div>
                                                     </div>
@@ -988,7 +1044,10 @@
                 if (listId.includes("firms")) {
                     listId = listId.replace("firms", "");
 
-                    $.post('/postAdminTableDelete', {'tablename': "unionschema.firms", "deleteId": listId}, function (returnData) {
+                    $.post('/postAdminTableDelete', {
+                        'tablename': "unionschema.firms",
+                        "deleteId": listId
+                    }, function (returnData) {
                         var select = document.querySelector('#tableSelector');
                         select.value = "unionschema.firms";
                         select.dispatchEvent(new Event('change'));
@@ -997,16 +1056,21 @@
                 } else if (listId.includes("news")) {
                     listId = listId.replace("news", "");
 
-                    $.post('/postAdminTableDelete', {'tablename': "unionschema.news", "deleteId": listId}, function (returnData) {
+                    $.post('/postAdminTableDelete', {
+                        'tablename': "unionschema.news",
+                        "deleteId": listId
+                    }, function (returnData) {
                         var select = document.querySelector('#tableSelector');
                         select.value = "unionschema.news";
                         select.dispatchEvent(new Event('change'));
                     });
-                }
-                else if (listId.includes("members")) {
+                } else if (listId.includes("members")) {
                     listId = listId.replace("members", "");
 
-                    $.post('/postAdminTableDelete', {'tablename': "unionschema.members", "deleteId": listId}, function (returnData) {
+                    $.post('/postAdminTableDelete', {
+                        'tablename': "unionschema.members",
+                        "deleteId": listId
+                    }, function (returnData) {
                         var select = document.querySelector('#tableSelector');
                         select.value = "unionschema.members";
                         select.dispatchEvent(new Event('change'));

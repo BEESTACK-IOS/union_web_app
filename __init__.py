@@ -250,6 +250,7 @@ def convert(tup, di):
 def admin():
     data = ""
     notificationData = ""
+    systemdata = ""
     talepData = ""
     talepDataAssigned = []
 
@@ -276,6 +277,13 @@ def admin():
         metadata = cur.fetchone()
         if metadata == None:
             metadata = (None)
+
+        sql = "SELECT m.member_name, s.action_name, s.action_date FROM unionschema.system_logs as s, unionschema.members as m WHERE m.member_id = s.member_id;"
+        cur.execute(sql)
+        systemdata = cur.fetchall()[:25]
+        if systemdata == None:
+            systemdata = ["Hiç Data Yok"]
+
 
         if "super" in session:
             userrole = "super"
@@ -344,7 +352,7 @@ def admin():
         cur.close()
         con.close()
         return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole,
-                               talepDataAssigned=talepDataAssigned, metadata=metadata)
+                               talepDataAssigned=talepDataAssigned, metadata=metadata, systemdata=systemdata)
 
     else:
         userrole = "üye"
