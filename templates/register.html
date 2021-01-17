@@ -32,12 +32,59 @@
                             <input type="text" name="name" id="name" placeholder="Adınız"/>
                         </div>
                         <div class="form-group">
-                            <label for="tckn"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <label for="tckn"><i class="zmdi zmdi-attachment"></i></label>
                             <input type="number" name="tckn" id="tckn" placeholder="TCKN"/>
                         </div>
                         <div class="form-group">
                             <label for="email"><i class="zmdi zmdi-email"></i></label>
                             <input type="email" name="email" id="email" placeholder="Mail Adresiniz"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-graduation-cap"></i></label>
+                            <select name="alan" id="alan" class="form-control">
+                                <option value="">
+                                    Seçim Yapınız
+                                </option>
+                                <option value="Adalet Bakanlığı">
+                                    Adalet Bakanlığı
+                                </option>
+                                <option value="Aile Çalışma Sosyal Hizmetler Bakanlığı">
+                                    Aile Çalışma Sosyal Hizmetler Bakanlığı
+                                </option>
+                                <option value="Emniyet Genel Müdürlüğü">
+                                    Emniyet Genel Müdürlüğü
+                                </option>
+                                <option value="Gelir İdaresi Başkanlığı">
+                                    Gelir İdaresi Başkanlığı
+                                </option>
+                                <option value="Gençlik ve Spor İl Müdürlüğü">
+                                    Gençlik ve Spor İl Müdürlüğü
+                                </option>
+                                <option value="İçişleri Bakanlığı">
+                                    İçişleri Bakanlığı
+                                </option>
+                                <option value="Jandarma Genel Komutanlığı">
+                                    Jandarma Genel Komutanlığı
+                                </option>
+                                <option value="Maliye Bakanlığı">
+                                    Maliye Bakanlığı
+                                </option>
+                                <option value="Meteoroloji Genel Müdürlüğü">
+                                    Meteoroloji Genel Müdürlüğü
+                                </option>
+                                <option value="SGK Başkanlığı">
+                                    SGK Başkanlığı
+                                </option>
+                                <option value="Ticaret Bakanlığı">
+                                    Ticaret Bakanlığı
+                                </option>
+                                <option value="Türkiye İş Kurumu Genel Müdürlüğü">
+                                    Türkiye İş Kurumu Genel Müdürlüğü
+                                </option>
+                                <option value="Yüksek Seçim Kurulu Başkanlığı">
+                                    Yüksek Seçim Kurulu Başkanlığı
+                                </option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="pass"><i class="zmdi zmdi-lock"></i></label>
@@ -49,11 +96,11 @@
                         </div>
                         <span id='message'></span>
                         {% if errorType == 0 %}
-                            <span id='err_message' style="color: #ff0000;"> TCKNO Sistemde Bulunmuyor </span>
+                        <span id='err_message' style="color: #ff0000;"> TCKNO Sistemde Bulunmuyor </span>
                         {% elif errorType == 1 %}
-                            <span id='err_message' style="color: red;"> Mail veya TCKNO Kullanımda </span>
+                        <span id='err_message' style="color: red;"> Mail veya TCKNO Kullanımda </span>
                         {% else %}
-                            <span id='err_message' style="color: red;"></span>
+                        <span id='err_message' style="color: red;"></span>
                         {% endif %}
                         <div class="form-group form-button">
                             <input type="submit" name="signup" id="signup" class="form-submit" value="Kayıt Ol"/>

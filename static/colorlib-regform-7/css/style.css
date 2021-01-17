@@ -316,7 +316,15 @@ figure {
   overflow: hidden; }
   .form-group:last-child {
     margin-bottom: 0px; }
-
+select {
+  width: 100%;
+  display: block;
+  border: none;
+  border-bottom: 1px solid #999;
+  padding: 6px 30px;
+  font-family: Poppins;
+  box-sizing: border-box;
+}
 input {
   width: 100%;
   display: block;
