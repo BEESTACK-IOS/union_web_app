@@ -209,7 +209,7 @@ def login():
             truePassword = data[3]
             mail = data[2]
             name = data[4]
-
+            job = data[5]
             cur.execute("select * from unionschema.member_role where member_id = {}".format(id))
             data = cur.fetchone()
             role = data[1]
@@ -223,6 +223,7 @@ def login():
                         session["id"] = id
                         session["mail"] = mail
                         session["name"] = name
+                        session["job"] = job
                         cur.close()
                         con.close()
                         return redirect(url_for("admin"))
@@ -231,6 +232,7 @@ def login():
                         session["id"] = id
                         session["mail"] = mail
                         session["name"] = name
+                        session["job"] = job
                         cur.close()
                         con.close()
                         return redirect(url_for("admin"))
@@ -239,6 +241,7 @@ def login():
                         session["id"] = id
                         session["mail"] = mail
                         session["name"] = name
+                        session["job"] = job
                         cur.close()
                         con.close()
                         return redirect(url_for("user"))
@@ -256,6 +259,7 @@ def logout():
     session.pop("id", None)
     session.pop("mail", None)
     session.pop("name", None)
+    session.pop("job", None)
     return redirect(url_for("login"))
 
 
@@ -651,6 +655,7 @@ def profil():
             form_mail = request.form["mail"]
             form_oldPassword = request.form["past_pass"]
             form_newPassword = request.form["pass"]
+            form_job = request.form["alan"]
             cur.execute("select member_password from unionschema.members where member_tc='{}'".format(usertckno))
             hashed_password = cur.fetchone()[0]
             if check_password_hash(hashed_password, form_oldPassword):
@@ -665,6 +670,13 @@ def profil():
                     cur.execute(
                         "update unionschema.members set member_password ='{}' where member_tc='{}'".format(new_password,
                                                                                                            usertckno))
+                if len(form_job) > 0:
+                    cur.execute(
+                        "update unionschema.members set member_job ='{}' where member_tc='{}'".format(form_job,
+                                                                                                           usertckno))
+                    session["job"] = form_job
+            """job = session["job"]
+            print(job)"""
         con.commit()
         cur.close()
         con.close()
