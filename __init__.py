@@ -161,12 +161,29 @@ def postadmintabledelete():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    """
     if "admin" in session or "super" in session:
         return redirect(url_for("admin"))
     elif "user" in session:
         return redirect(url_for("user"))
     else:
         return redirect(url_for("login"))
+    """
+    data = ""
+
+    con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                           password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news"
+    cur.execute(sql);
+    data = cur.fetchall()
+
+    cur.close()
+    con.close()
+
+
+    return render_template("index.html", data=data)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -446,6 +463,9 @@ def user():
         cur.execute(sql);
         data = cur.fetchall()
 
+        cur.close()
+        con.close()
+
 
     return render_template("haberler.html", userrole=userrole, data=data)
 
@@ -484,6 +504,9 @@ def haberler():
         sql = "SELECT * FROM unionschema.news"
         cur.execute(sql);
         data = cur.fetchall()
+
+        cur.close()
+        con.close()
 
 
     return render_template("haberler.html", userrole=userrole, data=data)
@@ -524,6 +547,9 @@ def magazalar():
         cur.execute(sql);
         data = cur.fetchall()
 
+        con.close()
+        cur.close()
+
 
     return render_template("magazalar.html", userrole=userrole, data=data)
 
@@ -562,6 +588,10 @@ def sifremi_unuttum():
             send_reset_mail(mail, token)
         else:
             print("error in userid: {} no reletad mail".format(memberid))
+
+        cur.close()
+        con.close()
+
 
     return render_template("pages-forget.html")
 
