@@ -407,20 +407,20 @@ def ticket():
         if "super" in session:
             userrole = "super"
 
-            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role, m.member_job FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
             cur.execute(sql)
             data = cur.fetchall()
         elif "admin" in session:
             userrole = "yönetici"
 
-            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role, m.member_job FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id;"
             cur.execute(sql)
             data = cur.fetchall()
 
         elif "user" in session:
             userrole = "üye"
 
-            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id AND ( mr.member_role = 0 OR mr.member_role = 1);"
+            sql = "SELECT m.member_id, m.member_name, m.member_mail, mr.member_role, m.member_job FROM unionschema.members as m, unionschema.member_role mr WHERE m.member_id = mr.member_id AND ( mr.member_role = 0 OR mr.member_role = 1);"
             cur.execute(sql)
             data = cur.fetchall()
 
@@ -637,6 +637,7 @@ def profil():
         cur.execute("select member_tc from unionschema.members where member_mail='{}'".format(usermail))
         usertckno = cur.fetchone()[0]
         username = session["name"]
+        userjob = session["job"]
 
         sql = "SELECT m.member_name FROM unionschema.members as m, (SELECT tl.sender_id from unionschema.talep_log as tl WHERE tl.reciever_id = '{}' and tl.ticket_status != '2') tlu WHERE CAST(tlu.sender_id AS int) = m.member_id;".format(
             session["id"])
@@ -681,7 +682,7 @@ def profil():
         cur.close()
         con.close()
         return render_template("profil.html", usermail=usermail, username=username, userrole=userrole, usertc=usertckno,
-                               notificationData=notificationData)
+                               notificationData=notificationData, userjob=userjob)
     else:
         return redirect(url_for("login"))
 

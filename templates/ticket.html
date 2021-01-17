@@ -91,7 +91,7 @@
                         <div class="dropdown-menu" aria-labelledby="message">
                             <p class="red">Toplam {{notificationData|length}} Talep Görüşmeniz var</p>
 
-                            {% for tl in  notificationData %}
+                            {% for tl in notificationData %}
 
                             <a class="dropdown-item media" href="http://localhost:5000/talep">
                                 <span class="photo media-left"><img alt="avatar"
@@ -163,6 +163,49 @@
                         <div class="card-header">
                             <strong class="card-title">Talep İçin Kişiler</strong>
                         </div>
+                        <div class="card-header">
+                            <select id="alan" class="form-control">
+                                <option value="Adalet Bakanlığı">
+                                    Adalet Bakanlığı
+                                </option>
+                                <option value="Aile Çalışma Sosyal Hizmetler Bakanlığı">
+                                    Aile Çalışma Sosyal Hizmetler Bakanlığı
+                                </option>
+                                <option value="Emniyet Genel Müdürlüğü">
+                                    Emniyet Genel Müdürlüğü
+                                </option>
+                                <option value="Gelir İdaresi Başkanlığı">
+                                    Gelir İdaresi Başkanlığı
+                                </option>
+                                <option value="Gençlik ve Spor İl Müdürlüğü">
+                                    Gençlik ve Spor İl Müdürlüğü
+                                </option>
+                                <option value="İçişleri Bakanlığı">
+                                    İçişleri Bakanlığı
+                                </option>
+                                <option value="Jandarma Genel Komutanlığı">
+                                    Jandarma Genel Komutanlığı
+                                </option>
+                                <option value="Maliye Bakanlığı">
+                                    Maliye Bakanlığı
+                                </option>
+                                <option value="Meteoroloji Genel Müdürlüğü">
+                                    Meteoroloji Genel Müdürlüğü
+                                </option>
+                                <option value="SGK Başkanlığı">
+                                    SGK Başkanlığı
+                                </option>
+                                <option value="Ticaret Bakanlığı">
+                                    Ticaret Bakanlığı
+                                </option>
+                                <option value="Türkiye İş Kurumu Genel Müdürlüğü">
+                                    Türkiye İş Kurumu Genel Müdürlüğü
+                                </option>
+                                <option value="Yüksek Seçim Kurulu Başkanlığı">
+                                    Yüksek Seçim Kurulu Başkanlığı
+                                </option>
+                            </select>
+                        </div>
                         <div class="card-body">
                             <table id="bootstrap-data-table" class="table table-striped table-bordered">
                                 <thead>
@@ -186,7 +229,7 @@
                                     {% else %}
                                     <td>Üye</td>
                                     {% endif %}
-                                    <td>Finans</td>
+                                    <td>{{element[4]}}</td>
                                     <td>
                                         <button type="button" class="popUpButton" name="{{element[1]}}"
                                                 value="{{element[0]}}"><i class="fa fa-comment"></i></button>
@@ -502,6 +545,11 @@
                 $('#chat_text').val('');
             });
 
+        });
+
+        $("#alan").change( function () {
+            $('.dataTables_filter input').val($("#alan").val());
+            $('.dataTables_filter input').keyup();
         });
 
 
