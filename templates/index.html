@@ -59,30 +59,17 @@
             <div class="hero-section is-carousel parallax-wrapper">
                 <div class="hero-wrapper">
                     <div class="carousel owl-carousel">
+
+                        {% for news in data %}
                         <a href="detail.html" class="slide bg-transfer">
-                            <img src="static/images/slide1.jpg" alt="">
+                            <img src="{{news[3]}}" alt="">
                             <div class="description">
-                                <div class="number">01</div>
-                                <h2>Sendika Aktivite</h2>
+                                <div class="number">0{{loop.index}}</div>
+                                <h2>{{news[1]}}</h2>
                                 <div class="icon arrow">İncele</div>
                             </div>
                         </a>
-                        <a href="detail.html" class="slide bg-transfer">
-                            <img src="static/images/slide2.jpg" alt="">
-                            <div class="description">
-                                <div class="number">02</div>
-                                <h2>Sendika Aktivite</h2>
-                                <div class="icon arrow">İncele</div>
-                            </div>
-                        </a>
-                        <a href="detail.html" class="slide bg-transfer">
-                            <img src="static/images/slide3.jpg" alt="">
-                            <div class="description">
-                                <div class="number">03</div>
-                                <h2>Sendika Aktivite</h2>
-                                <div class="icon arrow">İncele</div>
-                            </div>
-                        </a>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="heading-wrapper">

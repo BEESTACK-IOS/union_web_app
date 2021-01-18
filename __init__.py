@@ -175,7 +175,7 @@ def index():
                            password="facethest0rm")
     cur = con.cursor()
 
-    sql = "SELECT * FROM unionschema.news"
+    sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
     cur.execute(sql);
     data = cur.fetchall()
 
@@ -463,7 +463,7 @@ def user():
         elif "user" in session:
             userrole = "üye"
 
-        sql = "SELECT * FROM unionschema.news"
+        sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
         cur.execute(sql);
         data = cur.fetchall()
 
@@ -505,7 +505,7 @@ def haberler():
         elif "user" in session:
             userrole = "üye"
 
-        sql = "SELECT * FROM unionschema.news"
+        sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
         cur.execute(sql);
         data = cur.fetchall()
 
@@ -547,7 +547,7 @@ def magazalar():
         elif "user" in session:
             userrole = "üye"
 
-        sql = "SELECT * FROM unionschema.firms"
+        sql = "SELECT * FROM unionschema.firms ORDER BY firm_id DESC"
         cur.execute(sql);
         data = cur.fetchall()
 
