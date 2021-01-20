@@ -278,19 +278,20 @@
                                             <select name="" id="forwardGetter" style="width: 15%;">
                                                 {% for element in data %}
 
-                                                    {% if element[3] == 0 %}
-                                                    <option value="{{element[1]}}">
-                                                        {{element[1]}}
-                                                    </option>
-                                                    {% elif element[3] == 1 %}
-                                                    <option value="{{element[1]}}">
-                                                        {{element[1]}}
-                                                    </option>
-                                                    {% endif %}
+                                                {% if element[3] == 0 %}
+                                                <option value="{{element[0]}}">
+                                                    {{element[1]}}
+                                                </option>
+                                                {% elif element[3] == 1 %}
+                                                <option value="{{element[0]}}">
+                                                    {{element[1]}}
+                                                </option>
+                                                {% endif %}
 
                                                 {% endfor %}
                                             </select>
-                                            <button type="button" class="btn btn-info" id="ticket_forward">Mesajları İlet
+                                            <button type="button" class="btn btn-info" id="ticket_forward">Mesajları
+                                                İlet
                                             </button>
                                         </div>
                                         {% else %}
@@ -420,9 +421,9 @@
                     var mesTime = data.time;
 
                     if (currentUserId == getedid) {
-                        messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${mesTime} ${mesDate} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}   <input type="checkbox" name="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}\">   </div></div></div></div></li>`;
+                        messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${mesTime} ${mesDate} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}   <input type="checkbox" name="forwardSelected" class="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}\">   </div></div></div></div></li>`;
                     } else {
-                        messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time"> ${mesTime} ${mesDate} </div> </div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}  <input type="checkbox" name="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}\">   </div></div></div></div></li>`;
+                        messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time"> ${mesTime} ${mesDate} </div> </div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}  <input type="checkbox" name="forwardSelected" class="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}\">   </div></div></div></div></li>`;
                     }
                     $("#message_content").append(messageSenderTemplate);
                     document.querySelector("#message_content").scrollTop = document.querySelector("#message_content").scrollHeight;
@@ -434,9 +435,9 @@
                     var i;
                     for (i = 0; i < messagelist.length; i++) {
                         if (currentUserId == messagelist[i][3]) {
-                            messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}    <input type="checkbox" name="forwardSelected" value=\" tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${recievername}, mesaj:${messagelist[i][4]}\">    </div></div></div></div></li>`;
+                            messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}    <input type="checkbox" name="forwardSelected" class="forwardSelected" value=\"tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${recievername}, mesaj:${messagelist[i][4]},\">    </div></div></div></div></li>`;
                         } else {
-                            messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}  <input type="checkbox" name="forwardSelected" value=\" tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${recievername}, mesaj:${messagelist[i][4]}\">  </div></div></div></div></li>`;
+                            messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}  <input type="checkbox" name="forwardSelected" class="forwardSelected"  value=\"tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${sendername}, mesaj:${messagelist[i][4]},\">  </div></div></div></div></li>`;
                         }
                         $("#message_content").append(messageSenderTemplate);
                     }
@@ -563,6 +564,49 @@
             });
 
         });
+
+        $("#ticket_forward").on('click', function () {
+            sendedmessage = "Görüş Önerisi Başlatılıyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+
+            var checkedId = $('.forwardSelected:checked').attr("userid");
+            console.log(checkedId);
+
+            var forwardGetterId = $('#forwardGetter').val();
+
+            forwardChannelName = ""
+
+            if (forwardGetterId > senderid) {
+                forwardChannelName = "" + senderid + "-" + forwardGetterId
+            } else {
+                forwardChannelName = "" + forwardGetterId + "-" + senderid
+            }
+
+
+            var inputElements = document.getElementsByClassName('forwardSelected');
+            for (var i = 0; inputElements[i]; ++i) {
+                if (inputElements[i].checked) {
+                    console.log(inputElements[i].value);
+                    $.post('/message', {
+                        'username': sendername,
+                        'userid': senderid,
+                        'recievername': "",
+                        'recieverid': forwardGetterId,
+                        'message': inputElements[i].value,
+                        'channelName': forwardChannelName,
+                        'date': currentDate,
+                        'time': currentTime
+                    }, function () {
+                        $('#chat_text').val('');
+                    });
+                }
+            }
+
+
+        });
+
 
         $("#alan").change(function () {
             $('.dataTables_filter input').val($("#alan").val());
