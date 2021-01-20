@@ -275,6 +275,23 @@
                                             <button type="button" class="btn btn-danger" id="ticket_denied">Talep
                                                 Karşılanamadı
                                             </button>
+                                            <select name="" id="forwardGetter" style="width: 15%;">
+                                                {% for element in data %}
+
+                                                    {% if element[3] == 0 %}
+                                                    <option value="{{element[1]}}">
+                                                        {{element[1]}}
+                                                    </option>
+                                                    {% elif element[3] == 1 %}
+                                                    <option value="{{element[1]}}">
+                                                        {{element[1]}}
+                                                    </option>
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            </select>
+                                            <button type="button" class="btn btn-info" id="ticket_forward">Mesajları İlet
+                                            </button>
                                         </div>
                                         {% else %}
                                         <div style="text-align: center;margin-top: 20px;">
@@ -403,9 +420,9 @@
                     var mesTime = data.time;
 
                     if (currentUserId == getedid) {
-                        messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${mesTime} ${mesDate} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+                        messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${mesTime} ${mesDate} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}   <input type="checkbox" name="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}\">   </div></div></div></div></li>`;
                     } else {
-                        messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time"> ${mesTime} ${mesDate} </div> </div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+                        messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time"> ${mesTime} ${mesDate} </div> </div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}  <input type="checkbox" name="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}\">   </div></div></div></div></li>`;
                     }
                     $("#message_content").append(messageSenderTemplate);
                     document.querySelector("#message_content").scrollTop = document.querySelector("#message_content").scrollHeight;
@@ -417,9 +434,9 @@
                     var i;
                     for (i = 0; i < messagelist.length; i++) {
                         if (currentUserId == messagelist[i][3]) {
-                            messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
+                            messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}    <input type="checkbox" name="forwardSelected" value=\" tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${recievername}, mesaj:${messagelist[i][4]}\">    </div></div></div></div></li>`;
                         } else {
-                            messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}</div></div></div></div></li>`;
+                            messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}  <input type="checkbox" name="forwardSelected" value=\" tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${recievername}, mesaj:${messagelist[i][4]}\">  </div></div></div></div></li>`;
                         }
                         $("#message_content").append(messageSenderTemplate);
                     }
@@ -547,11 +564,11 @@
 
         });
 
-        $("#alan").change( function () {
+        $("#alan").change(function () {
             $('.dataTables_filter input').val($("#alan").val());
             $('.dataTables_filter input').keyup();
         });
-        
+
     });
 
 </script>
