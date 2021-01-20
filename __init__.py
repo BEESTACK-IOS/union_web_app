@@ -373,6 +373,20 @@ def admin():
                     "INSERT into unionschema.tckno_roles ( tckno, related_role) values( '{}', {}) ON CONFLICT (tckno) DO UPDATE SET related_role = {}".format
                     (tckno, tckno_role, tckno_role))
                 con.commit()
+
+            elif actName == "ilce_yetkilisi_add":
+                print(request.form["ilce_yetkilisi_name"])
+                print(request.form["ilce_name"])
+                print(request.form["ilce_yetkilisi_mail"])
+                print(request.form["ilce_yetkilisi_phone"])
+
+            elif actName == "yk_add":
+               print(request.form["yk_name"])
+
+            elif actName == "tz_add":
+                print(request.form["tuzuk_content"])
+
+
         cur.close()
         con.close()
         return render_template("admin.html", data=data, notificationData=notificationData, userrole=userrole,
