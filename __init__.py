@@ -381,11 +381,20 @@ def admin():
                 print(request.form["ilce_yetkilisi_phone"])
 
             elif actName == "yk_add":
-               print(request.form["yk_name"])
+               #print(request.form["yk_name"])
+               name = request.form["yk_name"]
+               cur.execute(
+                   "INSERT into unionschema.yonetim (yonetim_name) values('{}')".format
+                   (name))
+               con.commit()
 
             elif actName == "tz_add":
-                print(request.form["tuzuk_content"])
-
+                #print(request.form["tuzuk_content"])
+                tuzuk = request.form["tuzuk_content"]
+                cur.execute(
+                    "INSERT into unionschema.tuzuk (tuzuk_abstract) values('{}')".format
+                    (tuzuk))
+                con.commit()
 
         cur.close()
         con.close()

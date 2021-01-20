@@ -25,6 +25,7 @@ CREATE TABLE firms
 CREATE TABLE news
 (
     news_id serial,
+    news_ilceid integer,
     news_name varchar(500),
 	news_abstract varchar(10000),
 	news_logo varchar(100),
@@ -109,7 +110,56 @@ CREATE TABLE talep_log
     PRIMARY KEY (channel_name)
 );
 
+CREATE TABLE tuzuk
+(
+    tuzuk_id serial,
+    tuzuk_abstract varchar(100000),
+    PRIMARY KEY(tuzuk_id)
+);
+
+CREATE TABLE ilce
+(
+    ilce_id integer,
+    ilce_name varchar(25)
+);
+
+CREATE TABLE ilce_sorumlulari
+(
+    ilce_id integer,
+    ilce_sorumlu_name varchar(30),
+    ilce_sorumlu_phone varchar(11),
+    ilce_sorumlu_mail varchar(50),
+    FOREIGN KEY (ilce_id) REFERENCES ilce (ilce_id)
+);
+
+CREATE TABLE yonetim
+(
+    yonetim_id serial,
+    yonetim_name varchar(25),
+    PRIMARY KEY(yonetim_id)
+);
+
 CREATE TABLE dummy
 (
     dummycol varchar(15)
 );
+
+/*
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (1, 'Bozdoğan');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (2, 'Buharkent');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (3, 'Çine');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (4, 'Didim');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (5, 'Efeler');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (6, 'Germencik');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (7, 'İncirliova');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (8, 'Karacasu');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (9, 'Karpuzlu');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (10, 'Koçarlı');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (11, 'Köşk');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (12, 'Kuşadası');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (13, 'Kuyucak');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (14, 'Nazilli');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (15, 'Söke');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (16, 'Sultanhisar');
+INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (17, 'Yenipazar');
+ */
