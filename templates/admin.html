@@ -283,6 +283,19 @@
                                                 <a class="nav-item nav-link" id="custom-nav-haberler-tab"
                                                    data-toggle="tab" href="#custom-nav-contact1" role="tab"
                                                    aria-controls="custom-nav-contact" aria-selected="false">Haberler</a>
+                                                {% if (userrole == "super") %}
+                                                <a class="nav-item nav-link" id="custom-nav-ilceler-tab"
+                                                   data-toggle="tab" href="#custom-nav-contact2" role="tab"
+                                                   aria-controls="custom-nav-contact" aria-selected="false">İlçeler</a>
+                                                <a class="nav-item nav-link" id="custom-nav-yonetim-tab"
+                                                   data-toggle="tab" href="#custom-nav-contact3" role="tab"
+                                                   aria-controls="custom-nav-contact" aria-selected="false">YK.
+                                                    Listesi</a>
+                                                <a class="nav-item nav-link" id="custom-nav-tuzuk-tab"
+                                                   data-toggle="tab" href="#custom-nav-contact4" role="tab"
+                                                   aria-controls="custom-nav-contact" aria-selected="false">Tüzük
+                                                    Güncelleme</a>
+                                                {% endif %}
                                             </div>
                                         </nav>
                                         <div class="tab-content pl-3 pt-2" id="nav-tabContent">
@@ -351,7 +364,8 @@
                                                         <div class="card-header">
                                                             <strong class="card-title">Sistem Geçmişi</strong>
                                                         </div>
-                                                        <div class="card-body" style="overflow-y: scroll; height: 45vh; ">
+                                                        <div class="card-body"
+                                                             style="overflow-y: scroll; height: 45vh; ">
 
                                                             <table class="table ">
                                                                 <thead>
@@ -529,6 +543,72 @@
                                                                 </div>
 
                                                                 <div class="row form-group">
+                                                                    <div class="col col-md-3"><label for="news_name"
+                                                                                                     class=" form-control-label">İlçe
+                                                                        Adı
+                                                                    </label></div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <select name="news_ilce" class="form-control"
+                                                                                id="">
+                                                                            <option value="1">
+                                                                                Bozdoğan
+                                                                            </option>
+                                                                            <option value="1">
+                                                                                Buharkent
+                                                                            </option>
+                                                                            <option value="2">
+                                                                                Çine
+                                                                            </option>
+                                                                            <option value="3">
+                                                                                Didim
+                                                                            </option>
+                                                                            <option value="4">
+                                                                                Efeler
+                                                                            </option>
+                                                                            <option value="5">
+                                                                                Germencik
+                                                                            </option>
+                                                                            <option value="6">
+                                                                                İncirliova
+                                                                            </option>
+                                                                            <option value="7">
+                                                                                Karacasu
+                                                                            </option>
+                                                                            <option value="8">
+                                                                                Karpuzlu
+                                                                            </option>
+                                                                            <option value="9">
+                                                                                Koçarlı
+                                                                            </option>
+                                                                            <option value="10">
+                                                                                Köşk
+                                                                            </option>
+                                                                            <option value="11">
+                                                                                Kuşadası
+                                                                            </option>
+                                                                            <option value="12">
+                                                                                Kuyucak
+                                                                            </option>
+                                                                            <option value="13">
+                                                                                Nazilli
+                                                                            </option>
+                                                                            <option value="14">
+                                                                                Söke
+                                                                            </option>
+                                                                            <option value="15">
+                                                                                Sultanhisar
+                                                                            </option>
+                                                                            <option value="16">
+                                                                                Yenipazar
+                                                                            </option>
+                                                                            <option value="17">
+                                                                                Merkez
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row form-group">
                                                                     <div class="col col-md-3"><label
                                                                             class=" form-control-label">Haber
                                                                         Açıklaması</label>
@@ -575,6 +655,253 @@
 
 
                                             </div>
+                                            {% if (userrole == "super") %}
+                                            <div class="tab-pane fade" id="custom-nav-contact2" role="tabpanel"
+                                                 aria-labelledby="custom-nav-contact1-tab">
+
+                                                <!-- ilceler insert  -->
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <strong>İlçe Yetkilisi Güncelleme</strong>
+                                                        </div>
+                                                        <div class="card-body card-block">
+                                                            <form action="/admin" method="post"
+                                                                  enctype="multipart/form-data"
+                                                                  class="form-horizontal">
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label">Yetkili
+                                                                        Adı
+                                                                    </label></div>
+                                                                    <div class="col-12 col-md-9"><input type="text"
+                                                                                                        id="ilce_yetkilisi_name"
+                                                                                                        name="ilce_yetkilisi_name"
+                                                                                                        placeholder="İ.Y. Adı"
+                                                                                                        class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label">İlçe
+                                                                        Adı
+                                                                    </label></div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <select name="ilce_name" class="form-control">
+                                                                            <option value="1">
+                                                                                Bozdoğan
+                                                                            </option>
+                                                                            <option value="1">
+                                                                                Buharkent
+                                                                            </option>
+                                                                            <option value="2">
+                                                                                Çine
+                                                                            </option>
+                                                                            <option value="3">
+                                                                                Didim
+                                                                            </option>
+                                                                            <option value="4">
+                                                                                Efeler
+                                                                            </option>
+                                                                            <option value="5">
+                                                                                Germencik
+                                                                            </option>
+                                                                            <option value="6">
+                                                                                İncirliova
+                                                                            </option>
+                                                                            <option value="7">
+                                                                                Karacasu
+                                                                            </option>
+                                                                            <option value="8">
+                                                                                Karpuzlu
+                                                                            </option>
+                                                                            <option value="9">
+                                                                                Koçarlı
+                                                                            </option>
+                                                                            <option value="10">
+                                                                                Köşk
+                                                                            </option>
+                                                                            <option value="11">
+                                                                                Kuşadası
+                                                                            </option>
+                                                                            <option value="12">
+                                                                                Kuyucak
+                                                                            </option>
+                                                                            <option value="13">
+                                                                                Nazilli
+                                                                            </option>
+                                                                            <option value="14">
+                                                                                Söke
+                                                                            </option>
+                                                                            <option value="15">
+                                                                                Sultanhisar
+                                                                            </option>
+                                                                            <option value="16">
+                                                                                Yenipazar
+                                                                            </option>
+                                                                            <option value="17">
+                                                                                Merkez
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label">İlçe Yetkilisi
+                                                                        Mail
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9"><input type="text"
+                                                                                                        id="ilce_yetkilisi_mail"
+                                                                                                        name="ilce_yetkilisi_mail"
+                                                                                                        placeholder="İ.Y. Mail"
+                                                                                                        class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label">İlçe Yetkilisi
+                                                                        Cep Numarası
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9"><input type="number"
+                                                                                                        id="ilce_yetkilisi_phone"
+                                                                                                        name="ilce_yetkilisi_phone"
+                                                                                                        placeholder="İ.Y. Cep"
+                                                                                                        class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label"></label></div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <button style="width: 100%;opacity: 0.5;"
+                                                                                type="button" class="btn btn-primary"
+                                                                                name="submits"
+                                                                                value="ilce_yetkilisi_add"
+                                                                                id="ilce_yetkilisi_add">
+                                                                            Ekle
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- ilceler insert end -->
+
+
+                                            </div>
+                                            {% endif %}
+
+                                            {% if (userrole == "super") %}
+                                            <div class="tab-pane fade" id="custom-nav-contact3" role="tabpanel"
+                                                 aria-labelledby="custom-nav-contact1-tab">
+
+                                                <!-- yk insert  -->
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <strong>Y.K. Listesi Güncelleme</strong>
+                                                        </div>
+                                                        <div class="card-body card-block">
+                                                            <form action="/admin" method="post"
+                                                                  enctype="multipart/form-data"
+                                                                  class="form-horizontal">
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label">Yönetim Kurulu
+                                                                        Üye Adı
+                                                                    </label></div>
+                                                                    <div class="col-12 col-md-9"><input type="text"
+                                                                                                        id="yk_name"
+                                                                                                        name="yk_name"
+                                                                                                        placeholder="Y.K. Adı"
+                                                                                                        class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label"></label></div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <button style="width: 100%;opacity: 0.5;"
+                                                                                type="button" class="btn btn-primary"
+                                                                                name="submits"
+                                                                                value="yk_add"
+                                                                                id="yk_add">
+                                                                            Ekle
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- ilceler insert end -->
+
+
+                                            </div>
+                                            {% endif %}
+                                            {% if (userrole == "super") %}
+                                            <div class="tab-pane fade" id="custom-nav-contact4" role="tabpanel"
+                                                 aria-labelledby="custom-nav-contact1-tab">
+
+                                                <!-- yk insert  -->
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <strong>Tüzük Güncelleme</strong>
+                                                        </div>
+                                                        <div class="card-body card-block">
+                                                            <form action="/admin" method="post"
+                                                                  enctype="multipart/form-data"
+                                                                  class="form-horizontal">
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label">Tüzük</label>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-9"><textarea
+                                                                            id="tuzuk-input-news"
+                                                                            rows="9" placeholder="İçerik..."
+                                                                            class="form-control"
+                                                                    ></textarea></div>
+                                                                </div>
+                                                                <input type="text" style="display:none"
+                                                                       id="tzinput-news"
+                                                                       name="tuzuk_content">
+
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label
+                                                                            class=" form-control-label"></label></div>
+                                                                    <div class="col-12 col-md-9">
+                                                                        <button style="width: 100%;opacity: 0.5;"
+                                                                                type="button" class="btn btn-primary"
+                                                                                name="submits"
+                                                                                value="tz_add"
+                                                                                id="tz_add">
+                                                                            Ekle
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- ilceler insert end -->
+
+
+                                            </div>
+                                            {% endif %}
                                         </div>
 
                                     </div>
@@ -613,7 +940,9 @@
                                                         Yetki</label>
                                                         <select name="tckno_role" id="tckno_role">
 
+                                                            {% if (userrole == "super") %}
                                                             <option value="0">Super</option>
+                                                            {% endif %}
                                                             <option value="1">Yönetici</option>
                                                             <option value="2">Üye</option>
 
@@ -886,6 +1215,20 @@
             document.querySelector('#tainput-news').value = $('#textarea-input-news').val()
         });
 
+        $('#tuzuk-input-news').on('keyup', function () {
+            document.querySelector('#tzinput-news').value = $('#tuzuk-input-news').val()
+        });
+
+        $('#tuzuk-input-news').change(function () {
+            if ($('#tuzuk-input-news').val().length > 0) {
+                $('#tz_add').removeAttr("type").attr("type", "submit");
+                $('#tz_add').css('opacity', '1');
+            } else {
+                $('#tz_add').removeAttr("type").attr("type", "button");
+                $('#tz_add').css('opacity', '0.5');
+            }
+        });
+
 
         $('#news_name,#textarea-input-news,#news_logo').change(function () {
             if ($('#textarea-input-news').val().length > 0 && $('#news_name').val().length > 0 && $('#news_logo').val().length > 0) {
@@ -894,6 +1237,26 @@
             } else {
                 $('#news_add').removeAttr("type").attr("type", "button");
                 $('#news_add').css('opacity', '0.5');
+            }
+        });
+
+        $('#ilce_yetkilisi_name,#ilce_yetkilisi_mail, #ilce_yetkilisi_phone').change(function () {
+            if ($('#ilce_yetkilisi_name').val().length > 0 && $('#ilce_yetkilisi_mail').val().length > 0 && $('#ilce_yetkilisi_phone').val().length > 0) {
+                $('#ilce_yetkilisi_add').removeAttr("type").attr("type", "submit");
+                $('#ilce_yetkilisi_add').css('opacity', '1');
+            } else {
+                $('#ilce_yetkilisi_add').removeAttr("type").attr("type", "button");
+                $('#ilce_yetkilisi_add').css('opacity', '0.5');
+            }
+        });
+
+        $('#yk_name').change(function () {
+            if ($('#yk_name').val().length > 0) {
+                $('#yk_add').removeAttr("type").attr("type", "submit");
+                $('#yk_add').css('opacity', '1');
+            } else {
+                $('#yk_add').removeAttr("type").attr("type", "button");
+                $('#yk_add').css('opacity', '0.5');
             }
         });
 

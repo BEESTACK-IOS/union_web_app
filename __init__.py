@@ -354,6 +354,7 @@ def admin():
             elif actName == "news_add":
                 news_name = request.form['news_name']
                 news_abstract = request.form['news_content']
+                # news_ilce = request.form['news_ilce']
                 image = request.files['news_logo']
 
                 imagename = secure_filename(image.filename)
