@@ -207,6 +207,25 @@ def hakkimizda():
 
     return render_template("hakkimizda.html", tuzuk=tuzuk, yonetim=yonetim)
 
+@app.route("/haberler_uyesiz", methods=["GET", "POST"])
+def haberler_uyesiz():
+
+    data = ""
+
+    con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                           password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
+    cur.execute(sql);
+    data = cur.fetchall()
+
+    cur.close()
+    con.close()
+
+    return render_template("haberler_uyesiz.html", data=data)
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if "admin" in session or "super" in session:
@@ -408,14 +427,15 @@ def admin():
             elif actName == "yk_add":
                 # print(request.form["yk_name"])
                 name = request.form["yk_name"]
+                rutbe = request.form["yk_rutbe"]
                 image = request.files['yonetim_logo']
 
                 imagename = secure_filename(image.filename)
                 image.save(os.path.join(app.config['UPLOAD_FOLDER_NEWS'], imagename))
                 image_path = app.config['UPLOAD_FOLDER_NEWS'] + "/" + imagename
                 cur.execute(
-                    "INSERT into unionschema.yonetim (yonetim_name, yonetim_logo) values('{}', '{}')".format
-                    (name, image_path))
+                    "INSERT into unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values('{}', '{}', '{}')".format
+                    (name, image_path, rutbe))
                 con.commit()
 
             elif actName == "tz_add":
