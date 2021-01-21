@@ -8,6 +8,7 @@ from datetime import date
 import psycopg2
 import pusher
 from werkzeug.utils import secure_filename
+import json
 
 """
 con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
@@ -121,7 +122,6 @@ def postadmintable():
 
         tableData = cur.fetchall()
 
-
         cur.close()
         con.close()
 
@@ -146,6 +146,8 @@ def postadmintabledelete():
             cur.execute("DELETE FROM {} WHERE news_id = {}".format(tableName, deleteId))
         elif tableName == "unionschema.members":
             cur.execute("DELETE FROM {} WHERE member_id = {}".format(tableName, deleteId))
+        elif tableName == "unionschema.yonetim":
+            cur.execute("DELETE FROM {} WHERE yonetim_id = {}".format(tableName, deleteId))
         con.commit()
 
         image_path = request.form.get("image_path")
@@ -161,15 +163,9 @@ def postadmintabledelete():
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    """
-    if "admin" in session or "super" in session:
-        return redirect(url_for("admin"))
-    elif "user" in session:
-        return redirect(url_for("user"))
-    else:
-        return redirect(url_for("login"))
-    """
+
     data = ""
+    ykdata = ""
 
     con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
                            password="facethest0rm")
@@ -179,12 +175,37 @@ def index():
     cur.execute(sql);
     data = cur.fetchall()
 
+    sql = "SELECT * FROM unionschema.yonetim ORDER BY yonetim_id DESC"
+    cur.execute(sql);
+    ykdata = cur.fetchall()
+
     cur.close()
     con.close()
 
+    return render_template("index.html", data=data, ykdata=ykdata)
 
-    return render_template("index.html", data=data)
+@app.route("/hakkimizda", methods=["GET", "POST"])
+def hakkimizda():
 
+    tuzuk = ""
+    yonetim = ""
+
+    con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
+                           password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.tuzuk"
+    cur.execute(sql);
+    tuzuk = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.yonetim"
+    cur.execute(sql);
+    yonetim = cur.fetchall()
+
+    cur.close()
+    con.close()
+
+    return render_template("hakkimizda.html", tuzuk=tuzuk, yonetim=yonetim)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -307,7 +328,6 @@ def admin():
         if systemdata == None:
             systemdata = ["Hiç Data Yok"]
 
-
         if "super" in session:
             userrole = "super"
             userDict = {}
@@ -349,20 +369,20 @@ def admin():
                 image_path = app.config['UPLOAD_FOLDER_FIRM'] + "/" + imagename
                 cur.execute(
                     "INSERT into unionschema.firms ( firm_name, firm_abstract, firm_logo, firm_lnt, firm_lng) values('{}', '{}', '{}', {}, {})".format
-                    (firm_name, firm_abstract, image_path, firm_lnt, firm_lng))
+                    (firm_name.replace("'", "''"), firm_abstract.replace("'", "''"), image_path, firm_lnt, firm_lng))
                 con.commit()
             elif actName == "news_add":
                 news_name = request.form['news_name']
                 news_abstract = request.form['news_content']
-                # news_ilce = request.form['news_ilce']
+                news_ilceid = request.form['news_ilce']
                 image = request.files['news_logo']
 
                 imagename = secure_filename(image.filename)
                 image.save(os.path.join(app.config['UPLOAD_FOLDER_NEWS'], imagename))
                 image_path = app.config['UPLOAD_FOLDER_NEWS'] + "/" + imagename
                 cur.execute(
-                    "INSERT into unionschema.news ( news_name, news_abstract, news_logo) values('{}', '{}', '{}')".format
-                    (news_name, news_abstract, image_path))
+                    "INSERT into unionschema.news ( news_name, news_abstract, news_logo, news_ilceid) values('{}', '{}', '{}', {})".format
+                    (news_name.replace("'", "''"), news_abstract.replace("'", "''"), image_path, news_ilceid))
                 con.commit()
 
             elif actName == "tckno_add":
@@ -375,25 +395,35 @@ def admin():
                 con.commit()
 
             elif actName == "ilce_yetkilisi_add":
-                print(request.form["ilce_yetkilisi_name"])
-                print(request.form["ilce_name"])
-                print(request.form["ilce_yetkilisi_mail"])
-                print(request.form["ilce_yetkilisi_phone"])
+                yetkili_name = request.form["ilce_yetkilisi_name"]
+                ilce_id = request.form["ilce_name"]
+                yetkili_mail = request.form["ilce_yetkilisi_mail"]
+                yetkili_phone = request.form["ilce_yetkilisi_phone"]
+
+                cur.execute(
+                    "INSERT into unionschema.ilce_sorumlulari ( ilce_id, ilce_sorumlu_name, ilce_sorumlu_phone, ilce_sorumlu_mail) values( {},'{}','{}', '{}') ON CONFLICT (ilce_id) DO UPDATE SET ilce_sorumlu_name = '{}', ilce_sorumlu_phone = '{}', ilce_sorumlu_mail = '{}'".format
+                    (ilce_id, yetkili_name, yetkili_phone, yetkili_mail, yetkili_name, yetkili_phone, yetkili_mail))
+                con.commit()
 
             elif actName == "yk_add":
-               #print(request.form["yk_name"])
-               name = request.form["yk_name"]
-               cur.execute(
-                   "INSERT into unionschema.yonetim (yonetim_name) values('{}')".format
-                   (name))
-               con.commit()
+                # print(request.form["yk_name"])
+                name = request.form["yk_name"]
+                image = request.files['yonetim_logo']
+
+                imagename = secure_filename(image.filename)
+                image.save(os.path.join(app.config['UPLOAD_FOLDER_NEWS'], imagename))
+                image_path = app.config['UPLOAD_FOLDER_NEWS'] + "/" + imagename
+                cur.execute(
+                    "INSERT into unionschema.yonetim (yonetim_name, yonetim_logo) values('{}', '{}')".format
+                    (name, image_path))
+                con.commit()
 
             elif actName == "tz_add":
-                #print(request.form["tuzuk_content"])
+                # print(request.form["tuzuk_content"])
                 tuzuk = request.form["tuzuk_content"]
                 cur.execute(
                     "INSERT into unionschema.tuzuk (tuzuk_abstract) values('{}')".format
-                    (tuzuk))
+                    (tuzuk.replace("'", "''")))
                 con.commit()
 
         cur.close()
@@ -494,7 +524,6 @@ def user():
         cur.close()
         con.close()
 
-
     return render_template("haberler.html", userrole=userrole, data=data)
 
 
@@ -535,7 +564,6 @@ def haberler():
 
         cur.close()
         con.close()
-
 
     return render_template("haberler.html", userrole=userrole, data=data)
 
@@ -578,7 +606,6 @@ def magazalar():
         con.close()
         cur.close()
 
-
     return render_template("magazalar.html", userrole=userrole, data=data)
 
 
@@ -619,7 +646,6 @@ def sifremi_unuttum():
 
         cur.close()
         con.close()
-
 
     return render_template("pages-forget.html")
 
@@ -698,7 +724,7 @@ def profil():
                 if len(form_job) > 0:
                     cur.execute(
                         "update unionschema.members set member_job ='{}' where member_tc='{}'".format(form_job,
-                                                                                                           usertckno))
+                                                                                                      usertckno))
                     session["job"] = form_job
             """job = session["job"]
             print(job)"""

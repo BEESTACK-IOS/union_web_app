@@ -825,6 +825,16 @@
                                                                                                         class="form-control">
                                                                     </div>
                                                                 </div>
+                                                                <div class="row form-group">
+                                                                    <div class="col col-md-3"><label for="yonetim_logo"
+                                                                                                     class=" form-control-label">Resim
+                                                                        Ekle </label></div>
+                                                                    <div class="col-12 col-md-9"><input type="file"
+                                                                                                        id="yonetim_logo"
+                                                                                                        class="form-control-file"
+                                                                                                        name="yonetim_logo">
+                                                                    </div>
+                                                                </div>
 
                                                                 <div class="row form-group">
                                                                     <div class="col col-md-3"><label
@@ -982,6 +992,9 @@
                     </option>
                     <option value="unionschema.members">
                         Kullanıcılar
+                    </option>
+                    <option value="unionschema.yonetim">
+                        Yönetim Kurulu
                     </option>
                 </select>
                 <div class="card">
@@ -1250,8 +1263,8 @@
             }
         });
 
-        $('#yk_name').change(function () {
-            if ($('#yk_name').val().length > 0) {
+        $('#yk_name, #yonetim_logo').change(function () {
+            if ($('#yk_name').val().length > 0 && $('#yonetim_logo').val().length > 0) {
                 $('#yk_add').removeAttr("type").attr("type", "submit");
                 $('#yk_add').css('opacity', '1');
             } else {
@@ -1395,6 +1408,37 @@
                     }
 
 
+                } else if (tableName == "unionschema.yonetim") {
+                    var table = document.getElementById("newyork_table");
+                    var header = table.createTHead();
+                    var row = header.insertRow(0);
+                    var cell5 = row.insertCell(0);
+                    var cell3 = row.insertCell(0);
+                    var cell2 = row.insertCell(0);
+                    var cell1 = row.insertCell(0);
+                    var cell0 = row.insertCell(0);
+
+                    cell0.innerHTML = "Yönetim"
+                    cell1.innerHTML = "yonetim_id";
+                    cell2.innerHTML = "yonetim_name";
+
+
+                    var i;
+                    returnData = returnData["result"];
+                    for (i = 0; i < returnData.length; i++) {
+
+                        var row = table.insertRow(1);
+                        var cell2 = row.insertCell(0);
+                        var cell1 = row.insertCell(0);
+                        var cell0 = row.insertCell(0);
+
+                        cell0.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" id=\"yonetim" + returnData[i][0] + "\"'>Sil</button>"
+                        cell1.innerHTML = `${returnData[i][0]}`;
+                        cell2.innerHTML = `${returnData[i][1]}`;
+
+                    }
+
+
                 }
 
             });
@@ -1440,6 +1484,17 @@
                     }, function (returnData) {
                         var select = document.querySelector('#tableSelector');
                         select.value = "unionschema.members";
+                        select.dispatchEvent(new Event('change'));
+                    });
+                } else if (listId.includes("yonetim")) {
+                    listId = listId.replace("yonetim", "");
+
+                    $.post('/postAdminTableDelete', {
+                        'tablename': "unionschema.yonetim",
+                        "deleteId": listId
+                    }, function (returnData) {
+                        var select = document.querySelector('#tableSelector');
+                        select.value = "unionschema.yonetim";
                         select.dispatchEvent(new Event('change'));
                     });
                 }
