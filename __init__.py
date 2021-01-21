@@ -228,13 +228,13 @@ def haberler_uyesiz():
 @app.route("/iletisim", methods=["GET", "POST"])
 def iletisim():
 
-    #sendTo = "aydin@buromemursen.org.tr"
-    #sendTo = "Nytherius@gmail.com"
+    #sendTo = "info@buromemursenaydin.com"
+    sendTo = "ahmetbahadireyuboglu@gmail.com"
     if request.method == "POST":
         name = request.form["name"]
         mail = request.form["email"]
         message = request.form["message"]
-        send_register_mail(name, mail, message)
+        send_register_mail(name, mail, message,sendTo)
 
     return render_template("iletisim.html")
 
@@ -647,8 +647,8 @@ def send_reset_mail(mail_adress, token):
     msg.body = f'''Sifrenizi sifirlamak icin: {url_for('pass_reset', token=token, _external=True)} '''
     mail.send(msg)
 
-def send_register_mail(user_name, user_mail, user_message):
-    msg = Message('Password Reset', sender='unionwebapp@gmail.com', recipients=[user_mail])
+def send_register_mail(user_name, user_mail, user_message,sendTo):
+    msg = Message('Password Reset', sender='unionwebapp@gmail.com', recipients=[sendTo])
     msg.body = "kullanıcı adı = '{}', kullanıcı mail = '{}', kullanıcı mesaj = '{}'".format(user_name,user_mail,user_message)
     mail.send(msg)
 
