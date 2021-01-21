@@ -225,6 +225,11 @@ def haberler_uyesiz():
 
     return render_template("haberler_uyesiz.html", data=data)
 
+@app.route("/iletisim", methods=["GET", "POST"])
+def iletisim():
+
+    return render_template("iletisim.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
