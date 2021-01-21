@@ -162,4 +162,22 @@ INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (14, 'Nazilli');
 INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (15, 'Söke');
 INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (16, 'Sultanhisar');
 INSERT INTO unionschema.ilce (ilce_id, ilce_name) values (17, 'Yenipazar');
- */
+*/
+
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Kaan Çetinbaş', 'static/images/admin.jpg', 'Şube Başkanı');
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Celal Yılmaz', 'static/images/admin.jpg', 'Şube Başkan Vekili');
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Mehmet Ümit Uğur', 'static/images/admin.jpg', 'Şube Başkan Yardımcısı');
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Muhammet Çamurcu', 'static/images/admin.jpg', 'Şube Başkan Yardımcısı');
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Erkan Aybey', 'static/images/admin.jpg', 'Şube Başkan Yardımcısı');
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Engin Çelik', 'static/images/admin.jpg', 'Şube Başkan Yardımcısı');
+INSERT INTO unionschema.yonetim (yonetim_name, yonetim_logo, yonetim_rutbe) values ('Serkan Şengil', 'static/images/admin.jpg', 'Şube Başkan Yardımcısı');
+
+/*
+Şube Başkanı Kaan Çetinbaş
+Şube Başkan Vekili Celal Yılmaz
+Şube Başkan Yardımcısı Mehmet Ümit Uğur
+Şube Başkan Yardımcısı Muhammet Çamurcu
+Şube Başkan Yardımcısı Erkan Aybey
+Şube Başkan Yardımcısı Engin Çelik
+Şube Başkan Yardımcısı Serkan Şengil
+*/
