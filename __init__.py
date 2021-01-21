@@ -228,6 +228,14 @@ def haberler_uyesiz():
 @app.route("/iletisim", methods=["GET", "POST"])
 def iletisim():
 
+    sendTo = "aydin@buromemursen.org.tr"
+
+    if request.method == "POST":
+        name = request.form["name"]
+        mail = request.form["email"]
+        message = request.form["message"]
+
+
     return render_template("iletisim.html")
 
 

@@ -114,10 +114,10 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h4><strong>Sosyam Medya Hesaplarımız</strong></h4>
-                                    <figure><a href="">Facebook</a></figure>
-                                    <figure><a href="">Twitter</a></figure>
-                                    <figure><a href="">Behance</a></figure>
-                                    <figure><a href="">Youtube</a></figure>
+                                    <figure><a href="https://www.facebook.com/aydinbms">Facebook</a></figure>
+                                    <figure><a href="https://twitter.com/KaanCetinbas">Twitter</a></figure>
+                                    <figure><a href="https://www.instagram.com/buromemursen/?hl=tr">Instagram</a>
+                                    </figure>
                                 </div>
                             </div>
                         </div>
@@ -133,38 +133,41 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                            <h2><strong>Contact Form</strong></h2>
+                            <h2><strong>İletişim Formu</strong></h2>
                         </div>
                         <div class="col-md-8">
-                            <form id="form-contact" class="labels-uppercase clearfix">
+                            <form class="labels-uppercase clearfix" action="/iletisim" method="post">
                                 <div class="row">
+                                    <p>Üye Olmak ve Mail Üzerinden Görüşme Başlatmak İçin Formu Doldurunuz
+                                    </p>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
-                                            <label for="form-contact-name">Your Name<em>*</em></label>
+                                            <label for="form-contact-name">İsminiz<em>*</em></label>
                                             <input type="text" class="form-control" id="form-contact-name" name="name"
-                                                   placeholder="Name" required="">
+                                                   placeholder="İsminiz" required="">
                                         </div>
                                     </div>
                                     <!--end col-md-6-->
                                     <div class="col-md-6 col-sm-6">
                                         <div class="form-group">
-                                            <label for="form-contact-email">Your Email<em>*</em></label>
+                                            <label for="form-contact-email">Mailiniz<em>*</em></label>
                                             <input type="email" class="form-control" id="form-contact-email"
-                                                   name="email" placeholder="Email" required="">
+                                                   name="email" placeholder="e-mail" required="">
                                         </div>
                                     </div>
                                     <!--end col-md-6-->
                                 </div>
                                 <!--end row-->
                                 <div class="form-group">
-                                    <label for="form-contact-message">Your Message<em>*</em></label>
-                                    <textarea class="form-control" id="form-contact-message" rows="8" name="message"
-                                              required="" placeholder="Message"></textarea>
+                                    <label for="textarea-input-contact">Mesajınız<em>*</em></label>
+                                    <textarea class="form-control" id="textarea-input-contact" rows="8"
+                                              required="" placeholder="Mesajınız"></textarea>
+                                    <input type="text" style="display: none" id="tainput-contact" name="message">
                                 </div>
                                 <!--end form-group-->
                                 <div id="form-status" class="pull-left"></div>
                                 <div class="form-group pull-right">
-                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                    <button type="submit" class="btn btn-primary">Mesaj Gönder</button>
                                 </div>
                                 <!--end form-group-->
                             </form>
@@ -271,6 +274,11 @@
                 document.querySelector('#modeSwitch').className = "outer-wrapper page-background-white";
             }
         });
+
+    $('#textarea-input-contact').on('keyup', function () {
+        document.querySelector('#tainput-contact').value = $('#textarea-input-contact').val()
+    });
+
 </script>
 
 <!--[if lte IE 9]>
