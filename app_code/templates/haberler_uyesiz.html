@@ -13,24 +13,29 @@
 
     <link href="static/assets2/fonts/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="static/assets2/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="static/assets2/bootstrap/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="static/assets2/css/owl.carousel.css" type="text/css">
     <link rel="stylesheet" href="static/assets2/css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="static/assets2/css/style.css" type="text/css">
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBiWM5VOa9hckViNnnMTQBikA5Y-o8Suc&callback=initMap&libraries=&v=weekly"
             defer></script>
+
+    <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
+
 </head>
 
 <body>
-<div class="outer-wrapper" id="modeSwitch">
+<div class="outer-wrapper subpage-detail" id="modeSwitch">
     <div class="page-wrapper">
         <div class="navigation-off-canvas">
             <h2 style="font-weight: 900;">MENU</h2>
             <ul>
-                <li><a href="http://localhost:5000/">Anasayfa</a>
+                <li><a href="/">Anasayfa</a>
                 </li>
-                <li><a href="http://localhost:5000/hakkimizda">Hakkımızda</a></li>
-                <li><a href="http://localhost:5000/haberler_uyesiz">Haberler</a></li>
+                <li><a href="/hakkimizda">Hakkımızda</a></li>
+                <li><a href="/haberler_uyesiz">Haberler</a></li>
                 <li><a href="#page-background-white-collapse" id="page-background-white"
                        data-toggle="collapse">İlçelerimiz</a>
                     <ul id="page-background-white-collapse" class="collapse">
@@ -54,8 +59,8 @@
                         <li><a href="">Merkez</a></li>
                     </ul>
                 </li>
-                <li><a href="http://localhost:5000/iletisim">İletişime Geçin</a></li>
-                <li><a href="http://localhost:5000/login">Üye Girişi</a></li>
+                <li><a href="/iletisim">İletişime Geçin</a></li>
+                <li><a href="/login">Üye Girişi</a></li>
                 <li><a href="#" id="modeSwitchButton">Modu Değiştir</a></li>
             </ul>
         </div>
@@ -83,45 +88,51 @@
         <!--end page-header-->
 
         <div id="page-content">
-            <div class="header-background height-400px">
-                <div id="big-map"></div>
+            <div class="header-background bg-transfer overlay bg-fixed">
+                <div class="container">
+                    <div class="title">
+                        <h1>Tüm Haberler</h1>
+                    </div>
+                </div>
+                <img src="static/assets2/img/bg-detail.jpg" alt="">
             </div>
             <!--end header-background-->
 
             <div class="block">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4 col-sm-4">
-                            <h2><strong>İletişime Geçin</strong></h2>
-                        </div>
-                        <!--end col-md-4-->
-                        <div class="col-md-8 col-sm-8">
-                            <p>Doğrudan destek ve sendika hakkında bilgi almak için iletişim bilgilerimiz
-                            </p>
-                            <div class="separator"></div>
-                            <!--end separator-->
+                        <div class="gallery">
+
+                            {% for news in data %}
+
+                            {% if (loop.index % 3 == 0) %}
                             <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <h4><strong>Kaan Çetinbaş</strong></h4>
-                                    <figure>05436578010 / 0549 716 09 00</figure>
-                                    <figure>aydin{at}buromemursen.org.tr</figure>
-                                    <br>
-                                    <address>
-                                        Hasanefendi Mahallesi, Batı Gazi Blv.
-                                        <br>
-                                        No:13/4, 09100 Efeler/Aydın
-                                    </address>
+                            {% endif %}
+
+                                <div class="col-md-4 col-sm-4">
+                                    <a href="detail.html" class="gallery-item"
+                                       data-scroll-reveal="enter left and move 50px">
+                                        <div class="title framed shadow">
+                                            <div class="name">{{news[1][:20]}}...</div>
+                                            <div class="place">Devamı İçin Tıklayın</div>
+                                        </div>
+                                        <!--end title-->
+                                        <div class="arrow arrow_right"></div>
+                                        <div class="image">
+                                            <img src="{{news[3]}}" alt="">
+                                        </div>
+                                        <!--end image-->
+                                    </a>
+                                    <!--end gallery-item-->
                                 </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <h4><strong>Sosyam Medya Hesaplarımız</strong></h4>
-                                    <figure><a href="https://www.facebook.com/aydinbms">Facebook</a></figure>
-                                    <figure><a href="https://twitter.com/KaanCetinbas">Twitter</a></figure>
-                                    <figure><a href="https://www.instagram.com/buromemursen/?hl=tr">Instagram</a>
-                                    </figure>
-                                </div>
+                                <!--end col-md-4-->
+                            {% if (loop.index % 3 == 0) %}
                             </div>
+                            {% endif %}
+                            <!-- end row -->
+                            {% endfor %}
                         </div>
-                        <!--end col-md-8-->
+                        <!--end gallery-->
                     </div>
                     <!--end row-->
                 </div>
@@ -129,59 +140,6 @@
             </div>
             <!--end block-->
 
-            <div class="block stick-to-footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h2><strong>İletişim Formu</strong></h2>
-                        </div>
-                        <div class="col-md-8">
-                            <form class="labels-uppercase clearfix" action="/iletisim" method="post">
-                                <div class="row">
-                                    <p>Üye Olmak ve Mail Üzerinden Görüşme Başlatmak İçin Formu Doldurunuz
-                                    </p>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label for="form-contact-name">İsminiz<em>*</em></label>
-                                            <input type="text" class="form-control" id="form-contact-name" name="name"
-                                                   placeholder="İsminiz" required="">
-                                        </div>
-                                    </div>
-                                    <!--end col-md-6-->
-                                    <div class="col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label for="form-contact-email">Mailiniz<em>*</em></label>
-                                            <input type="email" class="form-control" id="form-contact-email"
-                                                   name="email" placeholder="e-mail" required="">
-                                        </div>
-                                    </div>
-                                    <!--end col-md-6-->
-                                </div>
-                                <!--end row-->
-                                <div class="form-group">
-                                    <label for="textarea-input-contact">Mesajınız<em>*</em></label>
-                                    <textarea class="form-control" id="textarea-input-contact" rows="8"
-                                              required="" placeholder="Mesajınız"></textarea>
-                                    <input type="text" style="display: none" id="tainput-contact" name="message">
-                                </div>
-                                <!--end form-group-->
-                                <div id="form-status" class="pull-left"></div>
-                                <div class="form-group pull-right">
-                                    <button type="submit" class="btn btn-primary">Mesaj Gönder</button>
-                                </div>
-                                <!--end form-group-->
-                            </form>
-                            <!--end form-->
-                        </div>
-                        <!--end col-md-8-->
-                    </div>
-                    <!--end row-->
-                </div>
-                <!--end container-->
-                <div class="bg black opacity-2"></div>
-                <!--end bg-->
-            </div>
-            <!--end block-->
 
         </div>
         <!--end page-content-->
@@ -216,14 +174,13 @@
 
             </div>
         </footer>
-        <!--end page-footer-->
+
     </div>
     <!--end page-wrapper-->
 </div>
 <!--end outer-wrapper-->
 <script type="text/javascript" src="static/assets2/js/jquery-2.2.1.min.js"></script>
 <script type="text/javascript" src="static/assets2/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
 <script type="text/javascript" src="static/assets2/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="static/assets2/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="static/assets2/js/owl.carousel.min.js"></script>
@@ -233,6 +190,11 @@
 <script type="text/javascript" src="static/assets2/js/jquery.magnific-popup.min.js"></script>
 
 <script type="text/javascript" src="static/assets2/js/custom.js"></script>
+
+
+<!--[if lte IE 9]>
+<script src="assets/js/ie.js"></script>
+<![endif]-->
 
 <script type="text/javascript">
     function initMap() {
@@ -250,18 +212,6 @@
             map: map,
         });
 
-        var uluru2 = {lat: 37.85011, lng: 27.84342};
-        // The map, centered at Uluru
-        var map2 = new google.maps.Map(document.getElementById("big-map"), {
-            zoom: 18,
-            center: uluru,
-        });
-        // The marker, positioned at Uluru
-        var marker2 = new google.maps.Marker({
-            position: uluru2,
-            map: map2,
-        });
-
     }
 
     var count = 0
@@ -274,14 +224,7 @@
                 document.querySelector('#modeSwitch').className = "outer-wrapper page-background-white";
             }
         });
-
-    $('#textarea-input-contact').on('keyup', function () {
-        document.querySelector('#tainput-contact').value = $('#textarea-input-contact').val()
-    });
-
 </script>
 
-<!--[if lte IE 9]>
-<script src="assets/js/ie.js"></script>
-<![endif]-->
+
 </body>
