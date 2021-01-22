@@ -192,8 +192,7 @@ def hakkimizda():
     tuzuk = ""
     yonetim = ""
 
-    con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                           password="facethest0rm")
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
     cur = con.cursor()
 
     sql = "SELECT * FROM unionschema.tuzuk"
@@ -214,8 +213,7 @@ def haberler_uyesiz():
 
     data = ""
 
-    con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                           password="facethest0rm")
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
     cur = con.cursor()
 
     sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
@@ -248,8 +246,7 @@ def login():
         return redirect(url_for("user"))
     else:
         if request.method == "POST":
-            con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                                   password="facethest0rm")
+            con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
             cur = con.cursor()
 
             tckno = request.form["your_tckno"]
@@ -701,8 +698,7 @@ def pass_reset(token):
             password = request.form["pass"]
             re_password = request.form["re_pass"]
             if (password == re_password) and len(password) > 0:
-                con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                                       password="facethest0rm")
+                con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
                 cur = con.cursor()
                 password = generate_password_hash(password, method='sha256')
                 cur.execute(
@@ -796,8 +792,7 @@ def register():
             if not password == password_again:
                 return render_template("register.html", errorType=errorType)
             else:
-                con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                                       password="facethest0rm")
+                con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
                 cur = con.cursor()
                 cur.execute("select * from unionschema.tckno_roles where tckno='{}'".format(tckn))
                 tcnko_roles_control = cur.fetchone()
