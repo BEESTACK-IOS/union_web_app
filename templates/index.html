@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
+    <meta name="description" content="Büro Memur Sendikası Aydın Şube Başkanlığı">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="static/images/logo2.png">
+    <link rel="shortcut icon" href="static/images/logo2.png">
+
+    <link href="static/assets2/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="static/assets2/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/assets2/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="static/assets2/css/owl.carousel.css" type="text/css">
+    <link rel="stylesheet" href="static/assets2/css/style.css" type="text/css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBiWM5VOa9hckViNnnMTQBikA5Y-o8Suc&callback=initMap&libraries=&v=weekly"
+            defer></script>
+    <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
+
+</head>
+
+<body>
+<div class="outer-wrapper" id="modeSwitch">
+    <div class="page-wrapper">
+        <div class="navigation-off-canvas">
+            <h2 style="font-weight: 900;">MENU</h2>
+            <ul>
+                <li><a href="http://localhost:5000/">Anasayfa</a>
+                </li>
+                <li><a href="http://localhost:5000/hakkimizda">Hakkımızda</a></li>
+                <li><a href="http://localhost:5000/haberler_uyesiz">Haberler</a></li>
+                <li><a href="#page-background-white-collapse" id="page-background-white"
+                       data-toggle="collapse">İlçelerimiz</a>
+                    <ul id="page-background-white-collapse" class="collapse">
+                        <li><a href="">Bozdoğan</a></li>
+                        <li><a href="">Buharkent</a></li>
+                        <li><a href="">Çine</a></li>
+                        <li><a href="">Didim</a></li>
+                        <li><a href="">Efeler</a></li>
+                        <li><a href="">Germencik</a></li>
+                        <li><a href="">İncirliova</a></li>
+                        <li><a href="">Karacasu</a></li>
+                        <li><a href="">Karpuzlu</a></li>
+                        <li><a href="">Koçarlı</a></li>
+                        <li><a href="">Köşk</a></li>
+                        <li><a href="">Kuşadası</a></li>
+                        <li><a href="">Kuyucak</a></li>
+                        <li><a href="">Nazilli</a></li>
+                        <li><a href="">Söke</a></li>
+                        <li><a href="">Sultanhisar</a></li>
+                        <li><a href="">Yenipazar</a></li>
+                        <li><a href="">Merkez</a></li>
+                    </ul>
+                </li>
+                <li><a href="http://localhost:5000/iletisim">İletişime Geçin</a></li>
+                <li><a href="http://localhost:5000/login">Üye Girişi</a></li>
+                <li><a href="#" id="modeSwitchButton">Modu Değiştir</a></li>
+            </ul>
+        </div>
+        <!--end navigation-off-canvas-->
+        <div id="page-header">
+            <header>
+                <div class="navigation">
+                    <div class="left">
+                        <a href="http://localhost:5000/" class="brand"><img src="static/images/logo4.png" alt=""></a>
+                    </div>
+                    <!--end left-->
+                    <div class="right">
+                        <div class="nav-btn">
+                            <figure></figure>
+                            <figure></figure>
+                            <figure></figure>
+                        </div>
+                    </div>
+                    <!--end right-->
+                </div>
+                <!--end navigation-->
+            </header>
+            <!--end header-->
+        </div>
+        <!--end page-header-->
+
+        <div id="page-content">
+            <div class="hero-section is-carousel parallax-wrapper">
+                <div class="hero-wrapper">
+                    <div class="carousel owl-carousel">
+
+                        {% for news in data %}
+                        <a href="detail.html" class="slide bg-transfer">
+                            <img src="{{news[3]}}" alt="">
+                            <div class="description">
+                                <div class="number">0{{loop.index}}</div>
+                                <h2>{{news[1]}}</h2>
+                                <div class="icon arrow">İncele</div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="heading-wrapper">
+                    <div class="container">
+                        <div class="heading">
+                            <div class="title parallax-element"><h1>BÜRO MEMUR-SEN<br>Aydın Şube Başkanlığı</h1>
+                                <a href="http://localhost:5000/iletisim" class="icon opacity-60">İletişime Geç<i
+                                        class="arrow_right"></i></a>
+                            </div>
+                            <div class="owl-navigation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end hero-section-->
+
+            <div class="block">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Güncel Çalışmalarımız</h2>
+                    </div>
+                    <!--end title-->
+                    <div class="featured-works-carousel">
+                        <div class="slide">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="title framed shadow">
+                                        <h3>Proje 1</h3>
+                                        <div class="separator"></div>
+                                        <h3>Aydın</h3>
+                                    </div>
+                                    <div class="image">
+                                        <img src="static/assets2/img/property-01.jpg" alt="">
+                                    </div>
+                                    <!--end image-->
+                                </div>
+                                <!--end col-md-8-->
+                                <div class="col-md-4 col-sm-4">
+                                    <dl class="info">
+                                        <dt>Proje</dt>
+                                        <dd>84,500TL</dd>
+                                        <dt>Proje Tarihi</dt>
+                                        <dd>04/05/2013</dd>
+                                    </dl>
+                                    <div class="separator"></div>
+                                    <div class="tags">
+                                        <span class="tag">Sendika</span>
+                                        <span class="tag">Memur Hakları</span>
+                                        <span class="tag">Ekonomi</span>
+                                    </div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus diam
+                                        vitae erat
+                                        efficitur tincidunt. Praesent feugiat leo odio, sit amet ultrices sapien
+                                        accumsan a.
+                                        Aliquam rhoncus efficitur ullamcorper. Nulla in semper nisi.
+                                    </p>
+                                    <a href="http://localhost:5000/" class="btn btn-default arrow">Proje Detaylarını
+                                        Göster</a>
+                                </div>
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <!--end slide-->
+
+                        <div class="slide">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-8">
+                                    <div class="title framed shadow">
+                                        <h3>Proje 2</h3>
+                                        <div class="separator"></div>
+                                        <h3>İzmir</h3>
+                                    </div>
+                                    <div class="image">
+                                        <img src="static/assets2/img/property-01.jpg" alt="">
+                                    </div>
+                                    <!--end image-->
+                                </div>
+                                <!--end col-md-8-->
+                                <div class="col-md-4 col-sm-4">
+                                    <dl class="info">
+                                        <dt>Proje</dt>
+                                        <dd>84,500TL</dd>
+                                        <dt>Proje Tarihi</dt>
+                                        <dd>04/05/2013</dd>
+                                    </dl>
+                                    <div class="separator"></div>
+                                    <div class="tags">
+                                        <span class="tag">Sendika</span>
+                                        <span class="tag">Memur Hakları</span>
+                                        <span class="tag">Ekonomi</span>
+                                    </div>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus diam
+                                        vitae erat
+                                        efficitur tincidunt. Praesent feugiat leo odio, sit amet ultrices sapien
+                                        accumsan a.
+                                        Aliquam rhoncus efficitur ullamcorper. Nulla in semper nisi.
+                                    </p>
+                                    <a href="http://localhost:5000/" class="btn btn-default arrow">Proje Detaylarını
+                                        Göster</a>
+                                </div>
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <!--end slide-->
+                    </div>
+                    <!--end featured-works-carousel-->
+                </div>
+                <!--end container-->
+                <div class="bg black opacity-10">
+                    <div class="image opacity-60 bg-transfer bg-fixed"><img src="static/assets2/img/bg.jpg" alt="">
+                    </div>
+                </div>
+                <!--end bg-->
+            </div>
+            <!--end block-->
+
+            <div class="block">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Yönetim Kurulu</h2>
+                    </div>
+                    <!--end title-->
+                    <div class="featured-blocks">
+                        <div class="row">
+
+                            {% for yk in ykdata %}
+                            <div class="col-md-4 col-sm-4">
+                                <div class="featured-block" data-scroll-reveal="enter bottom and move 50px">
+                                    <div class="date framed shadow">
+                                        <div class="day"><strong>Y. K.</strong></div>
+                                        <div class="year">Aydın</div>
+                                    </div>
+                                    <!--end date-->
+                                    <div class="description">
+                                        <a href="http://localhost:5000/iletisim">
+                                            <h3>{{yk[1]}}</h3>
+                                        </a>
+                                        <p>Detaylar için İletişim Sayfasına Bakabilirsiniz
+                                        </p>
+                                    </div>
+                                    <!--end desciption-->
+                                </div>
+                                <!--end featured-block-->
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end featured-blocks-->
+                </div>
+                <!--end container-->
+            </div>
+            <!--end block-->
+
+            <hr>
+
+            <div class="block">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Çalışmalarımız / Haberler</h2>
+                    </div>
+                    <!--end title-->
+                    <div class="gallery">
+                        {% for news in data %}
+
+
+                        {% if (loop.index % 3 == 0) %}
+                        <div class="row parallax-wrapper">
+                            {% endif %}
+
+                            <div class="col-md-4 col-sm-4">
+                                <a href="http://localhost:5000/haberler_uyesiz" class="gallery-item"
+                                   data-scroll-reveal="enter left and move 50px">
+                                    <div class="title framed shadow parallax-element">
+                                        <div class="name">{{news[1][:20]}}...</div>
+                                        <div class="place">Devamı İçin Tıklayın</div>
+                                    </div>
+                                    <!--end title-->
+                                    <div class="arrow arrow_right"></div>
+                                    <div class="image">
+                                        <img src="{{news[3]}}" alt="">
+                                    </div>
+                                    <!--end image-->
+                                </a>
+                                <!--end gallery-item-->
+                            </div>
+                            <!--end col-md-4-->
+
+                            {% if (loop.index % 3 == 0) %}
+                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+                    <!--end gallery-->
+                </div>
+                <!--end container-->
+            </div>
+            <!--end block-->
+
+            <div class="block">
+                <div class="container">
+                    <div class="logos">
+                        <div class="logo">
+                            <a href=""><img src="static/assets2/img/logo-1.png" alt=""></a>
+                        </div>
+                        <!--/ .logo-->
+                        <div class="logo">
+                            <a href=""><img src="static/assets2/img/logo-2.png" alt=""></a>
+                        </div>
+                        <!--/ .logo-->
+                        <div class="logo">
+                            <a href=""><img src="static/assets2/img/logo-3.png" alt=""></a>
+                        </div>
+                        <!--/ .logo-->
+                        <div class="logo">
+                            <a href=""><img src="static/assets2/img/logo-4.png" alt=""></a>
+                        </div>
+                        <!--/ .logo-->
+                        <div class="logo">
+                            <a href=""><img src="static/assets2/img/logo-5.png" alt=""></a>
+                        </div>
+                        <!--/ .logo-->
+                    </div>
+                    <!--/ .logos-->
+                </div>
+            </div>
+
+        </div>
+        <!--end page-content-->
+
+        <footer id="page-footer">
+            <div class="footer-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-3">
+                            <a href="index.html" class="logo"><img src="static/images/logo4.png" alt=""></a>
+                            <div class="separator"></div>
+                            <p>Hasanefendi Mahallesi, Batı Gazi Blv. No:13/4, 09100 Efeler/Aydın</p>
+                        </div>
+                        <div class="col-md-2 col-sm-3">
+                            <h3>İletişim</h3>
+                            <div class="separator"></div>
+                            <address>
+                                KAAN ÇETİNBAŞ <br>
+                                05436578010 / 0549 716 09 00<br>
+                                <a href="">aydin{at}buromemursen.org.tr</a>
+                                <br>
+                                <br>
+                            </address>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="map-wrapper">
+                                <div id="map" style="height: 200px; width: 175%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+        <!--end page-footer-->
+
+    </div>
+    <!--end page-wrapper-->
+</div>
+
+<!--end outer-wrapper-->
+<script type="text/javascript" src="static/assets2/js/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="static/assets2/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/waypoints.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/scrollReveal.min.js"></script>
+
+<script type="text/javascript" src="static/assets2/js/custom.js"></script>
+
+<script type="text/javascript">
+    function initMap() {
+
+        // The location of Uluru
+        var uluru = {lat: 37.85011, lng: 27.84342};
+        // The map, centered at Uluru
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 18,
+            center: uluru,
+        });
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+        });
+
+    }
+
+    var count = 0
+    $(document).on('click', '#modeSwitchButton',
+        function () {
+            count = count + 1
+            if (count % 2 == 1) {
+                document.querySelector('#modeSwitch').className = "outer-wrapper page-background-black";
+            } else {
+                document.querySelector('#modeSwitch').className = "outer-wrapper page-background-white";
+            }
+        });
+</script>
+
+<!--[if lte IE 9]>
+<script src="static/assets2/js/ie.js"></script>
+<![endif]-->
+</body>
+

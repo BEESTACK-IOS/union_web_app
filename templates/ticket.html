@@ -1,0 +1,622 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
+    <meta name="description" content="Büro Memur Sendikası Aydın Şube Başkanlığı">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="static/images/logo2.png">
+    <link rel="shortcut icon" href="static/images/logo2.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="static/assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="static/assets/css/style.css">
+    <link rel="stylesheet" href="static/assets/css/lib/datatable/dataTables.bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+
+</head>
+<body>
+<!-- Left Panel -->
+
+<aside id="left-panel" class="left-panel">
+    <nav class="navbar navbar-expand-sm navbar-default">
+
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                {% if (userrole == "super") %}
+                <li>
+                    <a href="/admin"><i class="menu-icon fa fa-laptop"></i>Admin Arayüzü </a>
+                </li>
+                {% endif %}
+                <li class="menu-title">Menu</li><!-- /.menu-title -->
+                <li>
+                    <a href="/profil"> <i class="menu-icon fa fa-user"></i>Profilim </a>
+                </li>
+                <li>
+                    <a href="/haberler"> <i class="menu-icon fa fa-bullhorn"></i>Haberler </a>
+                </li>
+                <li>
+                    <a href="/magazalar"> <i class="menu-icon fa fa-building-o"></i>Mağazalar </a>
+                </li>
+                <li>
+                    <a href="/talep"> <i class="menu-icon ti-email"></i>Mesajlar </a>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</aside><!-- /#left-panel -->
+
+<!-- Left Panel -->
+
+<!-- Right Panel -->
+
+<div id="right-panel" class="right-panel">
+
+    <!-- Header-->
+    <header id="header" class="header">
+        <div class="top-left">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="./"><img src="static/images/logo4.png" alt="Logo"></a>
+                <a class="navbar-brand hidden" href="./"><img src="static/images/logo2.png" alt="Logo"></a>
+                <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+            </div>
+        </div>
+        <div class="top-right">
+            <div class="header-menu">
+                <div class="header-left">
+
+                    <div class="dropdown for-message">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="message"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-envelope"></i>
+                            <span class="count bg-primary">{{notificationData|length}}</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="message">
+                            <p class="red">Toplam {{notificationData|length}} Talep Görüşmeniz var</p>
+
+                            {% for tl in notificationData %}
+
+                            <a class="dropdown-item media" href="http://localhost:5000/talep">
+                                <span class="photo media-left"><img alt="avatar"
+                                                                    src="static/images/admin.jpg"></span>
+                                <div class="message media-body">
+                                    <span class="name float-left">{{tl[0]}}</span>
+                                    <span class="time float-right">Sonuçlanmamış talep/görüş konuşması</span>
+                                </div>
+                            </a>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-area dropdown float-right">
+                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <img class="user-avatar rounded-circle" src="static/images/admin.jpg" alt="User Avatar">
+                    </a>
+
+                    <div class="user-menu dropdown-menu">
+                        <a class="nav-link" href="/profil"><i class="fa fa-user"></i>Profilim</a>
+
+                        <a class="nav-link" href="/talep"><i class="fa fa-bell-o"></i>Mesajlarım <span
+                                class="count">{{notificationData|length}}</span></a>
+
+                        <a class="nav-link" href="/logout"><i class="fa fa-power-off"></i>Çıkış Yap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header><!-- /header -->
+    <!-- Header-->
+
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Mesajlarım</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li><a href="#">Menu</a></li>
+                                <li class="active">Mesajlar</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="animated fadeIn">
+
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Talep İçin Kişiler</strong>
+                        </div>
+                        <div class="card-header">
+                            <select id="alan" class="form-control">
+                                <option value="Adalet Bakanlığı">
+                                    Adalet Bakanlığı
+                                </option>
+                                <option value="Aile Çalışma Sosyal Hizmetler Bakanlığı">
+                                    Aile Çalışma Sosyal Hizmetler Bakanlığı
+                                </option>
+                                <option value="Emniyet Genel Müdürlüğü">
+                                    Emniyet Genel Müdürlüğü
+                                </option>
+                                <option value="Gelir İdaresi Başkanlığı">
+                                    Gelir İdaresi Başkanlığı
+                                </option>
+                                <option value="Gençlik ve Spor İl Müdürlüğü">
+                                    Gençlik ve Spor İl Müdürlüğü
+                                </option>
+                                <option value="İçişleri Bakanlığı">
+                                    İçişleri Bakanlığı
+                                </option>
+                                <option value="Jandarma Genel Komutanlığı">
+                                    Jandarma Genel Komutanlığı
+                                </option>
+                                <option value="Maliye Bakanlığı">
+                                    Maliye Bakanlığı
+                                </option>
+                                <option value="Meteoroloji Genel Müdürlüğü">
+                                    Meteoroloji Genel Müdürlüğü
+                                </option>
+                                <option value="SGK Başkanlığı">
+                                    SGK Başkanlığı
+                                </option>
+                                <option value="Ticaret Bakanlığı">
+                                    Ticaret Bakanlığı
+                                </option>
+                                <option value="Türkiye İş Kurumu Genel Müdürlüğü">
+                                    Türkiye İş Kurumu Genel Müdürlüğü
+                                </option>
+                                <option value="Yüksek Seçim Kurulu Başkanlığı">
+                                    Yüksek Seçim Kurulu Başkanlığı
+                                </option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>İsim</th>
+                                    <th>Mail</th>
+                                    <th>Yetki</th>
+                                    <th>Alan</th>
+                                    <th>Mesajları Aç</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for element in data %}
+                                <tr>
+                                    <td>{{element[1]}}</td>
+                                    <td>{{element[2]}}</td>
+                                    {% if element[3] == 0 %}
+                                    <td>Yönetici</td>
+                                    {% elif element[3] == 1 %}
+                                    <td>Yönetici</td>
+                                    {% else %}
+                                    <td>Üye</td>
+                                    {% endif %}
+                                    <td>{{element[4]}}</td>
+                                    <td>
+                                        <button type="button" class="popUpButton" name="{{element[1]}}"
+                                                value="{{element[0]}}"><i class="fa fa-comment"></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="bg-modal">
+
+                <div class="modal-content">
+
+                    <div class="card" style="width: 45vw;">
+                        <div class="card-body">
+                            <h4 class="card-title box-title">Canlı Destek</h4>
+                            <div class="close">+</div>
+                            <div class="card-content">
+                                <div class="messenger-box">
+
+                                    <ul id="message_content" style="overflow-y: scroll; height: 30vh;">
+
+                                    </ul>
+                                    <div class="send-mgs">
+                                        <div class="yourmsg">
+                                            <input class="form-control" id="chat_text" type="text">
+                                        </div>
+                                        <button class="btn msg-send-btn" id="chat_btn">
+                                            <i class="pe-7s-paper-plane"></i>
+                                        </button>
+                                        {% if (userrole == "super" or userrole == "yönetici") %}
+                                        <div style="text-align: center;margin-top: 20px;">
+                                            <button type="button" class="btn btn-success" id="ticket_success">Talep
+                                                Karşılandı
+                                            </button>
+                                            <button type="button" class="btn btn-danger" id="ticket_denied">Talep
+                                                Karşılanamadı
+                                            </button>
+                                            <select name="" id="forwardGetter" style="width: 15%;">
+                                                {% for element in data %}
+
+                                                {% if element[3] == 0 %}
+                                                <option value="{{element[0]}}">
+                                                    {{element[1]}}
+                                                </option>
+                                                {% elif element[3] == 1 %}
+                                                <option value="{{element[0]}}">
+                                                    {{element[1]}}
+                                                </option>
+                                                {% endif %}
+
+                                                {% endfor %}
+                                            </select>
+                                            <button type="button" class="btn btn-info" id="ticket_forward">Mesajları
+                                                İlet
+                                            </button>
+                                        </div>
+                                        {% else %}
+                                        <div style="text-align: center;margin-top: 20px;">
+                                            <button type="button" class="btn btn-info" id="ticket_start">Talep
+                                                Başlat
+                                            </button>
+                                            <button type="button" class="btn btn-warning" id="ticket_suggest">Görüş
+                                                Öner
+                                            </button>
+                                        </div>
+
+                                        {% endif %}
+
+                                    </div>
+                                </div><!-- /.messenger-box -->
+                            </div>
+                        </div> <!-- /.card-body -->
+                    </div><!-- /.card -->
+                </div>
+            </div>
+            <!-- /To Do and Live Chat -->
+
+        </div>
+
+
+    </div><!-- .animated -->
+</div><!-- .content -->
+
+<div class="clearfix"></div>
+
+
+<input type="text" value="{{userid}}" id="userid" style="display:none">
+<input type="text" value="{{username}}" id="username" style="display:none">
+
+</div><!-- /#right-panel -->
+
+<!-- Right Panel -->
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<script src="static/colorlib-regform-7/vendor/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="static/assets/js/main.js"></script>
+
+<script src="static/assets/js/lib/data-table/datatables.min.js"></script>
+<script src="static/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+<script src="static/assets/js/lib/data-table/dataTables.buttons.min.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
+<script src="static/assets/js/lib/data-table/jszip.min.js"></script>
+<script src="static/assets/js/lib/data-table/vfs_fonts.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.html5.min.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.print.min.js"></script>
+<script src="static/assets/js/lib/data-table/buttons.colVis.min.js"></script>
+<script src="static/assets/js/init/datatables-init.js"></script>
+<script src="static/js/ticket.js"></script>
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#bootstrap-data-table-export').DataTable();
+    });
+</script>
+
+
+<script>
+
+    $(function () {
+
+        var currentUserId = $("#userid").val();
+
+        var recieverid = ""
+        var recievername = ""
+        var senderid = ""
+        var sendername = ""
+
+        var sendedname = "";
+        var sendedid = "";
+
+        var getedname = "";
+        var getedid = "";
+
+        var sendedmessage = "";
+
+        var pusher;
+        var channelName = "";
+
+        var messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}</div></div></div></div></li>`;
+
+        var messageRecieverTemplate = "";
+
+
+        $(document).on('click', '.popUpButton',
+            function () {
+                document.querySelector('.bg-modal').style.display = 'flex';
+                recievername = $(this).attr("name");
+                recieverid = $(this).val();
+                sendername = $("#username").val();
+                senderid = $("#userid").val();
+
+                // Enable pusher logging - don't include this in production
+                Pusher.logToConsole = true;
+
+                pusher = new Pusher('ed89289759f2f434f256', {
+                    cluster: 'eu',
+                    encrypted: true
+                });
+
+                if (recieverid > senderid) {
+                    channelName = "" + senderid + "-" + recieverid;
+                } else {
+                    channelName = "" + recieverid + "-" + senderid;
+                }
+
+                var channel = pusher.subscribe(channelName);
+
+                channel.bind('new-message', function (data) {
+                    sendedname = data.username;
+                    sendedid = data.userid;
+                    sendedmessage = data.message;
+                    getedname = data.recievername;
+                    getedid = data.recieverid;
+                    var mesDate = data.date;
+                    var mesTime = data.time;
+
+                    if (currentUserId == getedid) {
+                        messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${mesTime} ${mesDate} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}   <input type="checkbox" name="forwardSelected" class="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}.\">   </div></div></div></div></li>`;
+                    } else {
+                        messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time"> ${mesTime} ${mesDate} </div> </div><div class="msg-box"><div class="inner-box"><div class="name">${sendedname}</div><div class="meg">${sendedmessage}  <input type="checkbox" name="forwardSelected" class="forwardSelected" value=\" tarih:${mesTime} ${mesDate},  kullanıcı:${sendedname}, mesaj:${sendedmessage}.\">   </div></div></div></div></li>`;
+                    }
+                    $("#message_content").append(messageSenderTemplate);
+                    document.querySelector("#message_content").scrollTop = document.querySelector("#message_content").scrollHeight;
+                });
+
+                $.post('/messagehist', {'channelName': channelName}, function (returnData) {
+
+                    var messagelist = returnData['message_data']
+                    var i;
+                    for (i = 0; i < messagelist.length; i++) {
+                        if (currentUserId == messagelist[i][3]) {
+                            messageSenderTemplate = `<li><div class="msg-received msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${recievername}</div><div class="meg">${messagelist[i][4]}    <input type="checkbox" name="forwardSelected" class="forwardSelected" value=\"tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${recievername}, mesaj:${messagelist[i][4]}.\">    </div></div></div></div></li>`;
+                        } else {
+                            messageSenderTemplate = `<li><div class="msg-sent msg-container"><div class="avatar"><img src="static/images/avatar/64-2.jpg" alt=""><div class="send-time">${messagelist[i][5]} ${messagelist[i][6]} </div></div><div class="msg-box"><div class="inner-box"><div class="name">${sendername}</div><div class="meg">${messagelist[i][4]}  <input type="checkbox" name="forwardSelected" class="forwardSelected"  value=\"tarih:${messagelist[i][5]} ${messagelist[i][6]},  kullanıcı:${sendername}, mesaj:${messagelist[i][4]}.\">  </div></div></div></div></li>`;
+                        }
+                        $("#message_content").append(messageSenderTemplate);
+                    }
+
+                });
+            });
+
+        document.querySelector('.close').addEventListener('click',
+            function () {
+                document.querySelector('.bg-modal').style.display = 'none';
+                pusher.unsubscribe(channelName);
+                $('#message_content').empty();
+            });
+
+        function formatDate(date, format) {
+            const map = {
+                mm: date.getMonth() + 1,
+                dd: date.getDate(),
+                yy: date.getFullYear().toString().slice(-2),
+                yyyy: date.getFullYear()
+            }
+
+            return format.replace(/sec|min|hour|mm|dd|yy|yyyy/gi, matched => map[matched])
+        }
+
+        $("#chat_btn").on('click', function () {
+            sendedmessage = $("#chat_text").val();
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+
+        $("#ticket_success").on('click', function () {
+            sendedmessage = "Talep Karşılandı Sisteme Kaydediliyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+        $("#ticket_denied").on('click', function () {
+            sendedmessage = "Talep Karşılanamadı Sisteme Kaydediliyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+
+        $("#ticket_start").on('click', function () {
+            sendedmessage = "Talep İşlemi Başlatılıyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+        $("#ticket_suggest").on('click', function () {
+            sendedmessage = "Görüş Önerisi Başlatılıyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+            $.post('/message', {
+                'username': sendername,
+                'userid': senderid,
+                'recievername': recievername,
+                'recieverid': recieverid,
+                'message': sendedmessage,
+                'channelName': channelName,
+                'date': currentDate,
+                'time': currentTime
+            }, function () {
+                $('#chat_text').val('');
+            });
+
+        });
+
+        $("#ticket_forward").on('click', function () {
+            sendedmessage = "Görüş Önerisi Başlatılıyor.."
+            var currentDate = new Date();
+            var currentTime = "" + currentDate.getHours() + ":" + currentDate.getMinutes();
+            currentDate = formatDate(currentDate, 'dd/mm/yy');
+
+            var checkedId = $('.forwardSelected:checked').attr("userid");
+            console.log(checkedId);
+
+            var forwardGetterId = $('#forwardGetter').val();
+
+            forwardChannelName = ""
+
+            if (forwardGetterId > senderid) {
+                forwardChannelName = "" + senderid + "-" + forwardGetterId
+            } else {
+                forwardChannelName = "" + forwardGetterId + "-" + senderid
+            }
+
+
+            var inputElements = document.getElementsByClassName('forwardSelected');
+            for (var i = 0; inputElements[i]; ++i) {
+                if (inputElements[i].checked) {
+                    inputElements[i].checked = false;
+                    $.post('/message', {
+                        'username': sendername,
+                        'userid': senderid,
+                        'recievername': "",
+                        'recieverid': forwardGetterId,
+                        'message': inputElements[i].value,
+                        'channelName': forwardChannelName,
+                        'date': currentDate,
+                        'time': currentTime
+                    }, function () {
+                        $('#chat_text').val('');
+                    });
+                }
+            }
+
+
+        });
+
+
+        $("#alan").change(function () {
+            $('.dataTables_filter input').val($("#alan").val());
+            $('.dataTables_filter input').keyup();
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>

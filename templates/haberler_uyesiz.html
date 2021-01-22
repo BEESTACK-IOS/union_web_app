@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
+    <meta name="description" content="Büro Memur Sendikası Aydın Şube Başkanlığı">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="static/images/logo2.png">
+    <link rel="shortcut icon" href="static/images/logo2.png">
+
+    <link href="static/assets2/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="static/assets2/fonts/elegant-fonts.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/assets2/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="static/assets2/css/owl.carousel.css" type="text/css">
+    <link rel="stylesheet" href="static/assets2/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="static/assets2/css/style.css" type="text/css">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBiWM5VOa9hckViNnnMTQBikA5Y-o8Suc&callback=initMap&libraries=&v=weekly"
+            defer></script>
+
+    <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
+
+</head>
+
+<body>
+<div class="outer-wrapper subpage-detail" id="modeSwitch">
+    <div class="page-wrapper">
+        <div class="navigation-off-canvas">
+            <h2 style="font-weight: 900;">MENU</h2>
+            <ul>
+                <li><a href="http://localhost:5000/">Anasayfa</a>
+                </li>
+                <li><a href="http://localhost:5000/hakkimizda">Hakkımızda</a></li>
+                <li><a href="http://localhost:5000/haberler_uyesiz">Haberler</a></li>
+                <li><a href="#page-background-white-collapse" id="page-background-white"
+                       data-toggle="collapse">İlçelerimiz</a>
+                    <ul id="page-background-white-collapse" class="collapse">
+                        <li><a href="">Bozdoğan</a></li>
+                        <li><a href="">Buharkent</a></li>
+                        <li><a href="">Çine</a></li>
+                        <li><a href="">Didim</a></li>
+                        <li><a href="">Efeler</a></li>
+                        <li><a href="">Germencik</a></li>
+                        <li><a href="">İncirliova</a></li>
+                        <li><a href="">Karacasu</a></li>
+                        <li><a href="">Karpuzlu</a></li>
+                        <li><a href="">Koçarlı</a></li>
+                        <li><a href="">Köşk</a></li>
+                        <li><a href="">Kuşadası</a></li>
+                        <li><a href="">Kuyucak</a></li>
+                        <li><a href="">Nazilli</a></li>
+                        <li><a href="">Söke</a></li>
+                        <li><a href="">Sultanhisar</a></li>
+                        <li><a href="">Yenipazar</a></li>
+                        <li><a href="">Merkez</a></li>
+                    </ul>
+                </li>
+                <li><a href="http://localhost:5000/iletisim">İletişime Geçin</a></li>
+                <li><a href="http://localhost:5000/login">Üye Girişi</a></li>
+                <li><a href="#" id="modeSwitchButton">Modu Değiştir</a></li>
+            </ul>
+        </div>
+        <!--end navigation-off-canvas-->
+        <div id="page-header">
+            <header>
+                <div class="navigation">
+                    <div class="left">
+                        <a href="index.html" class="brand"><img src="static/images/logo4.png" alt=""></a>
+                    </div>
+                    <!--end left-->
+                    <div class="right">
+                        <div class="nav-btn">
+                            <figure></figure>
+                            <figure></figure>
+                            <figure></figure>
+                        </div>
+                    </div>
+                    <!--end right-->
+                </div>
+                <!--end navigation-->
+            </header>
+            <!--end header-->
+        </div>
+        <!--end page-header-->
+
+        <div id="page-content">
+            <div class="header-background bg-transfer overlay bg-fixed">
+                <div class="container">
+                    <div class="title">
+                        <h1>Tüm Haberler</h1>
+                    </div>
+                </div>
+                <img src="static/assets2/img/bg-detail.jpg" alt="">
+            </div>
+            <!--end header-background-->
+
+            <div class="block">
+                <div class="container">
+                    <div class="row">
+                        <div class="gallery">
+
+                            {% for news in data %}
+
+                            {% if (loop.index % 3 == 0) %}
+                            <div class="row">
+                            {% endif %}
+
+                                <div class="col-md-4 col-sm-4">
+                                    <a href="detail.html" class="gallery-item"
+                                       data-scroll-reveal="enter left and move 50px">
+                                        <div class="title framed shadow">
+                                            <div class="name">{{news[1][:20]}}...</div>
+                                            <div class="place">Devamı İçin Tıklayın</div>
+                                        </div>
+                                        <!--end title-->
+                                        <div class="arrow arrow_right"></div>
+                                        <div class="image">
+                                            <img src="{{news[3]}}" alt="">
+                                        </div>
+                                        <!--end image-->
+                                    </a>
+                                    <!--end gallery-item-->
+                                </div>
+                                <!--end col-md-4-->
+                            {% if (loop.index % 3 == 0) %}
+                            </div>
+                            {% endif %}
+                            <!-- end row -->
+                            {% endfor %}
+                        </div>
+                        <!--end gallery-->
+                    </div>
+                    <!--end row-->
+                </div>
+                <!--end container-->
+            </div>
+            <!--end block-->
+
+
+        </div>
+        <!--end page-content-->
+
+        <footer id="page-footer">
+            <div class="footer-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-3">
+                            <a href="index.html" class="logo"><img src="static/images/logo4.png" alt=""></a>
+                            <div class="separator"></div>
+                            <p>Hasanefendi Mahallesi, Batı Gazi Blv. No:13/4, 09100 Efeler/Aydın</p>
+                        </div>
+                        <div class="col-md-2 col-sm-3">
+                            <h3>İletişim</h3>
+                            <div class="separator"></div>
+                            <address>
+                                KAAN ÇETİNBAŞ <br>
+                                05436578010 / 0549 716 09 00<br>
+                                <a href="">aydin{at}buromemursen.org.tr</a>
+                                <br>
+                                <br>
+                            </address>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="map-wrapper">
+                                <div id="map" style="height: 200px; width: 175%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+    <!--end page-wrapper-->
+</div>
+<!--end outer-wrapper-->
+<script type="text/javascript" src="static/assets2/js/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="static/assets2/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/waypoints.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/scrollReveal.min.js"></script>
+<script type="text/javascript" src="static/assets2/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="static/assets2/js/jquery.magnific-popup.min.js"></script>
+
+<script type="text/javascript" src="static/assets2/js/custom.js"></script>
+
+
+<!--[if lte IE 9]>
+<script src="assets/js/ie.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+    function initMap() {
+
+        // The location of Uluru
+        var uluru = {lat: 37.85011, lng: 27.84342};
+        // The map, centered at Uluru
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 18,
+            center: uluru,
+        });
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+        });
+
+    }
+
+    var count = 0
+    $(document).on('click', '#modeSwitchButton',
+        function () {
+            count = count + 1
+            if (count % 2 == 1) {
+                document.querySelector('#modeSwitch').className = "outer-wrapper page-background-black";
+            } else {
+                document.querySelector('#modeSwitch').className = "outer-wrapper page-background-white";
+            }
+        });
+</script>
+
+
+</body>
