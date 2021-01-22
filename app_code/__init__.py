@@ -11,7 +11,8 @@ from werkzeug.utils import secure_filename
 import json
 
 """
-con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super", password="facethest0rm")
+con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
 """
 
 app = Flask(__name__)
@@ -47,8 +48,8 @@ def message():
         mesDate = request.form.get('date')
         mesTime = request.form.get('time')
         message_date = date.today()
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         if message == "Talep İşlemi Başlatılıyor..":
@@ -99,8 +100,8 @@ def message():
 def messageHist():
     try:
         channelName = request.form.get('channelName')
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
         cur.execute("select * from unionschema.message_log where channel_name='{}'".format(channelName))
         message_data = cur.fetchall()
@@ -112,8 +113,8 @@ def messageHist():
 @app.route('/postAdminTable', methods=['POST', 'GET'])
 def postadmintable():
     try:
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         tableName = request.form.get("tablename")
@@ -133,8 +134,8 @@ def postadmintable():
 @app.route('/postAdminTableDelete', methods=['POST', 'GET'])
 def postadmintabledelete():
     try:
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         tableName = request.form.get("tablename")
@@ -332,8 +333,8 @@ def admin():
     metadata = []
 
     if "admin" in session or "super" in session:
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         usermail = session["mail"]
@@ -475,8 +476,8 @@ def ticket():
 
     if "admin" in session or "super" in session or "user" in session:
 
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         usermail = session["mail"]
@@ -525,8 +526,8 @@ def user():
 
     if "admin" in session or "super" in session or "user" in session:
 
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         usermail = session["mail"]
@@ -566,8 +567,8 @@ def haberler():
 
     if "admin" in session or "super" in session or "user" in session:
 
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         usermail = session["mail"]
@@ -607,8 +608,8 @@ def magazalar():
 
     if "admin" in session or "super" in session or "user" in session:
 
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
 
         usermail = session["mail"]
@@ -669,8 +670,8 @@ def verify_token(token):
 def sifremi_unuttum():
     if request.method == "POST":
         mail = request.form["email"]
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
         cur.execute("select member_id from unionschema.members where member_mail='{}'".format(mail))
         memberid = cur.fetchone()
@@ -716,8 +717,8 @@ def pass_reset(token):
 def profil():
     notificationData = ""
     if "admin" in session or "super" in session or "user" in session:
-        con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                               password="facethest0rm")
+        con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+
         cur = con.cursor()
         usermail = session["mail"]
         cur.execute("select member_tc from unionschema.members where member_mail='{}'".format(usermail))
