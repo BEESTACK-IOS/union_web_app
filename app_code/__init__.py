@@ -168,8 +168,9 @@ def index():
     data = ""
     ykdata = ""
 
-    con = psycopg2.connect(host="localhost", port="9999", database="buromemursen", user="super",
-                           password="facethest0rm")
+    con = psycopg2.connect(host="Carnagie-1760.postgres.pythonanywhere-services.com", port="11760",
+                           database="buromemursen", user="super", password="facethest0rm")
+
     cur = con.cursor()
 
     sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
