@@ -86,7 +86,7 @@
             <ul class="nav navbar-nav">
                 {% if (userrole == "super") or (userrole == "yönetici") %}
                 <li>
-                    <a href="index.html"><i class="menu-icon fa fa-laptop"></i>Admin Arayüzü </a>
+                    <a href="/admin"><i class="menu-icon fa fa-laptop"></i>Admin Arayüzü </a>
                 </li>
                 {% endif %}
                 <li class="menu-title">Menu</li><!-- /.menu-title -->
@@ -1019,7 +1019,7 @@
                     <div class="card-header">
                         <strong class="card-title">VERİTABANI TABLOSU</strong>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="height: 500px; overflow-y: scroll;">
                         <table class="table table-dark" id="newyork_table">
                             <thead>
                             <tr>
@@ -1471,7 +1471,6 @@
             function () {
                 var listId = $(this).attr("id");
 
-
                 if (listId.includes("firms")) {
                     listId = listId.replace("firms", "");
                     var image_path = $(this).attr("name");
@@ -1498,9 +1497,8 @@
                         select.value = "unionschema.news";
                         select.dispatchEvent(new Event('change'));
                     });
-                } else if (listId.includes("members")) {
-                    listId = listId.replace("members", "");
-
+                } else if (listId.includes("member")) {
+                    listId = listId.replace("member", "");
                     $.post('/postAdminTableDelete', {
                         'tablename': "unionschema.members",
                         "deleteId": listId

@@ -146,7 +146,13 @@ def postadmintabledelete():
         elif tableName == "unionschema.news":
             cur.execute("DELETE FROM {} WHERE news_id = {}".format(tableName, deleteId))
         elif tableName == "unionschema.members":
+            cur.execute("SELECT member_tc FROM unionschema.members WHERE member_id = {}".format(deleteId))
+            tckno = cur.fetchone()[0]
+            cur.execute("DELETE FROM {} WHERE tckno = '{}'".format("unionschema.tckno_roles",tckno))
+            cur.execute("DELETE FROM {} WHERE member_id = {}".format("unionschema.member_role", deleteId))
+            cur.execute("DELETE FROM {} WHERE member_id = {}".format("unionschema.system_logs", deleteId))
             cur.execute("DELETE FROM {} WHERE member_id = {}".format(tableName, deleteId))
+
         elif tableName == "unionschema.yonetim":
             cur.execute("DELETE FROM {} WHERE yonetim_id = {}".format(tableName, deleteId))
         con.commit()
@@ -166,6 +172,7 @@ def postadmintabledelete():
 def index():
 
     data = ""
+    magazadata = ""
     ykdata = ""
 
     con = psycopg2.connect(host="Carnagie-1760.postgres.pythonanywhere-services.com", port="11760",
@@ -177,6 +184,12 @@ def index():
     cur.execute(sql);
     data = cur.fetchall()
 
+
+    sql = "SELECT * FROM unionschema.firms ORDER BY firm_id DESC"
+    cur.execute(sql);
+    magazadata = cur.fetchall()
+
+
     sql = "SELECT * FROM unionschema.yonetim ORDER BY yonetim_id DESC"
     cur.execute(sql);
     ykdata = cur.fetchall()
@@ -184,7 +197,7 @@ def index():
     cur.close()
     con.close()
 
-    return render_template("index.html", data=data, ykdata=ykdata)
+    return render_template("index.html", data=data, ykdata=ykdata, magazadata=magazadata)
 
 @app.route("/hakkimizda", methods=["GET", "POST"])
 def hakkimizda():

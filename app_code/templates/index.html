@@ -118,51 +118,46 @@
             <div class="block">
                 <div class="container">
                     <div class="section-title">
-                        <h2>Güncel Çalışmalarımız</h2>
+                        <h2>Üyelerimize Özel Avantajlar</h2>
                     </div>
                     <!--end title-->
                     <div class="featured-works-carousel">
+                        {% for firm in magazadata %}
                         <div class="slide">
                             <div class="row">
                                 <div class="col-md-8 col-sm-8">
                                     <div class="title framed shadow">
-                                        <h3>Proje 1</h3>
+                                        <h3>{{firm[1]}}</h3>
                                         <div class="separator"></div>
-                                        <h3>Aydın</h3>
                                     </div>
-                                    <div class="image">
-                                        <img src="static/assets2/img/property-01.jpg" alt="">
+                                    <div class="image" style="max-height:200px;">
+                                        <img src="{{firm[3]}}" alt="">
                                     </div>
                                     <!--end image-->
                                 </div>
                                 <!--end col-md-8-->
                                 <div class="col-md-4 col-sm-4">
                                     <dl class="info">
-                                        <dt>Proje</dt>
-                                        <dd>84,500TL</dd>
-                                        <dt>Proje Tarihi</dt>
-                                        <dd>04/05/2013</dd>
+                                        <dt>Kurum Adı</dt>
+                                        <dd>{{firm[1]}}</dd>
+                                        <dt>Konumu</dt>
+                                        <dd>{{firm[4]}}, {{firm[5]}}</dd>
                                     </dl>
                                     <div class="separator"></div>
                                     <div class="tags">
-                                        <span class="tag">Sendika</span>
-                                        <span class="tag">Memur Hakları</span>
-                                        <span class="tag">Ekonomi</span>
+                                        <span class="tag">Kurum Açıklaması</span>
+                                        <span class="tag">İçerik</span>
+                                        <span class="tag">İndirimler</span>
                                     </div>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus diam
-                                        vitae erat
-                                        efficitur tincidunt. Praesent feugiat leo odio, sit amet ultrices sapien
-                                        accumsan a.
-                                        Aliquam rhoncus efficitur ullamcorper. Nulla in semper nisi.
+                                        {{firm[2]}}
                                     </p>
-                                    <a href="/" class="btn btn-default arrow">Proje Detaylarını
-                                        Göster</a>
                                 </div>
                             </div>
                             <!--end row-->
                         </div>
                         <!--end slide-->
+                        {% endfor %}
 
                         <div class="slide">
                             <div class="row">
@@ -231,14 +226,13 @@
                                 <div class="featured-block" data-scroll-reveal="enter bottom and move 50px">
                                     <div class="date framed shadow">
                                         <div class="day"><strong>Y. K.</strong></div>
-                                        <div class="year">Aydın</div>
                                     </div>
                                     <!--end date-->
                                     <div class="description">
                                         <a href="/iletisim">
                                             <h3>{{yk[1]}}</h3>
                                         </a>
-                                        <p>Detaylar için İletişim Sayfasına Bakabilirsiniz
+                                        <p>{{yk[3]}}
                                         </p>
                                     </div>
                                     <!--end desciption-->
