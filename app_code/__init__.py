@@ -181,17 +181,17 @@ def index():
     cur = con.cursor()
 
     sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
-    cur.execute(sql);
+    cur.execute(sql)
     data = cur.fetchall()
 
 
     sql = "SELECT * FROM unionschema.firms ORDER BY firm_id DESC"
-    cur.execute(sql);
+    cur.execute(sql)
     magazadata = cur.fetchall()
 
 
     sql = "SELECT * FROM unionschema.yonetim ORDER BY yonetim_id DESC"
-    cur.execute(sql);
+    cur.execute(sql)
     ykdata = cur.fetchall()
 
     cur.close()
@@ -209,11 +209,11 @@ def hakkimizda():
     cur = con.cursor()
 
     sql = "SELECT * FROM unionschema.tuzuk"
-    cur.execute(sql);
+    cur.execute(sql)
     tuzuk = cur.fetchall()
 
     sql = "SELECT * FROM unionschema.yonetim"
-    cur.execute(sql);
+    cur.execute(sql)
     yonetim = cur.fetchall()
 
     cur.close()
@@ -230,13 +230,482 @@ def haberler_uyesiz():
     cur = con.cursor()
 
     sql = "SELECT * FROM unionschema.news ORDER BY news_id DESC"
-    cur.execute(sql);
+    cur.execute(sql)
     data = cur.fetchall()
 
     cur.close()
     con.close()
 
     return render_template("haberler_uyesiz.html", data=data)
+
+@app.route("/bozdogan", methods=["GET", "POST"])
+def bozdogan():
+
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '0' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 0"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("bozdogan.html", data=data, sorumludata= sorumludata)
+
+@app.route("/buharkent", methods=["GET", "POST"])
+def buharkent():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '1' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 1"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("buharkent.html", data=data, sorumludata= sorumludata)
+
+@app.route("/cine", methods=["GET", "POST"])
+def cine():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '2' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 2"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("cine.html", data=data, sorumludata= sorumludata)
+
+@app.route("/didim", methods=["GET", "POST"])
+def didim():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '3' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 3"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("didim.html", data=data, sorumludata= sorumludata)
+
+@app.route("/efeler", methods=["GET", "POST"])
+def efeler():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '4' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 4"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("efeler.html", data=data, sorumludata= sorumludata)
+
+@app.route("/germencik", methods=["GET", "POST"])
+def germencik():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '5' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 5"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("germencik.html", data=data, sorumludata= sorumludata)
+@app.route("/incirliova", methods=["GET", "POST"])
+def incirliova():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '6' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 6"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("incirliova.html", data=data, sorumludata= sorumludata)
+@app.route("/karacasu", methods=["GET", "POST"])
+def karacasu():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '7' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 7"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("karacasu.html", data=data, sorumludata= sorumludata)
+@app.route("/karpuzlu", methods=["GET", "POST"])
+def karpuzlu():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '8' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 8"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("karpuzlu.html", data=data, sorumludata= sorumludata)
+
+@app.route("/kocarli", methods=["GET", "POST"])
+def kocarli():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '9' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 9"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("kocarli.html", data=data, sorumludata= sorumludata)
+@app.route("/kosk", methods=["GET", "POST"])
+def kosk():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '10' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 10"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("kosk.html", data=data, sorumludata= sorumludata)
+
+@app.route("/kusadasi", methods=["GET", "POST"])
+def kusadasi():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '11' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 11"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("kusadasi.html", data=data, sorumludata= sorumludata)
+
+@app.route("/kuyucak", methods=["GET", "POST"])
+def kuyucak():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '12' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 12"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("kuyucak.html", data=data, sorumludata= sorumludata)
+
+@app.route("/nazilli", methods=["GET", "POST"])
+def nazilli():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '13' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 13"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("nazilli.html", data=data, sorumludata= sorumludata)
+
+
+@app.route("/soke", methods=["GET", "POST"])
+def soke():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '14' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 14"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("soke.html", data=data, sorumludata= sorumludata)
+
+
+@app.route("/sultanhisar", methods=["GET", "POST"])
+def sultanhisar():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '15' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 15"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("sultanhisar.html", data=data, sorumludata= sorumludata)
+
+
+@app.route("/yenipazar", methods=["GET", "POST"])
+def yenipazar():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '16' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 16"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("yenipazar.html", data=data, sorumludata= sorumludata)
+
+
+@app.route("/merkez", methods=["GET", "POST"])
+def merkez():
+    data = ""
+    sorumludata = ""
+
+    con = psycopg2.connect( host="Carnagie-1760.postgres.pythonanywhere-services.com",port="11760",database="buromemursen",user="super",password="facethest0rm")
+    cur = con.cursor()
+
+    sql = "SELECT * FROM unionschema.news WHERE news_ilceid = '17' ORDER BY news_id DESC"
+    cur.execute(sql)
+    data = cur.fetchall()
+
+    sql = "SELECT * FROM unionschema.ilce_sorumlulari WHERE ilce_id = 17"
+    cur.execute(sql)
+    sorumludata = cur.fetchone()
+
+    print(sorumludata)
+
+    if sorumludata == None:
+        sorumludata = [ "atanmamış","atanmamış","atanmamış","atanmamış" ]
+
+    cur.close()
+    con.close()
+
+    return render_template("merkez.html", data=data, sorumludata= sorumludata)
 
 @app.route("/iletisim", methods=["GET", "POST"])
 def iletisim():

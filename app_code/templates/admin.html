@@ -550,7 +550,7 @@
                                                                     <div class="col-12 col-md-9">
                                                                         <select name="news_ilce" class="form-control"
                                                                                 id="">
-                                                                            <option value="1">
+                                                                            <option value="0">
                                                                                 Bozdoğan
                                                                             </option>
                                                                             <option value="1">
@@ -689,7 +689,7 @@
                                                                     </label></div>
                                                                     <div class="col-12 col-md-9">
                                                                         <select name="ilce_name" class="form-control">
-                                                                            <option value="1">
+                                                                            <option value="0">
                                                                                 Bozdoğan
                                                                             </option>
                                                                             <option value="1">
@@ -1357,6 +1357,7 @@
                     var table = document.getElementById("newyork_table");
                     var header = table.createTHead();
                     var row = header.insertRow(0);
+                    var cell5 = row.insertCell(0);
                     var cell4 = row.insertCell(0);
                     var cell3 = row.insertCell(0);
                     var cell2 = row.insertCell(0);
@@ -1368,13 +1369,14 @@
                     cell2.innerHTML = "news_name";
                     cell3.innerHTML = "news_abstract";
                     cell4.innerHTML = "news_logo";
-
+                    cell5.innerHTML = "news_ilce";
 
                     var i;
                     returnData = returnData["result"];
                     for (i = 0; i < returnData.length; i++) {
 
                         var row = table.insertRow(1);
+                        var cell5 = row.insertCell(0);
                         var cell4 = row.insertCell(0);
                         var cell3 = row.insertCell(0);
                         var cell2 = row.insertCell(0);
@@ -1386,6 +1388,7 @@
                         cell2.innerHTML = `${returnData[i][1]}`;
                         cell3.innerHTML = `${returnData[i][2].substring(0, 12) + "..."}`;
                         cell4.innerHTML = `${returnData[i][3]}`;
+                        cell5.innerHTML = `${returnData[i][4]}`;
 
                     }
 
