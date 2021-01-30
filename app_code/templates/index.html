@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="static/assets2/bootstrap/css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="static/assets2/css/owl.carousel.css" type="text/css">
     <link rel="stylesheet" href="static/assets2/css/style.css" type="text/css">
+    <link rel="stylesheet" href="static/assets3/theme.css" type="text/css">
+    <link rel="stylesheet" href="static/assets3/slick.css" type="text/css">
+    <link rel="stylesheet" href="static/assets3/jquery.fancybox.css" type="text/css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBiWM5VOa9hckViNnnMTQBikA5Y-o8Suc&callback=initMap&libraries=&v=weekly"
             defer></script>
 
@@ -69,21 +72,14 @@
         <div id="page-header">
             <header>
                 <div class="navigation">
-                    <div class="left">
-                        <a href="/" class="brand"><img src="static/images/buromemursenbanner.png"
+                    <div class="left" style="width:100%;">
+                        <a href="/" class="brand"><img src="static/images/buromemursenbanner.jpeg"
                                                        style="max-height:100px;" alt=""></a>
-                    </div>
-                    <!--end left-->
-                    <div class="right">
                         <div class="nav-btn">
-                            <figure></figure>
-                            <figure></figure>
-                            <figure></figure>
-                            <figure></figure>
-                            <figure></figure>
+                            <img src="static/images/menuicon.png" style="max-height:25px;" alt="menu">
                         </div>
                     </div>
-                    <!--end right-->
+                    <!--end left-->
                 </div>
                 <!--end navigation-->
             </header>
@@ -94,36 +90,49 @@
         <div id="page-content">
 
 
-            <div class="hero-section is-carousel parallax-wrapper">
-                <div class="hero-wrapper" style="max-height:300px;">
-                    <div class="carousel owl-carousel">
-
-                        {% for news in data %}
-                        <a href="/haberler_uyesiz" class="slide bg-transfer">
-                            <img src="{{news[3]}}" alt="">
-                            <div class="description">
-                                <div class="number">0{{loop.index}}</div>
-                                <h2>{{news[1]}}</h2>
-                                <div class="icon arrow">İncele</div>
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div>
-                </div>
 
 
-                <div class="heading-wrapper">
-                    <div class="container">
-                        <div class="heading">
-                            <!--
-                            <div class="title parallax-element"><img class="bannerImage" src="static/images/buromemursenbanner.png" alt=""  >
-                            <img class="smallBannerImage" src="static/images/logo4.png" alt="">
-                            </div>
-                            -->
-                            <div class="owl-navigation"></div>
+            <div class="container" style="max-height:1000px; box-shadow: -10px +10px #d3d3d3; ">
+
+              <section id="sliderSection">
+                <div class="row">
+                  <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="slick_slider">
+
+
+                    {% for news in data %}
+                      <div class="single_iteam"> <a href="/haberler_uyesiz"> <img src="{{news[3]}}" alt=""></a>
+                        <div class="slider_article">
+                          <h2><a class="slider_tittle" href="/haberler_uyesiz">{{news[1]}}</a></h2>
+                          <p>{{news[1][:40]}}..</p>
                         </div>
+                      </div>
+
+                    {% endfor %}
                     </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="latest_post">
+                      <h2><span style="background-color: orange">Güncel Haberler</span></h2>
+                      <div class="latest_post_container">
+                        <div id="prev-button"><i class="fa fa-chevron-up"></i></div>
+                        <ul class="latest_postnav" style="list-style-type: none;">
+                          {% for news in data %}
+                          <li>
+                            <div class="media"> <a href="/haberler_uyesiz" class="media-left"> <img alt="" src="{{news[3]}}" style="max-height:20px;"> </a>
+                              <div class="media-body"> <a href="/haberler_uyesiz" class="catg_title"> {{news[1]}} </a> </div>
+                            </div>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                        <div id="next-button"><i class="fa  fa-chevron-down"></i></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </section>
+
+
 
             </div>
             <!--end hero-section-->
@@ -148,14 +157,14 @@
                             <div class="col-md-4 col-sm-4">
                                 <a href="/haberler_uyesiz" class="gallery-item"
                                    data-scroll-reveal="enter left and move 50px">
-                                    <div class="title framed shadow parallax-element">
+                                    <div class="title framed shadow parallax-element" style="background-color: rgba(255, 193, 5, 0.64)">
                                         <div class="name">{{news[1][:20]}}...</div>
                                         <div class="place">Devamı İçin Tıklayın</div>
                                     </div>
                                     <!--end title-->
                                     <div class="arrow arrow_right"></div>
                                     <div class="image">
-                                        <img src="{{news[3]}}" alt="">
+                                        <img src="{{news[3]}}" alt="" style="max-height:195px;box-shadow: -4px +4px #d3d3d3;">
                                     </div>
                                     <!--end image-->
                                 </a>
@@ -294,6 +303,13 @@
 <script type="text/javascript" src="static/assets2/js/owl.carousel.min.js"></script>
 <script type="text/javascript" src="static/assets2/js/waypoints.min.js"></script>
 <script type="text/javascript" src="static/assets2/js/scrollReveal.min.js"></script>
+
+
+<script src="static/assets3/slick.min.js"></script>
+<script src="static/assets3/jquery.li-scroller.1.0.js"></script>
+<script src="static/assets3/jquery.newsTicker.min.js"></script>
+<script src="static/assets3/jquery.fancybox.pack.js"></script>
+<script src="static/assets3/custom.js"></script>
 
 
 <script type="text/javascript" src="static/assets2/js/custom.js"></script>
