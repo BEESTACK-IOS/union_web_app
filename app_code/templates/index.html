@@ -21,15 +21,7 @@
     <link rel="stylesheet" href="static/assets2/css/style.css" type="text/css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBiWM5VOa9hckViNnnMTQBikA5Y-o8Suc&callback=initMap&libraries=&v=weekly"
             defer></script>
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/animate.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/font.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/li-scroller.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/slick.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/jquery.fancybox.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/theme.css">
-    <link rel="stylesheet" type="text/css" href="static/assets3/css/style.css">
+
 
     <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
 
@@ -84,7 +76,7 @@
                     <!--end left-->
                     <div class="right">
                         <div class="nav-btn">
-                            <figure>+</figure>
+                            <figure></figure>
                             <figure></figure>
                             <figure></figure>
                             <figure></figure>
@@ -100,8 +92,10 @@
         <!--end page-header-->
 
         <div id="page-content">
+
+
             <div class="hero-section is-carousel parallax-wrapper">
-                <div class="hero-wrapper" style="max-height:200px;">
+                <div class="hero-wrapper" style="max-height:300px;">
                     <div class="carousel owl-carousel">
 
                         {% for news in data %}
@@ -116,100 +110,31 @@
                         {% endfor %}
                     </div>
                 </div>
-                <!--
+
+
                 <div class="heading-wrapper">
                     <div class="container">
                         <div class="heading">
+                            <!--
                             <div class="title parallax-element"><img class="bannerImage" src="static/images/buromemursenbanner.png" alt=""  >
                             <img class="smallBannerImage" src="static/images/logo4.png" alt="">
                             </div>
-
+                            -->
+                            <div class="owl-navigation"></div>
                         </div>
                     </div>
                 </div>
-                -->
+
             </div>
             <!--end hero-section-->
 
 
-            <div class="block">
-                <section id="sliderSection">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="slick_slider">
-                                {% for news in data %}
-                                <div class="single_iteam"><a href="/haberler_uyesiz"> <img src="{{news[3]}}" alt=""></a>
-                                    <div class="slider_article">
-                                        <h2><a class="slider_tittle"
-                                               href="pages/single_page.html">{{news[1][:20]}}...</a></h2>
-                                        <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas
-                                            imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi
-                                            dui...</p>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <div class="latest_post">
-                                <h2><span>Latest post</span></h2>
-                                <div class="latest_post_container">
-                                    <div id="prev-button"><i class="fa fa-chevron-up"></i></div>
-                                    <ul class="latest_postnav">
-                                        <li>
-                                            <div class="media"><a href="pages/single_page.html" class="media-left"> <img
-                                                    alt="" src="images/post_img1.jpg"> </a>
-                                                <div class="media-body"><a href="pages/single_page.html"
-                                                                           class="catg_title"> Aliquam malesuada diam
-                                                    eget turpis varius 1</a></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media"><a href="pages/single_page.html" class="media-left"> <img
-                                                    alt="" src="images/post_img1.jpg"> </a>
-                                                <div class="media-body"><a href="pages/single_page.html"
-                                                                           class="catg_title"> Aliquam malesuada diam
-                                                    eget turpis varius 2</a></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media"><a href="pages/single_page.html" class="media-left"> <img
-                                                    alt="" src="images/post_img1.jpg"> </a>
-                                                <div class="media-body"><a href="pages/single_page.html"
-                                                                           class="catg_title"> Aliquam malesuada diam
-                                                    eget turpis varius 3</a></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media"><a href="pages/single_page.html" class="media-left"> <img
-                                                    alt="" src="images/post_img1.jpg"> </a>
-                                                <div class="media-body"><a href="pages/single_page.html"
-                                                                           class="catg_title"> Aliquam malesuada diam
-                                                    eget turpis varius 4</a></div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="media"><a href="pages/single_page.html" class="media-left"> <img
-                                                    alt="" src="images/post_img1.jpg"> </a>
-                                                <div class="media-body"><a href="pages/single_page.html"
-                                                                           class="catg_title"> Aliquam malesuada diam
-                                                    eget turpis varius 2</a></div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div id="next-button"><i class="fa  fa-chevron-down"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
 
 
             <div class="block">
                 <div class="container">
                     <div class="section-title">
-                        <h2>Çalışmalarımız / Haberler</h2>
+                        <h2>Tüm Haberler</h2>
                     </div>
                     <!--end title-->
                     <div class="gallery">
@@ -370,14 +295,6 @@
 <script type="text/javascript" src="static/assets2/js/waypoints.min.js"></script>
 <script type="text/javascript" src="static/assets2/js/scrollReveal.min.js"></script>
 
-<script src="static/assets3/js/jquery.min.js"></script>
-<script src="static/assets3/js/wow.min.js"></script>
-<script src="static/assets3/js/bootstrap.min.js"></script>
-<script src="static/assets3/js/slick.min.js"></script>
-<script src="static/assets3/js/jquery.li-scroller.1.0.js"></script>
-<script src="static/assets3/js/jquery.newsTicker.min.js"></script>
-<script src="static/assets3/js/jquery.fancybox.pack.js"></script>
-<script src="static/assets3/js/custom.js"></script>
 
 <script type="text/javascript" src="static/assets2/js/custom.js"></script>
 
