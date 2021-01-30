@@ -838,6 +838,7 @@ ul li {
 .hero-section {
   overflow: hidden;
   position: relative;
+  max-height: 400px;
 }
 .hero-section.is-carousel .hero-wrapper {
   height: 70%;
@@ -1015,7 +1016,7 @@ ul li {
   font-size: 48px;
 }
 .hero-section .heading-wrapper .title:before {
-  border: 2px solid rgba(0, 0, 0, 0.2);
+
   padding: 25px;
   display: block;
   height: 100%;
@@ -1833,7 +1834,9 @@ select option {
   background-color: #fff;
   padding: 5px;
 }
-
+    .smallBannerImage{
+        display: none;
+    }
 /* 6. Responsive */
 @media (min-width: 992px) and (max-width: 1199px) {
   .featured-works-carousel .slide .image {
@@ -1890,6 +1893,12 @@ select option {
   }
 }
 @media (max-width: 767px) {
+    .bannerImage {
+        display: none;
+    }
+        .smallBannerImage{
+        display: block;
+    }
   .page-wrapper {
     display: block;
   }

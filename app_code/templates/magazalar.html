@@ -87,7 +87,7 @@
 
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                {% if (userrole == "super") %}
+                {% if (userrole == "super" or userrole == "yönetici") %}
                 <li>
                     <a href="/admin"><i class="menu-icon fa fa-laptop"></i>Admin Arayüzü </a>
                 </li>
@@ -236,6 +236,14 @@
 
             </div>
 
+
+
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+</div>
+
             {% for firm in data %}
             <div class="bg-modal" style="height: 100vh;" id="modal_{{loop.index-1}}">
                 <div class="modal-content" style="height: 85vh; width: 60vw;overflow-y: scroll;">
@@ -288,12 +296,6 @@
                             }
             </script>
 
-
-            <div class="clearfix"></div>
-
-        </div>
-    </div>
-</div>
 
 <!-- /#right-panel -->
 <!-- Scripts -->

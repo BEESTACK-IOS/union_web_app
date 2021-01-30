@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>BÜRO MEMUR-SEN AYDIN ŞUBESİ</title>
-    <meta name="description" content="Büro Memur Sendikası Aydın Şube Başkanlığı">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="büro memur sendikası aydın sendika büromemursen uygulama" name="keywords">
+    <meta content="BÜROMEMURSEN AYDIN ŞUBE BAŞKANLIĞI. BÜRO MEMUR SENDİKASI AYDIN ŞUBE BAŞKANLIĞINDAN HABERLER AVANTAJLAR VE ÜYELERE ÖZEL UYGULAMALAR" name="description">
 
     <link rel="apple-touch-icon" href="static/images/logo2.png">
     <link rel="shortcut icon" href="static/images/logo2.png">
@@ -66,11 +67,13 @@
             <header>
                 <div class="navigation">
                     <div class="left">
-                        <a href="/" class="brand"><img src="static/images/logo4.png" alt=""></a>
+                        <a href="/" class="brand"><img src="static/images/buromemursenbanner.png" style="max-height:100px;" alt=""></a>
                     </div>
                     <!--end left-->
                     <div class="right">
                         <div class="nav-btn">
+                            <figure>+</figure>
+                            <figure></figure>
                             <figure></figure>
                             <figure></figure>
                             <figure></figure>
@@ -86,12 +89,12 @@
 
         <div id="page-content">
             <div class="hero-section is-carousel parallax-wrapper">
-                <div class="hero-wrapper">
+                <div class="hero-wrapper" style="max-height:200px;">
                     <div class="carousel owl-carousel">
 
                         {% for news in data %}
-                        <a href="" class="slide bg-transfer">
-                            <img src="{{news[3]}}" alt="">
+                        <a href="/haberler_uyesiz" class="slide bg-transfer">
+                            <img src="{{news[3]}}" alt=""  >
                             <div class="description">
                                 <div class="number">0{{loop.index}}</div>
                                 <h2>{{news[1]}}</h2>
@@ -101,157 +104,80 @@
                         {% endfor %}
                     </div>
                 </div>
+                <!--
                 <div class="heading-wrapper">
                     <div class="container">
                         <div class="heading">
-                            <div class="title parallax-element"><h1>BÜRO MEMUR-SEN<br>Aydın Şube Başkanlığı</h1>
-                                <a href="/iletisim" class="icon opacity-60">İletişime Geç<i
-                                        class="arrow_right"></i></a>
+                            <div class="title parallax-element"><img class="bannerImage" src="static/images/buromemursenbanner.png" alt=""  >
+                            <img class="smallBannerImage" src="static/images/logo4.png" alt="">
                             </div>
-                            <div class="owl-navigation"></div>
+
                         </div>
                     </div>
                 </div>
+                -->
             </div>
             <!--end hero-section-->
 
+
+
             <div class="block">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>Üyelerimize Özel Avantajlar</h2>
-                    </div>
-                    <!--end title-->
-                    <div class="featured-works-carousel">
-                        {% for firm in magazadata %}
-                        <div class="slide">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="title framed shadow">
-                                        <h3>{{firm[1]}}</h3>
-                                        <div class="separator"></div>
-                                    </div>
-                                    <div class="image" style="max-height:200px;">
-                                        <img src="{{firm[3]}}" alt="">
-                                    </div>
-                                    <!--end image-->
-                                </div>
-                                <!--end col-md-8-->
-                                <div class="col-md-4 col-sm-4">
-                                    <dl class="info">
-                                        <dt>Kurum Adı</dt>
-                                        <dd>{{firm[1]}}</dd>
-                                        <dt>Konumu</dt>
-                                        <dd>{{firm[4]}}, {{firm[5]}}</dd>
-                                    </dl>
-                                    <div class="separator"></div>
-                                    <div class="tags">
-                                        <span class="tag">Kurum Açıklaması</span>
-                                        <span class="tag">İçerik</span>
-                                        <span class="tag">İndirimler</span>
-                                    </div>
-                                    <p>
-                                        {{firm[2]}}
-                                    </p>
-                                </div>
+                <section id="sliderSection">
+                    <div class="row">
+                      <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="slick_slider">
+                        {% for news in data %}
+                          <div class="single_iteam"> <a href="/haberler_uyesiz"> <img src="{{news[3]}}" alt=""></a>
+                            <div class="slider_article">
+                              <h2><a class="slider_tittle" href="pages/single_page.html">{{news[1][:20]}}...</a></h2>
+                              <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui...</p>
                             </div>
-                            <!--end row-->
-                        </div>
-                        <!--end slide-->
+                          </div>
                         {% endfor %}
-
-                        <div class="slide">
-                            <div class="row">
-                                <div class="col-md-8 col-sm-8">
-                                    <div class="title framed shadow">
-                                        <h3>Proje 2</h3>
-                                        <div class="separator"></div>
-                                        <h3>İzmir</h3>
-                                    </div>
-                                    <div class="image">
-                                        <img src="static/assets2/img/property-01.jpg" alt="">
-                                    </div>
-                                    <!--end image-->
-                                </div>
-                                <!--end col-md-8-->
-                                <div class="col-md-4 col-sm-4">
-                                    <dl class="info">
-                                        <dt>Proje</dt>
-                                        <dd>84,500TL</dd>
-                                        <dt>Proje Tarihi</dt>
-                                        <dd>04/05/2013</dd>
-                                    </dl>
-                                    <div class="separator"></div>
-                                    <div class="tags">
-                                        <span class="tag">Sendika</span>
-                                        <span class="tag">Memur Hakları</span>
-                                        <span class="tag">Ekonomi</span>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus diam
-                                        vitae erat
-                                        efficitur tincidunt. Praesent feugiat leo odio, sit amet ultrices sapien
-                                        accumsan a.
-                                        Aliquam rhoncus efficitur ullamcorper. Nulla in semper nisi.
-                                    </p>
-                                    <a href="/" class="btn btn-default arrow">Proje Detaylarını
-                                        Göster</a>
-                                </div>
-                            </div>
-                            <!--end row-->
                         </div>
-                        <!--end slide-->
-                    </div>
-                    <!--end featured-works-carousel-->
-                </div>
-                <!--end container-->
-                <div class="bg black opacity-10">
-                    <div class="image opacity-60 bg-transfer bg-fixed"><img src="static/assets2/img/bg.jpg" alt="">
-                    </div>
-                </div>
-                <!--end bg-->
-            </div>
-            <!--end block-->
-
-            <div class="block">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>Yönetim Kurulu</h2>
-                    </div>
-                    <!--end title-->
-                    <div class="featured-blocks">
-                        <div class="row">
-
-                            {% for yk in ykdata %}
-                            <div class="col-md-4 col-sm-4">
-                                <div class="featured-block" data-scroll-reveal="enter bottom and move 50px">
-                                    <div class="date framed shadow">
-                                        <div class="day"><strong>Y. K.</strong></div>
-                                    </div>
-                                    <!--end date-->
-                                    <div class="description">
-                                        <a href="/iletisim">
-                                            <h3>{{yk[1]}}</h3>
-                                        </a>
-                                        <p>{{yk[3]}}
-                                        </p>
-                                    </div>
-                                    <!--end desciption-->
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="latest_post">
+                          <h2><span>Latest post</span></h2>
+                          <div class="latest_post_container">
+                            <div id="prev-button"><i class="fa fa-chevron-up"></i></div>
+                            <ul class="latest_postnav">
+                              <li>
+                                <div class="media"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img1.jpg"> </a>
+                                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 1</a> </div>
                                 </div>
-                                <!--end featured-block-->
-                            </div>
-                            {% endfor %}
-
-
+                              </li>
+                              <li>
+                                <div class="media"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img1.jpg"> </a>
+                                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 2</a> </div>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="media"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img1.jpg"> </a>
+                                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 3</a> </div>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="media"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img1.jpg"> </a>
+                                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 4</a> </div>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="media"> <a href="pages/single_page.html" class="media-left"> <img alt="" src="images/post_img1.jpg"> </a>
+                                  <div class="media-body"> <a href="pages/single_page.html" class="catg_title"> Aliquam malesuada diam eget turpis varius 2</a> </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <div id="next-button"><i class="fa  fa-chevron-down"></i></div>
+                          </div>
                         </div>
-                        <!--end row-->
+                      </div>
                     </div>
-                    <!--end featured-blocks-->
-                </div>
-                <!--end container-->
+                  </section>
             </div>
-            <!--end block-->
 
-            <hr>
+
+
 
             <div class="block">
                 <div class="container">
@@ -297,6 +223,50 @@
                 <!--end container-->
             </div>
             <!--end block-->
+
+
+
+            <div class="block">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Yönetim Kurulu</h2>
+                    </div>
+                    <!--end title-->
+                    <div class="featured-blocks">
+                        <div class="row">
+
+                            {% for yk in ykdata %}
+                            <div class="col-md-4 col-sm-4">
+                                <div class="featured-block" data-scroll-reveal="enter bottom and move 50px">
+                                    <div class="date framed shadow">
+                                        <div class="day"><strong>Y. K.</strong></div>
+                                    </div>
+                                    <!--end date-->
+                                    <div class="description">
+                                        <a href="/iletisim">
+                                            <h3>{{yk[1]}}</h3>
+                                        </a>
+                                        <p>{{yk[3]}}
+                                        </p>
+                                    </div>
+                                    <!--end desciption-->
+                                </div>
+                                <!--end featured-block-->
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+                        <!--end row-->
+                    </div>
+                    <!--end featured-blocks-->
+                </div>
+                <!--end container-->
+            </div>
+            <!--end block-->
+
+            <hr>
+
 
             <div class="block">
                 <div class="container">

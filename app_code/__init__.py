@@ -35,6 +35,10 @@ pusher_client = pusher.Pusher(
     ssl=True
 )
 
+@app.route('/google322d408207983cf4.html', methods=['POST', 'GET'])
+def google_console():
+    return render_template("google322d408207983cf4.html")
+
 
 @app.route('/message', methods=['POST'])
 def message():
@@ -190,7 +194,7 @@ def index():
     magazadata = cur.fetchall()
 
 
-    sql = "SELECT * FROM unionschema.yonetim ORDER BY yonetim_id DESC"
+    sql = "SELECT * FROM unionschema.yonetim"
     cur.execute(sql)
     ykdata = cur.fetchall()
 
